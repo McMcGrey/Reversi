@@ -1,7 +1,5 @@
 package at.aau.reversi;
 
-import java.awt.EventQueue;
-
 import at.aau.reversi.controller.ReversiController;
 import at.aau.reversi.gui.MainFrame;
 
