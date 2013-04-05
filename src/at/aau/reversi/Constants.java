@@ -13,4 +13,7 @@ public abstract class Constants {
 	public final static short PLAYER_TYPE_AI = 6;
 	public final static short PLAYER_TYPE_NETWORK = 7;
 	
+	public final static short ERROR_DISPLAY_TYPE_INLINE = 8;	
+	public final static short ERROR_DISPLAY_TYPE_POPUP = 9;	
+	
 }

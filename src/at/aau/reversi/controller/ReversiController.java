@@ -1,8 +1,10 @@
 package at.aau.reversi.controller;
 
+import java.security.acl.NotOwnerException;
 import java.util.Observable;
 
 import at.aau.reversi.Constants;
+import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.logic.AI;
 import at.aau.reversi.logic.GameLogic;
@@ -46,10 +48,11 @@ public class ReversiController extends Observable {
 		// When white gamer is human, unfreeze gamefield
 		if(playerTypeWhite == Constants.PLAYER_TYPE_HUMAN_PLAYER){
 			gameBean.setGameFieldActive(true);
+			gameBean.setCurrentPlayer(playerTypeWhite);
 		}
 		
 		setChanged();
-		notifyObservers();
+		notifyObservers(gameBean);
 		
 	}
 	
@@ -60,8 +63,28 @@ public class ReversiController extends Observable {
 	 * @param xCoord X Coordinate of gameField
 	 * @param yCoord Y Coordinate of gameField
 	 */
-	public void fieldClicked(short player, int xCoord, int yCoord){
+	public void fieldClicked(short player, short xCoord, short yCoord){
 		// TODO: 
+		
+		if(player == gameBean.getCurrentPlayer() && gameBean.isGameFieldActive()){
+			
+			short color = (player == Constants.FIELD_WHITE) ? Constants.FIELD_WHITE : Constants.FIELD_WHITE;
+			
+			if(logic.validMove(xCoord, yCoord, color)){
+				
+				
+				
+			}else{
+				setChanged();
+				notifyObservers(new ErrorBean("Ungültiger Zug", Constants.ERROR_DISPLAY_TYPE_INLINE));
+			}
+			
+		}else{
+			
+			setChanged();
+			notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", Constants.ERROR_DISPLAY_TYPE_INLINE));
+			
+		}
 	}
 	
 

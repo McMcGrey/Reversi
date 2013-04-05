@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import at.aau.reversi.bean.ErrorBean;
+import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.controller.ReversiController;
 
 public class MainFrame extends JFrame implements Observer {
@@ -36,7 +38,17 @@ public class MainFrame extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 
-		// TODO: Nachdem diese Methode aufgerufen wurde muss das Spielfeld aktualisiert werden
+		if(arg instanceof GameBean){
+			
+			GameBean gameBean = (GameBean)arg;
+			// TODO: Nachdem diese Methode aufgerufen wurde muss das Spielfeld aktualisiert werden
+			
+		}else if(arg instanceof ErrorBean){
+			
+			ErrorBean errorBean = (ErrorBean)arg;
+			// TODO: Nachdem diese Methode aufgerufen wurde muss eine Fehlermeldung ausgegeben werden
+			
+		}
 		
 	}
 }
