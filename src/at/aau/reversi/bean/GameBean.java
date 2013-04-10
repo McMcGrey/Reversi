@@ -65,4 +65,7 @@ public class GameBean {
 		this.gameFieldActive = gameFieldActive;
 	}
 	
+	public void toggleCurrentPlayer(){
+		currentPlayer = (currentPlayer == Constants.PLAYER_WHITE) ? Constants.PLAYER_BLACK : Constants.PLAYER_WHITE;
+	}
 }

@@ -8,4 +8,16 @@ public class GameLogicNetworkImpl implements GameLogic {
 		return null;
 	}
 
+	@Override
+	public boolean validMove(short xCoord, short yCoord, short color) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public short[][] getGameField() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

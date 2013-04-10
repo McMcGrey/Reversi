@@ -1,7 +1,6 @@
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
@@ -11,3 +10,7 @@
 *.DS_Store
 *.swp
 *.out
+
+# Idea files
+.idea/**
+*.iml

@@ -1,9 +1,11 @@
 package at.aau.reversi.logic;
 
+import at.aau.reversi.bean.Move;
+
 public class WeakAIImpl implements AI {
 
 	@Override
-	public short[][] calcNextStep(short[][] gameField, short color) {
+	public Move calcNextStep(short[][] gameField, short color) {
 		// TODO Auto-generated method stub
 		return null;
 	}

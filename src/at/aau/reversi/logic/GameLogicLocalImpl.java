@@ -83,4 +83,9 @@ public class GameLogicLocalImpl implements GameLogic {
                   return validMove(xCoord+I_WAY[w], yCoord+J_WAY[w], color, w);
        return false;
     }
+
+	@Override
+	public short[][] getGameField() {
+		return gameField;
+	}
 }

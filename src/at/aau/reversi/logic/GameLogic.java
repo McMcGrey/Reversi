@@ -19,4 +19,6 @@ public interface GameLogic {
 	 * @return True when the move is valid
 	 */
 	public boolean validMove(short xCoord, short yCoord, short color);
+	
+	public short[][] getGameField();
 }
