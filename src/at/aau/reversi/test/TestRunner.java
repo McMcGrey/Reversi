@@ -1,6 +1,6 @@
 package at.aau.reversi.test;
 
-import cucumber.api.junit.Cucumber;
+import cucumber.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 /**
@@ -11,5 +11,6 @@ import org.junit.runner.RunWith;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(Cucumber.class)
+@Cucumber.Options(glue = "at.aau.reversi.test")
 public class TestRunner {
 }

@@ -20,6 +20,7 @@ public class Main {
 
 		// Controller Test
 		controller.startGame(Constants.PLAYER_TYPE_HUMAN_PLAYER, Constants.PLAYER_TYPE_AI, false);
+		controller.fieldClicked(Constants.PLAYER_WHITE, (short)4,(short)4);
 		controller.fieldClicked(Constants.PLAYER_WHITE, (short)5,(short)3);
 		
 		// Test cases
