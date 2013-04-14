@@ -13,3 +13,4 @@ public enum ErrorDisplayType {
      */
     POPUP
 }
+
