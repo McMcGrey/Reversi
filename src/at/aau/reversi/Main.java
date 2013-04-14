@@ -27,7 +27,7 @@ public class Main {
 		// Controller Test
 		controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, false);
 		controller.fieldClicked(Player.WHITE, (short) 4,(short) 4);
-		/*controller.fieldClicked(Player.WHITE, (short) 5, (short) 3);*/
+		controller.fieldClicked(Player.WHITE, (short) 5, (short) 3);
 		
 		// Test cases
         System.out.println(gameLogic.validMove((short) 5, (short) 3, Field.WHITE));
