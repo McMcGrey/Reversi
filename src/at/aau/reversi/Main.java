@@ -34,11 +34,11 @@ public class Main {
 
         //GameField
         System.out.println("   | A | B | C | D | E | F | G | H ");
-        for (int yCoord = 0; yCoord<=7; yCoord++) {
+        for (int xCoord = 0; xCoord<=7; xCoord++) {
             System.out.println("-----------------------------------");
-            System.out.print(" " + (yCoord+1));
-            for (int xCoord = 0; xCoord <= 7; xCoord++){
-                 System.out.print(" | " + gameLogic.getGameField()[yCoord][xCoord]);
+            System.out.print(" " + (xCoord+1));
+            for (int yCoord = 0; yCoord <= 7; yCoord++){
+                 System.out.print(" | " + gameLogic.getGameField()[xCoord][yCoord]);
             }
             System.out.print("\r\n");
         }
