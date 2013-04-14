@@ -1,3 +1,4 @@
+/*
 package at.aau.reversi.test;
 
 import cucumber.annotation.de.Angenommen;
@@ -7,13 +8,15 @@ import cucumber.annotation.en.Given;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 
+*/
 /**
  * Created with IntelliJ IDEA.
  * User: phil
  * Date: 11.04.13
  * Time: 16:09
  * To change this template use File | Settings | File Templates.
- */
+ *//*
+
 public class LogicTestStepDefinitions {
 
     @Angenommen("^es existiert ein neues Einzelspielerspiel$")
@@ -41,3 +44,4 @@ public class LogicTestStepDefinitions {
     }
 
 }
+*/

@@ -2,7 +2,10 @@ package at.aau.reversi.controller;
 
 import java.util.Observable;
 
-import at.aau.reversi.Constants;
+import at.aau.reversi.enums.ErrorDisplayType;
+import at.aau.reversi.enums.Field;
+import at.aau.reversi.enums.Player;
+import at.aau.reversi.enums.PlayerType;
 import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
@@ -18,8 +21,8 @@ public class ReversiController extends Observable {
 	private AI whiteAI;
 	private AI blackAI;	
 	private GameLogic logic;
-	private short playerTypeWhite;
-	private short playerTypeBlack;
+	private PlayerType playerTypeWhite;
+	private PlayerType playerTypeBlack;
 
 	public ReversiController(){
 	}
@@ -30,7 +33,7 @@ public class ReversiController extends Observable {
 	 * @param playerTypeBlack
 	 * @param isHost When Game over Network and Acts as host
 	 */
-	public void startGame(short playerTypeWhite, short playerTypeBlack, boolean isHost){
+	public void startGame(PlayerType playerTypeWhite, PlayerType playerTypeBlack, boolean isHost){
 		
 		// Init Game
 		gameBean = new GameBean();
@@ -38,10 +41,10 @@ public class ReversiController extends Observable {
 		this.playerTypeBlack = playerTypeBlack;
 		this.playerTypeWhite = playerTypeWhite;
 		
-		if(playerTypeWhite == Constants.PLAYER_TYPE_AI){
+		if(playerTypeWhite == PlayerType.AI){
 			whiteAI = new WeakAIImpl();
 		}
-		if(playerTypeBlack == Constants.PLAYER_TYPE_AI){
+		if(playerTypeBlack == PlayerType.AI){
 			blackAI = new WeakAIImpl();
 		}
 		if(!isHost){
@@ -52,10 +55,10 @@ public class ReversiController extends Observable {
 		gameBean.setGameField(logic.getGameField());
 		
 		// When white gamer is human, unfreeze gamefield
-		if(playerTypeWhite == Constants.PLAYER_TYPE_HUMAN_PLAYER){
+		if(playerTypeWhite == PlayerType.HUMAN_PLAYER){
 			gameBean.setGameFieldActive(true);
 		}
-		gameBean.setCurrentPlayer(Constants.PLAYER_WHITE);
+		gameBean.setCurrentPlayer(Player.WHITE);
 		
 		setChanged();
 		notifyObservers(gameBean);
@@ -69,12 +72,13 @@ public class ReversiController extends Observable {
 	 * @param xCoord X Coordinate of gameField
 	 * @param yCoord Y Coordinate of gameField
 	 */
-	public void fieldClicked(short player, short xCoord, short yCoord){
+	public void fieldClicked(Player player, short xCoord, short yCoord){
 		// TODO: 
 		
 		if(player == gameBean.getCurrentPlayer() && gameBean.isGameFieldActive()){
-			
-			short color = (player == Constants.FIELD_WHITE) ? Constants.FIELD_WHITE : Constants.FIELD_WHITE;
+			// I'm not getting this :(
+			//Field color = (player == Field.WHITE) ? Field.WHITE : Field.WHITE;
+			Field color = Field.WHITE;
 			
 			if(logic.validMove(xCoord, yCoord, color)){
 				
@@ -86,25 +90,25 @@ public class ReversiController extends Observable {
 				
 			}else{
 				setChanged();
-				notifyObservers(new ErrorBean("Ungültiger Zug", Constants.ERROR_DISPLAY_TYPE_INLINE));
+				notifyObservers(new ErrorBean("Ungültiger Zug", ErrorDisplayType.INLINE));
 			}
 			
 		}else{
 			
 			setChanged();
-			notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", Constants.ERROR_DISPLAY_TYPE_INLINE));
+			notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", ErrorDisplayType.INLINE));
 			
 		}
 	}
 	
-	private void applyMove(short xCoord, short yCoord, short color){
+	private void applyMove(short xCoord, short yCoord, Field color){
 		// Spielzug durchfuehren
 		gameBean.setGameField(logic.calcNewGameField(xCoord, yCoord, color));
 		gameBean.toggleCurrentPlayer();
 		
 		// Wenn ein menschlicher Spieler am Zug ist, Spielfeld feigeben
-		if((gameBean.getCurrentPlayer() == Constants.PLAYER_WHITE && playerTypeWhite == Constants.PLAYER_TYPE_HUMAN_PLAYER)
-				|| (gameBean.getCurrentPlayer() == Constants.PLAYER_BLACK && playerTypeBlack == Constants.PLAYER_TYPE_HUMAN_PLAYER)){
+		if((gameBean.getCurrentPlayer() == Player.WHITE && playerTypeWhite == PlayerType.HUMAN_PLAYER)
+				|| (gameBean.getCurrentPlayer() == Player.BLACK && playerTypeBlack == PlayerType.HUMAN_PLAYER)){
 			gameBean.setGameFieldActive(true);
 		}else{
 			gameBean.setGameFieldActive(false);
@@ -125,18 +129,18 @@ public class ReversiController extends Observable {
 	
 	private void applyAI(){
 		
-		if(gameBean.getCurrentPlayer() == Constants.PLAYER_WHITE){
+		if(gameBean.getCurrentPlayer() == Player.WHITE){
 			if(whiteAI != null){
 				
-				Move move = whiteAI.calcNextStep(gameBean.getGameField(), Constants.FIELD_WHITE);
-				applyMove(move.getxCoord(), move.getyCoord(), Constants.FIELD_WHITE);
+				Move move = whiteAI.calcNextStep(gameBean.getGameField(), Field.WHITE);
+				applyMove(move.getxCoord(), move.getyCoord(), Field.WHITE);
 				
 			}
-		}else if(gameBean.getCurrentPlayer() == Constants.PLAYER_BLACK){
+		}else if(gameBean.getCurrentPlayer() == Player.BLACK){
 			if(blackAI != null){
 				
-				Move move = blackAI.calcNextStep(gameBean.getGameField(), Constants.FIELD_WHITE);
-				applyMove(move.getxCoord(), move.getyCoord(), Constants.FIELD_BLACK);
+				Move move = blackAI.calcNextStep(gameBean.getGameField(), Field.WHITE);
+				applyMove(move.getxCoord(), move.getyCoord(), Field.BLACK);
 				
 			}
 		}
