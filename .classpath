@@ -2,5 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/cucumber-core-1.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/cucumber-core-1.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/cucumber-html-0.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/cucumber-java-1.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/cucumber-junit-1.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/gherkin-2.9.3.jar"/>
+	<classpathentry kind="lib" path="lib/hamcrest-core-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
