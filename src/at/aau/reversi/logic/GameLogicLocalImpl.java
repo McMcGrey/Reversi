@@ -1,33 +1,38 @@
 package at.aau.reversi.logic;
 
-import at.aau.reversi.Constants;
+import java.util.Arrays;
+
+import at.aau.reversi.Field;
 
 public class GameLogicLocalImpl implements GameLogic {
 	
-	short[][] gameField;
+	Field[][] gameField;
 
 	// Reihenfolge um Nachbarn zu durchlaufen
 	private final int I_WAY[] = {-1, -1, -1,  0,  1,  1,  1,  0};
 	private final int J_WAY[] = {-1,  0,  1,  1,  1,  0, -1, -1};
 	
 	public GameLogicLocalImpl(){
-		gameField= new short[8][8];
-		gameField[3][3] = Constants.FIELD_WHITE; 
-		gameField[4][4] = Constants.FIELD_WHITE; 
-		gameField[4][3] = Constants.FIELD_BLACK; 
-		gameField[3][4] = Constants.FIELD_BLACK;
+		gameField= new Field[8][8];
+		for(Field[] row : gameField) {
+			Arrays.fill(row, Field.EMPTY);
+		}
+		gameField[3][3] = Field.WHITE; 
+		gameField[4][4] = Field.WHITE; 
+		gameField[4][3] = Field.BLACK; 
+		gameField[3][4] = Field.BLACK;
 	}
 	
 	@Override
-	public short[][] calcNewGameField(short xCoord,
-			short yCoord, short color) {
+	public Field[][] calcNewGameField(short xCoord,
+			short yCoord, Field color) {
 		// TODO Algorithm which sets the Colors
 		return null;
 	}
 	
-	public boolean validMove(short xCoord, short yCoord, short color){
+	public boolean validMove(short xCoord, short yCoord, Field color){
 		// Feld muss leer und im Spielfeld sein
-		if (gameField[xCoord][yCoord] == Constants.FIELD_EMPTY && inGamefield(xCoord, yCoord)){
+		if (gameField[xCoord][yCoord] == Field.EMPTY && inGamefield(xCoord, yCoord)){
 		// Alle nachbarn muessen ueberprueft werden
 	        for (int w=0; w <= 7; w++){                              
 	    		// Nachbar muss nur ueberprueft werden wenn er im Spielfeld ist
@@ -60,8 +65,8 @@ public class GameLogicLocalImpl implements GameLogic {
      * @param color Spielerfarbe
      * @return true/false
      */
-    private boolean validNeighbour (int xCoord, int yCoord, int color) {
-       return (gameField[xCoord][yCoord] != color && gameField[xCoord][yCoord] != Constants.FIELD_EMPTY);
+    private boolean validNeighbour (int xCoord, int yCoord, Field color) {
+       return (gameField[xCoord][yCoord] != color && gameField[xCoord][yCoord] != Field.EMPTY);
     }
 		
     /**
@@ -72,11 +77,11 @@ public class GameLogicLocalImpl implements GameLogic {
      * @param w Aktuell zu pruefender Weg
      * @return true/false
      */
-    private boolean validMove(int xCoord, int yCoord, int color, int w) {
+    private boolean validMove(int xCoord, int yCoord, Field color, int w) {
        if (inGamefield(xCoord, yCoord))                    
           if (gameField[xCoord][yCoord] == color)            
              return true;                         
-          else if (gameField[xCoord][yCoord] == Constants.FIELD_EMPTY)   
+          else if (gameField[xCoord][yCoord] == Field.EMPTY)   
                   return false;                   
                else                               
             	   // Pruefe naechstes Feld in der Reihe
@@ -85,7 +90,7 @@ public class GameLogicLocalImpl implements GameLogic {
     }
 
 	@Override
-	public short[][] getGameField() {
+	public Field[][] getGameField() {
 		return gameField;
 	}
 }

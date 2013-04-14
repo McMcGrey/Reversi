@@ -1,5 +1,7 @@
 package at.aau.reversi.logic;
 
+import at.aau.reversi.Field;
+
 public interface GameLogic {
 	
 	/**
@@ -9,7 +11,7 @@ public interface GameLogic {
 	 * @param color White or black as Constant
 	 * @return
 	 */
-	public short[][] calcNewGameField(short xCoord, short yCoord, short color);
+	public Field[][] calcNewGameField(short xCoord, short yCoord, Field color);
 	
 	/**
 	 * 
@@ -18,7 +20,7 @@ public interface GameLogic {
 	 * @param color White or black as Constant
 	 * @return True when the move is valid
 	 */
-	public boolean validMove(short xCoord, short yCoord, short color);
+	public boolean validMove(short xCoord, short yCoord, Field color);
 	
-	public short[][] getGameField();
+	public Field[][] getGameField();
 }

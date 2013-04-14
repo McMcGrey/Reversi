@@ -1,14 +1,20 @@
 package at.aau.reversi.bean;
 
-import at.aau.reversi.Constants;
+import java.util.Arrays;
+
+import at.aau.reversi.Field;
+import at.aau.reversi.Player;
 
 public class GameBean {
 	
 	public GameBean(){
 		// Set up a game field
-		gameField = new short[8][8];
+		gameField = new Field[8][8];
+		for(Field[] row : gameField) {
+			Arrays.fill(row, Field.EMPTY);
+		}
 		// White beginns
-		currentPlayer = Constants.PLAYER_WHITE;
+		currentPlayer = Player.WHITE;
 		// Controller has to activate gameField;
 		gameFieldActive = false;
 	}
@@ -17,12 +23,12 @@ public class GameBean {
 	 * Short Array representing the GameField<br/>
 	 * Values are defined in <code>at.aau.reversi.Constants</code>
 	 */
-	private short[][] gameField;
+	private Field[][] gameField;
 	/**
 	 * 2 Possibilities (PLAYER_WHITE/PLAYER_BLACK)<br/>
 	 * Values are defined in <code>at.aau.reversi.Constants</code>
 	 */
-	private short currentPlayer;
+	private Player currentPlayer;
 	/**
 	 * When this field is true, the human in front of the computer is allowed to play
 	 */
@@ -31,25 +37,25 @@ public class GameBean {
 	/**
 	 * @return the gameField
 	 */
-	public short[][] getGameField() {
+	public Field[][] getGameField() {
 		return gameField;
 	}
 	/**
 	 * @param gameField the gameField to set
 	 */
-	public void setGameField(short[][] gameField) {
+	public void setGameField(Field[][] gameField) {
 		this.gameField = gameField;
 	}
 	/**
 	 * @return the currentPlayer
 	 */
-	public short getCurrentPlayer() {
+	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
 	/**
 	 * @param currentPlayer the currentPlayer to set
 	 */
-	public void setCurrentPlayer(short currentPlayer) {
+	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
 	/**
@@ -66,6 +72,6 @@ public class GameBean {
 	}
 	
 	public void toggleCurrentPlayer(){
-		currentPlayer = (currentPlayer == Constants.PLAYER_WHITE) ? Constants.PLAYER_BLACK : Constants.PLAYER_WHITE;
+		currentPlayer = (currentPlayer == Player.WHITE) ? Player.BLACK : Player.WHITE;
 	}
 }
