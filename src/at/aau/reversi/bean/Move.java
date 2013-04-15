@@ -4,8 +4,15 @@ public class Move {
 
 	private short xCoord;
 	private short yCoord;
-	
-	/**
+
+    public Move(){}
+
+    public Move(short xCoord, short yCoord) {
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+    }
+
+    /**
 	 * @return the xCoord
 	 */
 	public short getxCoord() {

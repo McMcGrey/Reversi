@@ -93,4 +93,8 @@ public class GameLogicLocalImpl implements GameLogic {
 	public Field[][] getGameField() {
 		return gameField;
 	}
+
+    public void setGameField(Field[][] gameField){
+        this.gameField = gameField;
+    }
 }
