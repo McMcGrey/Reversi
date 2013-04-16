@@ -111,21 +111,18 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
     public void turnStones(short xCoord, short yCoord, short dx, short dy, Field color) {
         short x = xCoord;
         short y = yCoord;
-        int moeglich = 0;
-        int anzahl = 0;
-        while (inGamefield(x += dx, y += dy) && (moeglich == 0)) {
+        boolean moeglich = false;
+        while (inGamefield(x += dx, y += dy) && !moeglich) {
             if (gameField[x][y] != Field.EMPTY) {
-                if (gameField[x][y] != color) {
-                    anzahl++;
-                } else {
-                    moeglich = anzahl;
+                if (gameField[x][y] == color) {
+                    moeglich = true;
                 }
             } else {
                 return;
             }
         }
 
-        if (moeglich != 0) {
+        if (moeglich) {
             while ((x -= dx) != xCoord || (y -= dy) != yCoord) {
                 gameField[x][y] = color;
             }
