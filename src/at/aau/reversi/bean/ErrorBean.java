@@ -25,5 +25,20 @@ public class ErrorBean {
 		this.errorMessage = errorMessage;
 		this.errorDisplayType = errorDisplayType;
 	}
-	
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public ErrorDisplayType getErrorDisplayType() {
+        return errorDisplayType;
+    }
+
+    public void setErrorDisplayType(ErrorDisplayType errorDisplayType) {
+        this.errorDisplayType = errorDisplayType;
+    }
 }

@@ -7,5 +7,5 @@ package at.aau.reversi.exceptions;
  * Time: 11:29
  * To change this template use File | Settings | File Templates.
  */
-public class InvalidInputException {
+public class InvalidInputException extends Exception{
 }

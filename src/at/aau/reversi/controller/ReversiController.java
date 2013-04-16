@@ -76,9 +76,9 @@ public class ReversiController extends Observable {
 		// TODO: 
 		
 		if(player == gameBean.getCurrentPlayer() && gameBean.isGameFieldActive()){
-			// I'm not getting this :(
-			//Field color = (player == Field.WHITE) ? Field.WHITE : Field.WHITE;
-			Field color = Field.WHITE;
+			// The white player has the color white, this is setted here
+			Field color = (player == Player.WHITE) ? Field.WHITE : Field.WHITE;
+			//Field color = Field.WHITE;
 			
 			if(logic.validMove(xCoord, yCoord, color)){
 				
