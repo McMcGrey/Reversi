@@ -39,7 +39,7 @@ public class Main {
         System.out.println("   |   A   |   B   |   C   |   D   |   E   |   F   |   G   |   H   ");
         for (int xCoord = 0; xCoord<=7; xCoord++) {
             System.out.println("-------------------------------------------------------------------");
-            System.out.print(" " + (xCoord+1));
+            System.out.print(" " + (xCoord));
             for (int yCoord = 0; yCoord <= 7; yCoord++){
                  System.out.print(" | " + gameLogic.getGameField()[xCoord][yCoord]);
             }
