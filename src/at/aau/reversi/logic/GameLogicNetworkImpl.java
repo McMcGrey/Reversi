@@ -22,4 +22,9 @@ public class GameLogicNetworkImpl extends GameLogicAbstract {
         return null;
     }
 
+    @Override
+    public void turnStones(short xCoord, short yCoord, short dx, short dy, Field color) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 }

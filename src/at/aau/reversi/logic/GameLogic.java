@@ -25,4 +25,6 @@ public interface GameLogic {
     public Field[][] getGameField();
 
     public Move getMoveFromInputstring(String inputString) throws InvalidInputException;
+
+    public void turnStones(short xCoord, short yCoord, short dx, short dy, Field color);
 }
