@@ -13,9 +13,9 @@ import at.aau.reversi.exceptions.InvalidInputException;
 public abstract class GameLogicAbstract implements GameLogic {
 
     @Override
-    public Move getMoveFromInputstring(String input) throws InvalidInputException{
+    public Move getMoveFromInputstring(String input) throws InvalidInputException {
 
-        if(input.length() != 2){
+        if (input.length() != 2) {
             throw new InvalidInputException();
         }
 
@@ -24,7 +24,7 @@ public abstract class GameLogicAbstract implements GameLogic {
         input = input.toLowerCase();
         char firstChar = input.charAt(0);
         short yCoord;
-        switch (firstChar){
+        switch (firstChar) {
             case 'a':
                 yCoord = 0;
                 break;
@@ -56,16 +56,16 @@ public abstract class GameLogicAbstract implements GameLogic {
         move.setyCoord(yCoord);
 
         char secondChar = input.charAt(1);
-        if(!Character.isDigit(secondChar)){
+        if (!Character.isDigit(secondChar)) {
             throw new InvalidInputException();
         }
         short secondCoord = (short) Character.getNumericValue(secondChar);
-        if(secondCoord<1 || secondCoord >8){
+        if (secondCoord < 1 || secondCoord > 8) {
             throw new InvalidInputException();
         }
 
 
-        move.setxCoord(((short) (secondCoord-1)));
+        move.setxCoord(((short) (secondCoord - 1)));
 
         return move;
     }
