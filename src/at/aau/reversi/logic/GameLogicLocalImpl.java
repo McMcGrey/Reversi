@@ -4,7 +4,7 @@ import at.aau.reversi.enums.Field;
 
 import java.util.Arrays;
 
-public class GameLogicLocalImpl implements GameLogic {
+public class GameLogicLocalImpl extends GameLogicAbstract {
 	
 	Field[][] gameField;
 

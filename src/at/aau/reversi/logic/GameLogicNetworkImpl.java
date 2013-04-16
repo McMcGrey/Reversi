@@ -2,7 +2,7 @@ package at.aau.reversi.logic;
 
 import at.aau.reversi.enums.Field;
 
-public class GameLogicNetworkImpl implements GameLogic {
+public class GameLogicNetworkImpl extends GameLogicAbstract {
 
 	@Override
 	public Field[][] calcNewGameField(short xCoord, short yCoord, Field color) {

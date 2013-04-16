@@ -1,6 +1,8 @@
 package at.aau.reversi.logic;
 
+import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
+import at.aau.reversi.exceptions.InvalidInputException;
 
 public interface GameLogic {
 	
@@ -23,4 +25,6 @@ public interface GameLogic {
 	public boolean validMove(short xCoord, short yCoord, Field color);
 	
 	public Field[][] getGameField();
+
+    public Move getMoveFromInputstring(String inputString) throws InvalidInputException;
 }
