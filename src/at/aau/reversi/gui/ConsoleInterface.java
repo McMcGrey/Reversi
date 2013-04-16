@@ -4,7 +4,6 @@ import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.controller.ReversiController;
-import at.aau.reversi.enums.Field;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.exceptions.InvalidInputException;
 import at.aau.reversi.logic.GameLogicLocalImpl;
@@ -59,7 +58,7 @@ public class ConsoleInterface implements Observer {
         System.out.println("   |   A   |   B   |   C   |   D   |   E   |   F   |   G   |   H   ");
         for (int xCoord = 0; xCoord<=7; xCoord++) {
             System.out.println("-------------------------------------------------------------------");
-            System.out.print(" " + (xCoord));
+            System.out.print(" " + (xCoord + 1));
             for (int yCoord = 0; yCoord <= 7; yCoord++){
                 System.out.print(" | " + bean.getGameField()[xCoord][yCoord]);
             }

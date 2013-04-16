@@ -1,13 +1,9 @@
 package at.aau.reversi;
 
 import at.aau.reversi.controller.ReversiController;
-import at.aau.reversi.enums.Field;
-import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
 import at.aau.reversi.gui.ConsoleInterface;
 import at.aau.reversi.gui.MainFrame;
-import at.aau.reversi.logic.GameLogic;
-import at.aau.reversi.logic.GameLogicLocalImpl;
 
 public class Main {
 
@@ -28,8 +24,8 @@ public class Main {
 
 		// Controller Test
 		controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, false);
-		controller.fieldClicked(Player.WHITE, (short) 4,(short) 4);
-		controller.fieldClicked(Player.BLACK, (short) 5, (short) 3);
+        /*controller.fieldClicked(Player.WHITE, (short) 2,(short) 4);
+		controller.fieldClicked(Player.BLACK, (short) 5, (short) 3);*/
 		
 //		// Test cases
 //        System.out.println(gameLogic.validMove((short) 5, (short) 3, Field.WHITE));

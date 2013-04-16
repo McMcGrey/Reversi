@@ -23,37 +23,37 @@ public abstract class GameLogicAbstract implements GameLogic {
 
         input = input.toLowerCase();
         char firstChar = input.charAt(0);
-        short xCoord;
+        short yCoord;
         switch (firstChar){
             case 'a':
-                xCoord = 0;
+                yCoord = 0;
                 break;
             case 'b':
-                xCoord = 1;
+                yCoord = 1;
                 break;
             case 'c':
-                xCoord = 2;
+                yCoord = 2;
                 break;
             case 'd':
-                xCoord = 3;
+                yCoord = 3;
                 break;
             case 'e':
-                xCoord = 4;
+                yCoord = 4;
                 break;
             case 'f':
-                xCoord = 5;
+                yCoord = 5;
                 break;
             case 'g':
-                xCoord = 6;
+                yCoord = 6;
                 break;
             case 'h':
-                xCoord = 7;
+                yCoord = 7;
                 break;
             default:
                 throw new InvalidInputException();
         }
 
-        move.setxCoord(xCoord);
+        move.setyCoord(yCoord);
 
         char secondChar = input.charAt(1);
         if(!Character.isDigit(secondChar)){
@@ -65,7 +65,7 @@ public abstract class GameLogicAbstract implements GameLogic {
         }
 
 
-        move.setyCoord(((short)(secondCoord-1)));
+        move.setxCoord(((short) (secondCoord-1)));
 
         return move;
     }

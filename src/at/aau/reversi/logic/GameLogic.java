@@ -8,10 +8,11 @@ public interface GameLogic {
 	
 	/**
 	 * 
-	 * @param xCoord X Coordinate of gameField
-	 * @param yCoord Y Coordinate of gameField
-	 * @param color White or black as Constant
-	 * @return
+	 *
+     * @param xCoord X Coordinate of gameField
+     * @param yCoord Y Coordinate of gameField
+     * @param color White or black as Constant
+     * @return
 	 */
 	public Field[][] calcNewGameField(short xCoord, short yCoord, Field color);
 	

@@ -1,9 +1,9 @@
 package at.aau.reversi.bean;
 
-import java.util.Arrays;
-
 import at.aau.reversi.enums.Field;
 import at.aau.reversi.enums.Player;
+
+import java.util.Arrays;
 
 public class GameBean {
 	

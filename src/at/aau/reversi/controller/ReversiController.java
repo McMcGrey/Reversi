@@ -1,19 +1,15 @@
 package at.aau.reversi.controller;
 
-import java.util.Observable;
-
+import at.aau.reversi.bean.ErrorBean;
+import at.aau.reversi.bean.GameBean;
+import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.ErrorDisplayType;
 import at.aau.reversi.enums.Field;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
-import at.aau.reversi.bean.ErrorBean;
-import at.aau.reversi.bean.GameBean;
-import at.aau.reversi.bean.Move;
-import at.aau.reversi.logic.AI;
-import at.aau.reversi.logic.GameLogic;
-import at.aau.reversi.logic.GameLogicLocalImpl;
-import at.aau.reversi.logic.GameLogicNetworkImpl;
-import at.aau.reversi.logic.WeakAIImpl;
+import at.aau.reversi.logic.*;
+
+import java.util.Observable;
 
 public class ReversiController extends Observable {
 
@@ -77,7 +73,7 @@ public class ReversiController extends Observable {
 		
 		if(player == gameBean.getCurrentPlayer() && gameBean.isGameFieldActive()){
 			// The white player has the color white, this is setted here
-			Field color = (player == Player.WHITE) ? Field.WHITE : Field.WHITE;
+			Field color = (player == Player.WHITE) ? Field.WHITE : Field.BLACK;
 			//Field color = Field.WHITE;
 			
 			if(logic.validMove(xCoord, yCoord, color)){
@@ -86,7 +82,7 @@ public class ReversiController extends Observable {
 				applyMove(xCoord, yCoord, color);
 				
 				// Wenn AI notwendig ist, AI ausfuehren
-				applyAI();
+				//applyAI();
 				
 			}else{
 				setChanged();

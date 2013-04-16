@@ -24,10 +24,17 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
 	}
 	
 	@Override
-	public Field[][] calcNewGameField(short xCoord,
-			short yCoord, Field color) {
-		// TODO Algorithm which sets the Colors
-		return null;
+	public Field[][] calcNewGameField(short xCoord, short yCoord, Field color) {
+        Field[][] gameField = getGameField();
+        if (validMove(xCoord, yCoord, color)) {
+            if( color == Field.WHITE) {
+                gameField[xCoord][yCoord] = Field.WHITE;
+            } else {
+                gameField[xCoord][yCoord] = Field.BLACK;
+            }
+            return gameField;
+        }
+        return null;
 	}
 	
 	public boolean validMove(short xCoord, short yCoord, Field color){
