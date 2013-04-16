@@ -5,9 +5,9 @@ package at.aau.reversi.enums;
  * Possible field values
  */
 public enum Field {
-	/**
-	 * Empty field
-	 */
+    /**
+     * Empty field
+     */
     EMPTY,
     /**
      * White field
