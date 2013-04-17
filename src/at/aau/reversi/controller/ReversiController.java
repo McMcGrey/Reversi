@@ -105,8 +105,8 @@ public class ReversiController extends Observable {
         gameBean.toggleCurrentPlayer();
 
         // Wenn ein menschlicher Spieler am Zug ist, Spielfeld feigeben
-        if ((gameBean.getCurrentPlayer() == Player.WHITE && playerTypeWhite == PlayerType.HUMAN_PLAYER)
-                || (gameBean.getCurrentPlayer() == Player.BLACK && playerTypeBlack == PlayerType.HUMAN_PLAYER)) {
+        if ((gameBean.getCurrentPlayer().equals(Player.WHITE) && playerTypeWhite.equals(PlayerType.HUMAN_PLAYER))
+                || (gameBean.getCurrentPlayer().equals(Player.BLACK) && playerTypeBlack.equals(PlayerType.HUMAN_PLAYER))) {
             gameBean.setGameFieldActive(true);
         } else {
             gameBean.setGameFieldActive(false);

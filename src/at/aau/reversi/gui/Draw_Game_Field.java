@@ -76,13 +76,11 @@ public class Draw_Game_Field extends JPanel {
 
                 if (gamefield[posX][posY].equals(Field.WHITE)) {
 
-                    System.out.println("Draw white stone on: "+posX +", "+posY);
                     g.drawImage(white, 50 * posX, 50 * posY, this);
 
 
                 } else if (gamefield[posX][posY].equals(Field.BLACK)) {
 
-                    System.out.println("Draw black stone on: "+posX +", "+posY);
                     g.drawImage(black, 50 * posX, 50 * posY, this);
 
                 } else if (gamefield[posX][posY].equals("empty")) {
