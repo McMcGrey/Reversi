@@ -1,9 +1,10 @@
 package at.aau.reversi.gui;
 
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import at.aau.reversi.bean.ErrorBean;
+import at.aau.reversi.bean.GameBean;
+import at.aau.reversi.controller.ReversiController;
+import at.aau.reversi.enums.Player;
+import at.aau.reversi.enums.PlayerType;
 
 
 import javax.swing.JFrame;
@@ -26,34 +27,37 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Component;
-import javax.swing.Box;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Game_Field extends JFrame {
+public class Game_Field extends JFrame implements Observer {
 
 	private JTextField numw;
 	private JTextField numb;
 	private JTextField rule_output;
 	private JLabel Background;
 	private JFrame frame;
+    private Draw_Game_Field gameFieldPanel;
+    private ReversiController controller;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Game_Field window = new Game_Field();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Game_Field window = new Game_Field();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
-	public Game_Field(){
+	public Game_Field(ReversiController controller){
 		init();
+        this.controller = controller;
 	}
 	
 	/**
@@ -181,8 +185,8 @@ public class Game_Field extends JFrame {
 		});
 		btnExit.setBounds(532, 439, 89, 23);
 		start_site.add(btnExit);
-		
-		Background=new JLabel(new ImageIcon(Game_Field.class.getResource("/Reversie/Background1.jpg")));
+
+        Background=new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
 		Background.setForeground(Color.WHITE);
 		Background.setBounds(0, 0, 677, 509);
 		start_site.add(Background);
@@ -204,6 +208,8 @@ public class Game_Field extends JFrame {
 				
 				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
 				frame.setTitle("Spielfeld");
+
+                startMultiPlayer();
 				
 			}
 		});
@@ -242,7 +248,7 @@ public class Game_Field extends JFrame {
 		btnBack.setBounds(10, 465, 89, 23);
 		game_variation_site.add(btnBack);
 		
-		Background=new JLabel(new ImageIcon(Game_Field.class.getResource("/Reversie/Background1.jpg")));
+		Background=new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
 		Background.setBounds(0, 0, 677, 509);
 		game_variation_site.add(Background);
 		
@@ -266,7 +272,7 @@ public class Game_Field extends JFrame {
 		btnBack2.setBounds(10, 465, 89, 23);
 		options.add(btnBack2);
 		
-		Background=new JLabel(new ImageIcon(Game_Field.class.getResource("/Reversie/Background1.jpg")));
+		Background=new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
 		Background.setBounds(0, 0, 677, 509);
 		options.add(Background);
 		
@@ -290,7 +296,7 @@ public class Game_Field extends JFrame {
 		btnBack3.setBounds(10, 465, 89, 23);
 		rules.add(btnBack3);
 		
-		Background=new JLabel(new ImageIcon(Game_Field.class.getResource("/Reversie/Background1.jpg")));
+		Background=new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
 		Background.setBounds(0, 0, 677, 509);
 		rules.add(Background);
 		
@@ -342,7 +348,7 @@ public class Game_Field extends JFrame {
 		btnBack_1.setBounds(10, 475, 89, 23);
 		multiplayer_site.add(btnBack_1);
 		
-		Background=new JLabel(new ImageIcon(Game_Field.class.getResource("/Reversie/Background1.jpg")));
+		Background=new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
 		Background.setBounds(0, 0, 677, 509);
 		multiplayer_site.add(Background);
 
@@ -463,18 +469,20 @@ public class Game_Field extends JFrame {
 		rule_output.setColumns(10);
 		
 		JLabel white_stone = new JLabel("numb_image");
-		white_stone.setIcon(new ImageIcon(Game_Field.class.getResource("/Reversie/white.png")));
+		white_stone.setIcon(new ImageIcon("src/at/aau/reversi/gui/images/white.png"));
 		white_stone.setBounds(459, 67, 50, 50);
 		play_site.add(white_stone);
 		
 		JLabel lblNewLabel = new JLabel("numw_image");
-		lblNewLabel.setIcon(new ImageIcon(Game_Field.class.getResource("/Reversie/black.png")));
+		lblNewLabel.setIcon(new ImageIcon("src/at/aau/reversi/gui/images/black.png"));
 		lblNewLabel.setBounds(459, 186, 50, 50);
 		play_site.add(lblNewLabel);
 		
-		Background=new JLabel(new ImageIcon(Game_Field.class.getResource("/Reversie/Background1.jpg")));
+		Background=new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
 		Background.setBounds(0, 0, 677, 509);
 		play_site.add(Background);
+
+        gameFieldPanel = (Draw_Game_Field)Field;
 		
 		
 		
@@ -484,4 +492,41 @@ public class Game_Field extends JFrame {
 
 		
 	}
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg instanceof GameBean) {
+
+            System.out.println("Update GUI-Gamefield");
+            GameBean gameBean = (GameBean) arg;
+            gameFieldPanel.updateGameField(gameBean);
+
+            String message;
+            if(gameBean.getCurrentPlayer().equals(Player.WHITE)){
+                message = "Weiss ist am Zug";
+            }else{
+                message = "Schwarz ist am Zug";
+            }
+            rule_output.setText(message);
+
+
+        } else if (arg instanceof ErrorBean) {
+
+            ErrorBean errorBean = (ErrorBean) arg;
+            // TODO: Nachdem diese Methode aufgerufen wurde muss eine Fehlermeldung ausgegeben werden
+
+        }
+    }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    private void startSinglePlayer(){
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, false);
+    }
+
+    private void startMultiPlayer(){
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, false);
+    }
 }

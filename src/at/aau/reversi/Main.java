@@ -3,6 +3,7 @@ package at.aau.reversi;
 import at.aau.reversi.controller.ReversiController;
 import at.aau.reversi.enums.PlayerType;
 import at.aau.reversi.gui.ConsoleInterface;
+import at.aau.reversi.gui.Game_Field;
 
 public class Main {
 
@@ -13,13 +14,14 @@ public class Main {
 
         ReversiController controller = new ReversiController();
 
-		/*MainFrame frame = new MainFrame(controller);
-        frame.setVisible(true);
-		
-		controller.addObserver(frame);*/
+        // Start Gui
+        Game_Field gui = new Game_Field(controller);
+        gui.getFrame().setVisible(true);
+        controller.addObserver(gui);
 
-        ConsoleInterface cns = new ConsoleInterface(controller);
-        controller.addObserver(cns);
+        // Start ConsoleInterface
+//        ConsoleInterface cns = new ConsoleInterface(controller);
+//        controller.addObserver(cns);
 
         // Controller Test
         controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, false);
