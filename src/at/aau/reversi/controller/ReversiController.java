@@ -84,7 +84,7 @@ public class ReversiController extends Observable {
                 applyMove(xCoord, yCoord, color);
 
                 // Wenn AI notwendig ist, AI ausfuehren
-                //applyAI();
+                applyAI();
 
             } else {
                 setChanged();
