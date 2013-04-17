@@ -2,6 +2,7 @@ package at.aau.reversi.gui;
 
 import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
+import at.aau.reversi.bean.Move;
 import at.aau.reversi.controller.ReversiController;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
@@ -39,6 +40,7 @@ public class Game_Field extends JFrame implements Observer {
 	private JFrame frame;
     private Draw_Game_Field gameFieldPanel;
     private ReversiController controller;
+    private GameBean gameBean;
 
 	/**
 	 * Launch the application.
@@ -367,8 +369,8 @@ public class Game_Field extends JFrame implements Observer {
 		
 		Field.addMouseListener(new MouseAdapter() {
 			
-			public int posx;
-			public int posy;
+			int posx;
+			int posy;
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -443,6 +445,8 @@ public class Game_Field extends JFrame implements Observer {
 				} else {
 					posy = 7;		
 				}
+
+                handleClick(new Move((short)posx, (short)posy));
 			}
 		});
 		Field.setBackground(Color.WHITE);
@@ -498,7 +502,7 @@ public class Game_Field extends JFrame implements Observer {
         if (arg instanceof GameBean) {
 
             System.out.println("Update GUI-Gamefield");
-            GameBean gameBean = (GameBean) arg;
+            this.gameBean = (GameBean) arg;
             gameFieldPanel.updateGameField(gameBean);
 
             String message;
@@ -508,6 +512,7 @@ public class Game_Field extends JFrame implements Observer {
                 message = "Schwarz ist am Zug";
             }
             rule_output.setText(message);
+
 
 
         } else if (arg instanceof ErrorBean) {
@@ -528,5 +533,9 @@ public class Game_Field extends JFrame implements Observer {
 
     private void startMultiPlayer(){
         controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, false);
+    }
+
+    private void handleClick(Move m){
+        controller.fieldClicked(gameBean.getCurrentPlayer(), m.getxCoord(), m.getyCoord());
     }
 }
