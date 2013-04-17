@@ -99,6 +99,10 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
         return gameField;
     }
 
+    public void setGameField(Field[][] gameField){
+        this.gameField = gameField;
+    }
+
 
     @Override
     public void turnStones(int xCoord, int yCoord, Field color, int w) {
