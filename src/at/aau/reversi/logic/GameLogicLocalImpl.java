@@ -9,8 +9,8 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
     Field[][] gameField;
 
     // Reihenfolge um Nachbarn zu durchlaufen
-    private final int I_WAY[] = {-1, -1, -1, 0, 1, 1, 1, 0};
-    private final int J_WAY[] = {-1, 0, 1, 1, 1, 0, -1, -1};
+    private final int X_WAY[] = {-1, -1, -1, 0, 1, 1, 1, 0};
+    private final int Y_WAY[] = {-1, 0, 1, 1, 1, 0, -1, -1};
 
     public GameLogicLocalImpl() {
         gameField = new Field[8][8];
@@ -26,14 +26,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
     @Override
     public Field[][] calcNewGameField(short xCoord, short yCoord, Field color) {
         gameField[xCoord][yCoord] = color;
-        turnStones(xCoord, yCoord, (short) 1, (short) 0, color); // goRight
-        turnStones(xCoord, yCoord, (short) -1, (short) 0, color); // goLeft
-        turnStones(xCoord, yCoord, (short) 0, (short) 1, color); // goUp
-        turnStones(xCoord, yCoord, (short) 0, (short) -1, color); // goDown
-        turnStones(xCoord, yCoord, (short) 1, (short) 1, color); // goRightDown
-        turnStones(xCoord, yCoord, (short) -1, (short) 1, color); // goLeftDown
-        turnStones(xCoord, yCoord, (short) 1, (short) 1, color); // goRightUp
-        turnStones(xCoord, yCoord, (short) -1, (short) -1, color); // goLeftDown
+        turning(xCoord, yCoord, color);
         return gameField;
     }
 
@@ -43,11 +36,11 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
             // Alle nachbarn muessen ueberprueft werden
             for (int w = 0; w <= 7; w++) {
                 // Nachbar muss nur ueberprueft werden wenn er im Spielfeld ist
-                if (inGamefield(xCoord + I_WAY[w], yCoord + J_WAY[w]))
+                if (inGamefield(xCoord + X_WAY[w], yCoord + Y_WAY[w]))
                     // Ist der Nachbar gueltig
-                    if (validNeighbour(xCoord + I_WAY[w], yCoord + J_WAY[w], color))
+                    if (validNeighbour(xCoord + X_WAY[w], yCoord + Y_WAY[w], color))
                         // Handelt es sich um eine gueltige Reihe
-                        if (validMove(xCoord + 2 * I_WAY[w], yCoord + 2 * J_WAY[w], color, w))
+                        if (validMove(xCoord + 2 * X_WAY[w], yCoord + 2 * Y_WAY[w], color, w))
                             return true;
             }
         }
@@ -95,7 +88,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
                 return false;
             } else {
                 // Pruefe naechstes Feld in der Reihe
-                return validMove(xCoord + I_WAY[w], yCoord + J_WAY[w], color, w);
+                return validMove(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w);
             }
         }
         return false;
@@ -108,35 +101,31 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
 
 
     @Override
-    public void turnStones(short xCoord, short yCoord, short dx, short dy, Field color) {
-        short x = xCoord;
-        short y = yCoord;
-        int anzahl=0;
-        int moeglich = 0;
-        while (inGamefield(x += dx, y += dy) && (moeglich == 0)) {
-            if (gameField[x][y] != Field.EMPTY) {
-                if (gameField[x][y] != color) {
-                    anzahl++;
-                } else {
-                    moeglich = anzahl;
-                }
-            } else {
-                return;
-            }
+    public void turnStones(int xCoord, int yCoord, Field color, int w) {
+        if (inGamefield(xCoord, yCoord) && !gameField[xCoord][yCoord].equals(Field.EMPTY) && !gameField[xCoord][yCoord].equals(color)){
+            gameField[xCoord][yCoord] = color;
+            turnStones(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w);
         }
 
-        if (moeglich != 0) {
-            x = xCoord;
-            y = yCoord;
-            while (inGamefield(x += dx, y += dy) && (moeglich != 0)) {
-                if (gameField[x][y] != color) {
-                    gameField[x][y] = color;
-                } else {
-                    moeglich = 0;
-                }
-            }
+    }
 
+    @Override
+    public boolean findIfToTurnStones(int xCoord, int yCoord, Field color, int w) {
+        if (gameField[xCoord][yCoord].equals(color)) {
+            return true;
+        } else if (!inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.EMPTY)) {
+            return false;
+        } else {
+            return findIfToTurnStones(xCoord + X_WAY[w],yCoord + Y_WAY[w] , color, w);
         }
+    }
 
+    @Override
+    public void turning(int xCoord, int yCoord, Field color) {
+        for (int w = 0; w <= 7; w++) {
+            if (findIfToTurnStones(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w)) {
+                turnStones(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w);
+            }
+        }
     }
 }
