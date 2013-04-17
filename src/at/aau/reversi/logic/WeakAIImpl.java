@@ -42,8 +42,10 @@ public class WeakAIImpl implements AI {
         for(Move move:validMoves){
             if(best==null){
                 best=move;
+                logic.setGameField(gameField);
                 bestCount = countFields(logic.calcNewGameField(best.getxCoord(), best.getyCoord(), color),color);
             }else{
+                logic.setGameField(gameField);
                 int tempCnt = countFields(logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color),color);
                 if(tempCnt>bestCount){
                     bestCount = tempCnt;
