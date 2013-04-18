@@ -34,4 +34,9 @@ public class GameLogicNetworkImpl extends GameLogicAbstract {
     public ArrayList<Move> possibleMoves(Field color) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public Field endGame() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

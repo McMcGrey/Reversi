@@ -110,8 +110,12 @@ public class ReversiController extends Observable {
         // Spielzug durchfuehren
         gameBean.setGameField(logic.calcNewGameField(xCoord, yCoord, color));
         if(logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.BLACK : Field.WHITE).isEmpty()) {
-            setChanged();
-            notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", ErrorDisplayType.INLINE));
+            if (logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.WHITE : Field.BLACK).isEmpty()) {
+                endGame();
+            } else {
+                setChanged();
+                notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", ErrorDisplayType.INLINE));
+            }
         } else {
             gameBean.toggleCurrentPlayer();
         }
@@ -156,4 +160,22 @@ public class ReversiController extends Observable {
         }
     }
 
+    private void endGame() {
+        String winner;
+        switch (logic.endGame()) {
+            case WHITE:
+                winner = "Weiss gewinnt.";
+                break;
+            case BLACK:
+                winner = "Schwarz gewinnt.";
+                break;
+            case EMPTY:
+                winner = "Unentschieden.";
+                break;
+            default:
+                winner="";
+        }
+        setChanged();
+        notifyObservers(new ErrorBean("Spielende: " + winner, ErrorDisplayType.POPUP));
+    }
 }

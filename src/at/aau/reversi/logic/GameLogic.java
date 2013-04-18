@@ -31,4 +31,6 @@ public interface GameLogic {
     public boolean turnStones(int xCoord, int yCoord, Field color, int w);
 
     public ArrayList<Move> possibleMoves(Field color);
+
+    public Field endGame ();
 }

@@ -136,4 +136,26 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
         }
         return validMoves;
     }
+
+    @Override
+    public Field endGame() {
+        int black =0;
+        int white = 0;
+        for (short xCoord = 0; xCoord < 8; xCoord++) {
+            for (short yCoord = 0; yCoord < 8; yCoord++) {
+                if (gameField[xCoord][yCoord].equals(Field.WHITE)) {
+                    white++;
+                } else if(gameField[xCoord][yCoord].equals(Field.BLACK)) {
+                    black++;
+                }
+            }
+        }
+        if (white < black) {
+            return Field.BLACK;
+        } else if (white > black) {
+            return Field.BLACK;
+        } else {
+            return Field.EMPTY;
+        }
+    }
 }
