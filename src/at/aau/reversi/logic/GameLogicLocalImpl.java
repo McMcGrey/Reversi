@@ -130,7 +130,6 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
         for (short xCoord = 0; xCoord < 8; xCoord++) {
             for (short yCoord = 0; yCoord < 8; yCoord++) {
                 if (validMove(xCoord, yCoord, color)) {
-                    System.out.println("Possible Move: " + xCoord + ", " + yCoord);
                     validMoves.add(new Move(xCoord, yCoord));
                 }
             }

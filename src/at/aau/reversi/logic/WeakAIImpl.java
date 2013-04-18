@@ -41,9 +41,7 @@ public class WeakAIImpl implements AI {
                     best = move;
                 }
             }
-            printGameField(gameField);
         }
-        System.out.println("WeakAI: Take Move: " + best.getxCoord() + ", " + best.getyCoord() + "; color: " + color);
 
         return best;
     }
