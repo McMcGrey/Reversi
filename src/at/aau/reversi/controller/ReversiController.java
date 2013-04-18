@@ -40,9 +40,13 @@ public class ReversiController extends Observable {
 
         if (playerTypeWhite == PlayerType.AI) {
             whiteAI = new WeakAIImpl();
+        }else{
+            whiteAI = null;
         }
         if (playerTypeBlack == PlayerType.AI) {
             blackAI = new WeakAIImpl();
+        }else{
+            blackAI = null;
         }
         if (!isHost) {
             logic = new GameLogicLocalImpl();
