@@ -7,15 +7,11 @@ import at.aau.reversi.controller.ReversiController;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
 
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.GridBagLayout;
-
-import java.awt.CardLayout;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
@@ -518,6 +514,8 @@ public class Game_Field extends JFrame implements Observer {
                 message = "Schwarz ist am Zug";
             }
             rule_output.setText(message);
+            numw.setText("" + gameBean.getWhite());
+            numb.setText("" + gameBean.getBlack());
 
 
         } else if (arg instanceof ErrorBean) {
