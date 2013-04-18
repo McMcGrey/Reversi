@@ -116,7 +116,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
     @Override
     public boolean findIfToTurnStones(int xCoord, int yCoord, Field color, int w) {
         if (!inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.EMPTY)) {
-            return true;
+            return false;
         } else if (gameField[xCoord][yCoord].equals(color)) {
             return true;
         } else {
