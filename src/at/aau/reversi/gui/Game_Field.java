@@ -11,6 +11,7 @@ import at.aau.reversi.enums.PlayerType;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.GridBagLayout;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
@@ -181,7 +182,7 @@ public class Game_Field extends JFrame implements Observer {
      		
      		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
      		Background.setForeground(Color.WHITE);
-     		Background.setBounds(0, 0, 677, 509);
+     		Background.setBounds(0, 0, 1280, 754);
      		start_site.add(Background);
      		
      		//STARTBILDSCHIRM ENDE
@@ -308,7 +309,7 @@ public class Game_Field extends JFrame implements Observer {
      		btnExit3.setBounds(568, 465, 89, 23);
      		rules.add(btnExit3);
      		
-     		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+     		Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Spielregeln.jpg"));
      		Background.setBounds(0, 0, 677, 509);
      		rules.add(Background);
      		
@@ -344,7 +345,7 @@ public class Game_Field extends JFrame implements Observer {
      				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
      				frame.setTitle("Spielfeld");
      				
-     				startMultiPlayer();
+//     				startMultiPlayer();
      				
      			}
      		});
