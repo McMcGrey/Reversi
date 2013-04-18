@@ -109,7 +109,12 @@ public class ReversiController extends Observable {
     private void applyMove(short xCoord, short yCoord, Field color) {
         // Spielzug durchfuehren
         gameBean.setGameField(logic.calcNewGameField(xCoord, yCoord, color));
-        gameBean.toggleCurrentPlayer();
+        if(logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.BLACK : Field.WHITE).isEmpty()) {
+            setChanged();
+            notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", ErrorDisplayType.INLINE));
+        } else {
+            gameBean.toggleCurrentPlayer();
+        }
 
         // Wenn ein menschlicher Spieler am Zug ist, Spielfeld feigeben
         if ((gameBean.getCurrentPlayer().equals(Player.WHITE) && playerTypeWhite.equals(PlayerType.HUMAN_PLAYER))

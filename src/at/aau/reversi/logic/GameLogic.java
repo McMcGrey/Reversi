@@ -4,6 +4,8 @@ import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
 import at.aau.reversi.exceptions.InvalidInputException;
 
+import java.util.ArrayList;
+
 public interface GameLogic {
 
     /**
@@ -27,4 +29,6 @@ public interface GameLogic {
     public Move getMoveFromInputstring(String inputString) throws InvalidInputException;
 
     public boolean turnStones(int xCoord, int yCoord, Field color, int w);
+
+    public ArrayList<Move> possibleMoves(Field color);
 }
