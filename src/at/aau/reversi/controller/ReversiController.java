@@ -86,6 +86,9 @@ public class ReversiController extends Observable {
                 // Wenn AI notwendig ist, AI ausfuehren
                 applyAI();
 
+                setChanged();
+                notifyObservers(gameBean);
+
             } else {
                 setChanged();
                 notifyObservers(new ErrorBean("Ungültiger Zug", ErrorDisplayType.INLINE));
@@ -113,8 +116,8 @@ public class ReversiController extends Observable {
         }
 
         // Spielfeld benachrichtigen
-        setChanged();
-        notifyObservers(gameBean);
+//        setChanged();
+//        notifyObservers(gameBean);
     }
 
 
@@ -137,7 +140,7 @@ public class ReversiController extends Observable {
         } else if (gameBean.getCurrentPlayer() == Player.BLACK) {
             if (blackAI != null) {
 
-                Move move = blackAI.calcNextStep(gameBean.getGameField(), Field.WHITE);
+                Move move = blackAI.calcNextStep(gameBean.getGameField(), Field.BLACK);
                 applyMove(move.getxCoord(), move.getyCoord(), Field.BLACK);
 
             }

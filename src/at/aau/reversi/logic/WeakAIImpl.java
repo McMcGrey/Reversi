@@ -1,5 +1,6 @@
 package at.aau.reversi.logic;
 
+import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.enums.Field;
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class WeakAIImpl implements AI {
 	@Override
 	public Move calcNextStep(Field[][] gameField, Field color) {
 
-        logic.setGameField(gameField);
+        logic.setGameField(copyArray(gameField));
 
         // Search for valid Moves
 		ArrayList<Move> validMoves = new ArrayList<Move>();
@@ -30,6 +31,7 @@ public class WeakAIImpl implements AI {
 			for(short z=0;z<8;z++){
 				
                 if(logic.validMove(i, z, color)){
+                    System.out.println("WeakAI: Possible Move: "+i +", "+z);
                     validMoves.add(new Move(i, z));
                 }
 				
@@ -42,17 +44,19 @@ public class WeakAIImpl implements AI {
         for(Move move:validMoves){
             if(best==null){
                 best=move;
-                logic.setGameField(gameField);
+                logic.setGameField(copyArray(gameField));
                 bestCount = countFields(logic.calcNewGameField(best.getxCoord(), best.getyCoord(), color),color);
             }else{
-                logic.setGameField(gameField);
+                logic.setGameField(copyArray(gameField));
                 int tempCnt = countFields(logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color),color);
                 if(tempCnt>bestCount){
                     bestCount = tempCnt;
                     best=move;
                 }
             }
+            printGameField(gameField);
         }
+        System.out.println("WeakAI: Take Move: "+best.getxCoord() +", "+best.getyCoord()+"; color: "+color);
 
 		return best;
 	}
@@ -70,6 +74,31 @@ public class WeakAIImpl implements AI {
            }
         }
         return count;
+    }
+
+    private void printGameField(Field[][] gameField) {
+        //GameField
+        System.out.println("   |   A   |   B   |   C   |   D   |   E   |   F   |   G   |   H   ");
+        for (int xCoord = 0; xCoord <= 7; xCoord++) {
+            System.out.println("-------------------------------------------------------------------");
+            System.out.print(" " + (xCoord + 1));
+            for (int yCoord = 0; yCoord <= 7; yCoord++) {
+                System.out.print(" | " + gameField[yCoord][xCoord]);
+            }
+            System.out.print("\r\n");
+        }
+    }
+
+    private Field[][] copyArray(Field[][] gameField){
+
+        Field[][] copy = new Field[8][8];
+        for(int i=0;i<8;i++){
+            for(int z=0;z<8;z++){
+                copy[i][z]=gameField[i][z];
+            }
+        }
+
+        return copy;
     }
 
 }

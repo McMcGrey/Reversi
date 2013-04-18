@@ -523,6 +523,7 @@ public class Game_Field extends JFrame implements Observer {
         } else if (arg instanceof ErrorBean) {
 
             ErrorBean errorBean = (ErrorBean) arg;
+            System.out.println("Error: "+errorBean.getErrorMessage());
             // TODO: Nachdem diese Methode aufgerufen wurde muss eine Fehlermeldung ausgegeben werden
 
         }

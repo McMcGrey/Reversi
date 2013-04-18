@@ -16,6 +16,21 @@ public enum Field {
     /**
      * Black field
      */
-    BLACK
+    BLACK;
+
+    @Override
+    public String toString() {
+        switch (ordinal()){
+            case 0:
+                return "_";
+            case 1:
+                return "W";
+            case 2:
+                return "B";
+        }
+        return "";
+    }
+
+
 }
 
