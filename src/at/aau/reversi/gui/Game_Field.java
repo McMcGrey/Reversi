@@ -82,7 +82,8 @@ public class Game_Field extends JFrame implements Observer {
         frame = new JFrame();
         frame.setTitle(" Reversi ");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(100, 100, 693, 568);
+        frame.setBounds(0, 0, 690, 560);
+        frame.setResizable(false);
         frame.getContentPane().setLayout(new CardLayout(0, 0));
 
 
@@ -182,7 +183,7 @@ public class Game_Field extends JFrame implements Observer {
      		
      		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
      		Background.setForeground(Color.WHITE);
-     		Background.setBounds(0, 0, 1280, 754);
+     		Background.setBounds(0, 0, 700, 600);
      		start_site.add(Background);
      		
      		//STARTBILDSCHIRM ENDE
@@ -244,7 +245,7 @@ public class Game_Field extends JFrame implements Observer {
      		game_variation_site.add(btnBack);
      		
      		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-     		Background.setBounds(0, 0, 677, 509);
+     		Background.setBounds(0, 0, 700, 600);
      		game_variation_site.add(Background);
      		
      		
@@ -277,7 +278,7 @@ public class Game_Field extends JFrame implements Observer {
      		options.add(btnExit2);
      		
      		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-     		Background.setBounds(0, 0, 677, 509);
+     		Background.setBounds(0, 0, 700, 600);
      		options.add(Background);
      		
      		// OPTIONEN ENDE
@@ -310,7 +311,7 @@ public class Game_Field extends JFrame implements Observer {
      		rules.add(btnExit3);
      		
      		Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Spielregeln.jpg"));
-     		Background.setBounds(0, 0, 677, 509);
+     		Background.setBounds(0, -43, 700, 600);
      		rules.add(Background);
      		
      		//SPIELREGELN ENDE
@@ -345,7 +346,7 @@ public class Game_Field extends JFrame implements Observer {
      				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
      				frame.setTitle("Spielfeld");
      				
-//     				startMultiPlayer();
+    				startMultiPlayer();
      				
      			}
      		});
@@ -373,7 +374,7 @@ public class Game_Field extends JFrame implements Observer {
      		multiplayer_site.add(btnExit4);
      		
      		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-     		Background.setBounds(0, 0, 677, 509);
+     		Background.setBounds(0, 0, 700, 600);
      		multiplayer_site.add(Background);
 
      		// Auswahl des Multiplayer ENDE
@@ -492,7 +493,7 @@ public class Game_Field extends JFrame implements Observer {
         play_site.add(lblNewLabel);
 
         Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-        Background.setBounds(0, 0, 677, 509);
+        Background.setBounds(0, 0, 700, 600);
         play_site.add(Background);
 
         gameFieldPanel = (Draw_Game_Field) Field;
