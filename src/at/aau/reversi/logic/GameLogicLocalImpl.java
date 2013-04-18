@@ -1,7 +1,9 @@
 package at.aau.reversi.logic;
 
+import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GameLogicLocalImpl extends GameLogicAbstract {
@@ -101,7 +103,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
         return gameField;
     }
 
-    public void setGameField(Field[][] gameField){
+    public void setGameField(Field[][] gameField) {
         this.gameField = gameField;
     }
 
@@ -112,12 +114,27 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
         } else if (gameField[xCoord][yCoord].equals(color)) {
             return true;
         } else {
-            if(turnStones(xCoord + X_WAY[w],yCoord + Y_WAY[w] , color, w)) {
+            if (turnStones(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w)) {
                 gameField[xCoord][yCoord] = color;
                 return true;
             } else {
                 return false;
             }
         }
+    }
+
+    @Override
+    public ArrayList<Move> possibleMoves(Field color) {
+        // Search for valid Moves
+        ArrayList<Move> validMoves = new ArrayList<Move>();
+        for (short xCoord = 0; xCoord < 8; xCoord++) {
+            for (short yCoord = 0; yCoord < 8; yCoord++) {
+                if (validMove(xCoord, yCoord, color)) {
+                    System.out.println("Possible Move: " + xCoord + ", " + yCoord);
+                    validMoves.add(new Move(xCoord, yCoord));
+                }
+            }
+        }
+        return validMoves;
     }
 }

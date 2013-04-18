@@ -13,62 +13,52 @@ public class WeakAIImpl implements AI {
 
     GameLogicLocalImpl logic;
 
-    public WeakAIImpl(){
+    public WeakAIImpl() {
         logic = new GameLogicLocalImpl();
     }
 
-	@Override
-	public Move calcNextStep(Field[][] gameField, Field color) {
+    @Override
+    public Move calcNextStep(Field[][] gameField, Field color) {
 
         logic.setGameField(copyArray(gameField));
 
         // Search for valid Moves
-		ArrayList<Move> validMoves = new ArrayList<Move>();
-		for(short i=0;i<8;i++){
-			for(short z=0;z<8;z++){
-				
-                if(logic.validMove(i, z, color)){
-                    System.out.println("WeakAI: Possible Move: "+i +", "+z);
-                    validMoves.add(new Move(i, z));
-                }
-				
-			}
-		}
+        ArrayList<Move> validMoves = logic.possibleMoves(color);
 
         // Search for best move
         Move best = null;
         int bestCount = 0;
-        for(Move move:validMoves){
-            if(best==null){
-                best=move;
+        for (Move move : validMoves) {
+            if (best == null) {
+                best = move;
                 logic.setGameField(copyArray(gameField));
-                bestCount = countFields(logic.calcNewGameField(best.getxCoord(), best.getyCoord(), color),color);
-            }else{
+                bestCount = countFields(logic.calcNewGameField(best.getxCoord(), best.getyCoord(), color), color);
+            } else {
                 logic.setGameField(copyArray(gameField));
-                int tempCnt = countFields(logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color),color);
-                if(tempCnt>bestCount){
+                int tempCnt = countFields(logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color), color);
+                if (tempCnt > bestCount) {
                     bestCount = tempCnt;
-                    best=move;
+                    best = move;
                 }
             }
             printGameField(gameField);
         }
-        System.out.println("WeakAI: Take Move: "+best.getxCoord() +", "+best.getyCoord()+"; color: "+color);
+        System.out.println("WeakAI: Take Move: " + best.getxCoord() + ", " + best.getyCoord() + "; color: " + color);
 
-		return best;
-	}
+        return best;
+    }
 
-    private int countFields(Field[][] gameField, Field color){
+    private int countFields(Field[][] gameField, Field color) {
         //todo: move countFields to better place
-        int count=0;
-        for(short i=0;i<8;i++){
-           for(short z=0;z<8;z++){
+        int count = 0;
+        for (short i = 0; i < 8; i++) {
+            for (short z = 0; z < 8; z++) {
 
-               if(gameField[i][z].equals(color)){
-                   count++;
-               }
+                if (gameField[i][z].equals(color)) {
+                    count++;
+                }
 
-           }
+            }
         }
         return count;
     }
@@ -86,12 +76,12 @@ public class WeakAIImpl implements AI {
         }
     }
 
-    private Field[][] copyArray(Field[][] gameField){
+    private Field[][] copyArray(Field[][] gameField) {
 
         Field[][] copy = new Field[8][8];
-        for(int i=0;i<8;i++){
-            for(int z=0;z<8;z++){
-                copy[i][z]=gameField[i][z];
+        for (int i = 0; i < 8; i++) {
+            for (int z = 0; z < 8; z++) {
+                copy[i][z] = gameField[i][z];
             }
         }
 
