@@ -11,6 +11,7 @@ import at.aau.reversi.enums.PlayerType;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.GridBagLayout;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
@@ -81,7 +82,8 @@ public class Game_Field extends JFrame implements Observer {
         frame = new JFrame();
         frame.setTitle(" Reversi ");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(100, 100, 693, 568);
+        frame.setBounds(0, 0, 690, 560);
+        frame.setResizable(false);
         frame.getContentPane().setLayout(new CardLayout(0, 0));
 
 
@@ -135,216 +137,247 @@ public class Game_Field extends JFrame implements Observer {
         // MEN�BAR ENDE
 
 
-        // STARTBILDSCHIRM ANFANG
+     // STARTBILDSCHIRM ANFANG
+		
+     		JButton btnNewGame = new JButton("Neues Spiel");
+     		btnNewGame.setToolTipText("Neues Spiel");
+     		btnNewGame.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent arg0) {
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielauswahl");
+     				frame.setTitle("Spielauswahl");
 
-        JButton btnNewGame = new JButton("Neues Spiel");
-        btnNewGame.setToolTipText("Neues Spiel");
-        btnNewGame.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielauswahl");
-                frame.setTitle("Spielauswahl");
+     			}
+     		});
+     		btnNewGame.setBounds(237, 124, 171, 69);
+     		start_site.add(btnNewGame);
+     		
+     		JButton btnRules = new JButton("Spielregeln");
+     		btnRules.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielregeln");
+     				frame.setTitle("Spielregeln");
+     			}
+     		});
+     		btnRules.setBounds(237, 217, 171, 69);
+     		start_site.add(btnRules);
+     		
+     		JButton btnOptions = new JButton("Optionen");
+     		btnOptions.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Optionen");
+     				frame.setTitle("Optionen");
+     			}
+     		});
+     		btnOptions.setBounds(237, 311, 171, 69);
+     		start_site.add(btnOptions);
+     		
+     		JButton btnExit = new JButton("Exit");
+     		btnExit.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				System.exit( 0 );
+     			}
+     		});
+     		btnExit.setBounds(568, 465, 89, 23);
+     		start_site.add(btnExit);
+     		
+     		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+     		Background.setForeground(Color.WHITE);
+     		Background.setBounds(0, 0, 700, 600);
+     		start_site.add(Background);
+     		
+     		//STARTBILDSCHIRM ENDE
+     		
+     		
+     		
+     		//FENSTER 2 SPIELAUSWAHL
+     		
+     		JPanel game_variation_site = new JPanel();
+     		frame.getContentPane().add(game_variation_site, "Spielauswahl");
+     		game_variation_site.setLayout(null);
+     		
+     		
+     		JButton btnSpielerVsComputer = new JButton("Spieler vs Computer");
+     		btnSpielerVsComputer.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
+     				frame.setTitle("Spielfeld");
+     				
+     				startSinglePlayer();
+     				
+     			}
+     		});
+     		btnSpielerVsComputer.setBounds(193, 153, 288, 87);
+     		game_variation_site.add(btnSpielerVsComputer);
+     		
+     		JButton btnSpielerVsSpieler = new JButton("Spieler vs Spieler");
+     		btnSpielerVsSpieler.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Multiplayer Auswahl");
+     				frame.setTitle("Multiplayer Auswahl");
+     				
+     				     				
+     			}
+     		});
+     		btnSpielerVsSpieler.setBounds(193, 276, 288, 87);
+     		game_variation_site.add(btnSpielerVsSpieler);
+     		
+     		JButton btnExit_1 = new JButton("Exit");
+     		btnExit_1.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				System.exit( 0 );
+     			}
+     		});
+     		btnExit_1.setBounds(568, 465, 89, 23);
+     		game_variation_site.add(btnExit_1);
+     		
+     		JButton btnBack = new JButton("Back");
+     		btnBack.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Startseite");
+     				frame.setTitle("Startseite");
+     			}
+     		});
+     		btnBack.setBounds(10, 465, 89, 23);
+     		game_variation_site.add(btnBack);
+     		
+     		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+     		Background.setBounds(0, 0, 700, 600);
+     		game_variation_site.add(Background);
+     		
+     		
+     		//FENSTER 2 SPIELAUSWAHL ENDE
+     		
+     		//OPTIONEN ANFANG
+     		
+     		JPanel options = new JPanel();
+     		frame.getContentPane().add(options, "Optionen");
+     		options.setLayout(null);
+     		
+     		JButton btnBack2 = new JButton("Back");
+     		btnBack2.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Startseite");
+     				frame.setTitle("Startseite");
+     			}
+     		});
+     		btnBack2.setBounds(10, 465, 89, 23);
+     		options.add(btnBack2);
+     		
+     		JButton btnExit2 = new JButton("Exit");
+     		btnExit2.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				System.exit( 0 );
+     			}
+     		});
+     		btnExit2.setBounds(568, 465, 89, 23);
+     		options.add(btnExit2);
+     		
+     		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+     		Background.setBounds(0, 0, 700, 600);
+     		options.add(Background);
+     		
+     		// OPTIONEN ENDE
+     		
+     		//SPIELREGELN ANFANG
+     		
+     		JPanel rules = new JPanel();
+     		frame.getContentPane().add(rules, "Spielregeln");
+     		rules.setLayout(null);
+     		
+     		
+     		JButton btnBack3 = new JButton("Back");
+     		btnBack3.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Startseite");
+     				frame.setTitle("Startseite");
+     			}
+     		});
+     		btnBack3.setBounds(10, 465, 89, 23);
+     		rules.add(btnBack3);
+     		
+     		JButton btnExit3 = new JButton("Exit");
+     		btnExit3.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				System.exit( 0 );
+     			}
+     		});
+     		btnExit3.setBounds(568, 465, 89, 23);
+     		rules.add(btnExit3);
+     		
+     		Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Spielregeln.jpg"));
+     		Background.setBounds(0, -43, 700, 600);
+     		rules.add(Background);
+     		
+     		//SPIELREGELN ENDE
+     		
+     		// Auswahl des Multiplayer 
+     		
+     		JPanel multiplayer_site = new JPanel();
+     		frame.getContentPane().add(multiplayer_site, "Multiplayer Auswahl");
+     		multiplayer_site.setLayout(null);
+     			
+     		
+     		JButton SpielerVsSpielerNT = new JButton("Spieler vs Spieler ( Netzwerk )");
+     		SpielerVsSpielerNT.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				boolean lokal = true ;
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
+     				frame.setTitle("Spielfeld");
+     				
+     			}
+     		});
+     		SpielerVsSpielerNT.setBounds(193, 153, 288, 87);
+     		multiplayer_site.add(SpielerVsSpielerNT);
+     		
+     		JButton SpielerVsSpielderLokal = new JButton("Spieler vs Spieler ( Hot Seat )");
+     		SpielerVsSpielderLokal.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				boolean NT = true ;
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
+     				frame.setTitle("Spielfeld");
+     				
+    				startMultiPlayer();
+     				
+     			}
+     		});
+     		SpielerVsSpielderLokal.setBounds(193, 276, 288, 87);
+     		multiplayer_site.add(SpielerVsSpielderLokal);
+     		
+     		JButton btnBack_1 = new JButton("Back");
+     		btnBack_1.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				
+     				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielauswahl");
+     				frame.setTitle("Spielauswahl");
+     			}
+     		});
+     		btnBack_1.setBounds(10, 465, 89, 23);
+     		multiplayer_site.add(btnBack_1);
+     		
+     		JButton btnExit4 = new JButton("Exit");
+     		btnExit4.addActionListener(new ActionListener() {
+     			public void actionPerformed(ActionEvent e) {
+     				System.exit( 0 );
+     			}
+     		});
+     		btnExit4.setBounds(568, 465, 89, 23);
+     		multiplayer_site.add(btnExit4);
+     		
+     		 Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+     		Background.setBounds(0, 0, 700, 600);
+     		multiplayer_site.add(Background);
 
-            }
-        });
-        btnNewGame.setBounds(237, 124, 171, 69);
-        start_site.add(btnNewGame);
-
-        JButton btnRules = new JButton("Spielregeln");
-        btnRules.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielregeln");
-                frame.setTitle("Spielregeln");
-            }
-        });
-        btnRules.setBounds(237, 217, 171, 69);
-        start_site.add(btnRules);
-
-        JButton btnOptions = new JButton("Optionen");
-        btnOptions.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Optionen");
-                frame.setTitle("Optionen");
-            }
-        });
-        btnOptions.setBounds(237, 297, 171, 69);
-        start_site.add(btnOptions);
-
-        JButton btnExit = new JButton("Exit");
-        btnExit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        btnExit.setBounds(532, 439, 89, 23);
-        start_site.add(btnExit);
-
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-        Background.setForeground(Color.WHITE);
-        Background.setBounds(0, 0, 677, 509);
-        start_site.add(Background);
-
-        //STARTBILDSCHIRM ENDE
-
-
-        //FENSTER 2 SPIELAUSWAHL
-
-        JPanel game_variation_site = new JPanel();
-        frame.getContentPane().add(game_variation_site, "Spielauswahl");
-        game_variation_site.setLayout(null);
-
-
-        JButton btnSpielerVsComputer = new JButton("Spieler vs Computer");
-        btnSpielerVsComputer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
-                frame.setTitle("Spielfeld");
-
-                startSinglePlayer();
-
-            }
-        });
-        btnSpielerVsComputer.setBounds(193, 153, 288, 87);
-        game_variation_site.add(btnSpielerVsComputer);
-
-        JButton btnSpielerVsSpieler = new JButton("Spieler vs Spieler");
-        btnSpielerVsSpieler.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Multiplayer Auswahl");
-                frame.setTitle("Multiplayer Auswahl");
-
-            }
-        });
-        btnSpielerVsSpieler.setBounds(193, 276, 288, 87);
-        game_variation_site.add(btnSpielerVsSpieler);
-
-        JButton btnExit_1 = new JButton("Exit");
-        btnExit_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        btnExit_1.setBounds(568, 465, 89, 23);
-        game_variation_site.add(btnExit_1);
-
-        JButton btnBack = new JButton("Back");
-        btnBack.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Startseite");
-                frame.setTitle("Startseite");
-            }
-        });
-        btnBack.setBounds(10, 465, 89, 23);
-        game_variation_site.add(btnBack);
-
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-        Background.setBounds(0, 0, 677, 509);
-        game_variation_site.add(Background);
-
-
-        //FENSTER 2 SPIELAUSWAHL ENDE
-
-        //OPTIONEN ANFANG
-
-        JPanel options = new JPanel();
-        frame.getContentPane().add(options, "Optionen");
-        options.setLayout(null);
-
-        JButton btnBack2 = new JButton("Back");
-        btnBack2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Startseite");
-                frame.setTitle("Startseite");
-            }
-        });
-        btnBack2.setBounds(10, 465, 89, 23);
-        options.add(btnBack2);
-
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-        Background.setBounds(0, 0, 677, 509);
-        options.add(Background);
-
-        // OPTIONEN ENDE
-
-        //SPIELREGELN ANFANG
-
-        JPanel rules = new JPanel();
-        frame.getContentPane().add(rules, "Spielregeln");
-        rules.setLayout(null);
-
-
-        JButton btnBack3 = new JButton("Back");
-        btnBack3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Startseite");
-                frame.setTitle("Startseite");
-            }
-        });
-        btnBack3.setBounds(10, 465, 89, 23);
-        rules.add(btnBack3);
-
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-        Background.setBounds(0, 0, 677, 509);
-        rules.add(Background);
-
-        //SPIELREGELN ENDE
-
-        // Auswahl des Multiplayer
-
-        JPanel multiplayer_site = new JPanel();
-        frame.getContentPane().add(multiplayer_site, "Multiplayer Auswahl");
-        multiplayer_site.setLayout(null);
-
-
-        JButton SpielerVsSpielerNT = new JButton("Spieler vs Spieler ( Netzwerk )");
-        SpielerVsSpielerNT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                boolean lokal = true;
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
-                frame.setTitle("Spielfeld");
-
-            }
-        });
-        SpielerVsSpielerNT.setBounds(200, 138, 263, 84);
-        multiplayer_site.add(SpielerVsSpielerNT);
-
-        JButton SpielerVsSpielderLokal = new JButton("Spieler vs Spieler ( Hot Seat )");
-        SpielerVsSpielderLokal.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                boolean NT = true;
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
-                frame.setTitle("Spielfeld");
-
-            }
-        });
-        SpielerVsSpielderLokal.setBounds(200, 270, 263, 84);
-        multiplayer_site.add(SpielerVsSpielderLokal);
-
-        JButton btnBack_1 = new JButton("Back");
-        btnBack3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielregeln");
-                frame.setTitle("Spielregeln");
-            }
-        });
-        btnBack_1.setBounds(10, 475, 89, 23);
-        multiplayer_site.add(btnBack_1);
-
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-        Background.setBounds(0, 0, 677, 509);
-        multiplayer_site.add(Background);
-
-        // Auswahl des Multiplayer ENDE
+     		// Auswahl des Multiplayer ENDE
 
         // SPIELFELD ANFANG
 
@@ -460,7 +493,7 @@ public class Game_Field extends JFrame implements Observer {
         play_site.add(lblNewLabel);
 
         Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
-        Background.setBounds(0, 0, 677, 509);
+        Background.setBounds(0, 0, 700, 600);
         play_site.add(Background);
 
         gameFieldPanel = (Draw_Game_Field) Field;
