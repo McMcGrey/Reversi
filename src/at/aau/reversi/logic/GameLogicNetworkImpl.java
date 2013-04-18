@@ -23,19 +23,7 @@ public class GameLogicNetworkImpl extends GameLogicAbstract {
     }
 
     @Override
-    public void turnStones(int xCoord, int yCoord, Field color, int w) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public boolean turnStones(int xCoord, int yCoord, Field color, int w) {
+        return false; //To change body of implemented methods use File | Settings | File Templates.
     }
-
-    @Override
-    public boolean findIfToTurnStones(int xCoord, int yCoord, Field color, int w) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void turning(int xCoord, int yCoord, Field color) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-
 }

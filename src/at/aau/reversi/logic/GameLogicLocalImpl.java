@@ -26,7 +26,9 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
     @Override
     public Field[][] calcNewGameField(short xCoord, short yCoord, Field color) {
         gameField[xCoord][yCoord] = color;
-        turning(xCoord, yCoord, color);
+        for (int w = 0; w <= 7; w++) {
+            turnStones(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w);
+        }
         return gameField;
     }
 
@@ -103,32 +105,18 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
         this.gameField = gameField;
     }
 
-
     @Override
-    public void turnStones(int xCoord, int yCoord, Field color, int w) {
-        if (inGamefield(xCoord, yCoord) && !gameField[xCoord][yCoord].equals(Field.EMPTY) && !gameField[xCoord][yCoord].equals(color)){
-            gameField[xCoord][yCoord] = color;
-            turnStones(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w);
-        }
-
-    }
-
-    @Override
-    public boolean findIfToTurnStones(int xCoord, int yCoord, Field color, int w) {
+    public boolean turnStones(int xCoord, int yCoord, Field color, int w) {
         if (!inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.EMPTY)) {
             return false;
         } else if (gameField[xCoord][yCoord].equals(color)) {
             return true;
         } else {
-            return findIfToTurnStones(xCoord + X_WAY[w],yCoord + Y_WAY[w] , color, w);
-        }
-    }
-
-    @Override
-    public void turning(int xCoord, int yCoord, Field color) {
-        for (int w = 0; w <= 7; w++) {
-            if (findIfToTurnStones(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w)) {
-                turnStones(xCoord + X_WAY[w], yCoord + Y_WAY[w], color, w);
+            if(turnStones(xCoord + X_WAY[w],yCoord + Y_WAY[w] , color, w)) {
+                gameField[xCoord][yCoord] = color;
+                return true;
+            } else {
+                return false;
             }
         }
     }
