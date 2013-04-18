@@ -5,6 +5,7 @@ import at.aau.reversi.enums.Field;
 import at.aau.reversi.exceptions.InvalidInputException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface GameLogic {
 
@@ -33,4 +34,6 @@ public interface GameLogic {
     public ArrayList<Move> possibleMoves(Field color);
 
     public Field endGame ();
+
+    public List<Integer> getIntermediateResult();
 }

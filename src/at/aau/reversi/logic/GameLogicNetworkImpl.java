@@ -4,6 +4,7 @@ import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameLogicNetworkImpl extends GameLogicAbstract {
 
@@ -37,6 +38,11 @@ public class GameLogicNetworkImpl extends GameLogicAbstract {
 
     @Override
     public Field endGame() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<Integer> getIntermediateResult() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

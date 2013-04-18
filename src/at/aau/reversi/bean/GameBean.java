@@ -17,6 +17,9 @@ public class GameBean {
         currentPlayer = Player.WHITE;
         // Controller has to activate gameField;
         gameFieldActive = false;
+
+        white = 2;
+        black = 2;
     }
 
     /**
@@ -33,6 +36,12 @@ public class GameBean {
      * When this field is true, the human in front of the computer is allowed to play
      */
     private boolean gameFieldActive;
+
+    /**
+     * Conter for player`s stones
+     */
+    private int white;
+    private int black;
 
     /**
      * @return the gameField
@@ -78,5 +87,21 @@ public class GameBean {
 
     public void toggleCurrentPlayer() {
         currentPlayer = (currentPlayer == Player.WHITE) ? Player.BLACK : Player.WHITE;
+    }
+
+    public int getWhite() {
+        return white;
+    }
+
+    public void setWhite(int white) {
+        this.white = white;
+    }
+
+    public int getBlack() {
+        return black;
+    }
+
+    public void setBlack(int black) {
+        this.black = black;
     }
 }

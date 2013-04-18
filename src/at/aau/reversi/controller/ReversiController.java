@@ -9,6 +9,7 @@ import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
 import at.aau.reversi.logic.*;
 
+import java.util.List;
 import java.util.Observable;
 
 public class ReversiController extends Observable {
@@ -127,6 +128,10 @@ public class ReversiController extends Observable {
         } else {
             gameBean.setGameFieldActive(false);
         }
+
+        List<Integer> score = logic.getIntermediateResult();
+        gameBean.setWhite(score.get(0));
+        gameBean.setBlack(score.get(1));
 
         // Spielfeld benachrichtigen
 //        setChanged();

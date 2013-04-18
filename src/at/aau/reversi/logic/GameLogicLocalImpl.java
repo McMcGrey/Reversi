@@ -5,6 +5,7 @@ import at.aau.reversi.enums.Field;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class GameLogicLocalImpl extends GameLogicAbstract {
 
@@ -139,6 +140,18 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
 
     @Override
     public Field endGame() {
+        List<Integer> score = getIntermediateResult();
+        if (score.get(0) < score.get(1)) {
+            return Field.BLACK;
+        } else if (score.get(0) > score.get(1)) {
+            return Field.WHITE;
+        } else {
+            return Field.EMPTY;
+        }
+    }
+
+    @Override
+    public List<Integer> getIntermediateResult() {
         int black =0;
         int white = 0;
         for (short xCoord = 0; xCoord < 8; xCoord++) {
@@ -150,12 +163,9 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
                 }
             }
         }
-        if (white < black) {
-            return Field.BLACK;
-        } else if (white > black) {
-            return Field.BLACK;
-        } else {
-            return Field.EMPTY;
-        }
+        List<Integer> score= new ArrayList<Integer>();
+        score.add(white);
+        score.add(black);
+        return score;
     }
 }
