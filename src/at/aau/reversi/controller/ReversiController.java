@@ -114,8 +114,12 @@ public class ReversiController extends Observable {
             if (logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.WHITE : Field.BLACK).isEmpty()) {
                 endGame();
             } else {
+                String message = "Zur Zeit ist kein Zug möglich, "
+                        + ((gameBean.getCurrentPlayer() == Player.WHITE) ? "weiss ist am Zug": "schwarz ist am Zug");
                 setChanged();
-                notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", ErrorDisplayType.INLINE));
+                notifyObservers(new ErrorBean(message, ErrorDisplayType.POPUP));
+                // Check if AI has to set the next move
+                applyAI();
             }
         } else {
             gameBean.toggleCurrentPlayer();
