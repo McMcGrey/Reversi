@@ -4,6 +4,7 @@ import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.controller.ReversiController;
+import at.aau.reversi.enums.ErrorDisplayType;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
 
@@ -521,8 +522,11 @@ public class Game_Field extends JFrame implements Observer {
         } else if (arg instanceof ErrorBean) {
 
             ErrorBean errorBean = (ErrorBean) arg;
-            System.out.println("Error: "+errorBean.getErrorMessage());
-            // TODO: Nachdem diese Methode aufgerufen wurde muss eine Fehlermeldung ausgegeben werden
+            if(errorBean.getErrorDisplayType().equals(ErrorDisplayType.INLINE)){
+                rule_output.setText(errorBean.getErrorMessage());
+            }else{
+                JOptionPane.showMessageDialog(this, errorBean.getErrorMessage());
+            }
 
         }
     }
