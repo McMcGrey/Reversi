@@ -72,7 +72,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
      * @return true/false
      */
     private boolean validNeighbour(int xCoord, int yCoord, Field color) {
-        return (gameField[xCoord][yCoord] != color && gameField[xCoord][yCoord] != Field.EMPTY);
+        return (!gameField[xCoord][yCoord].equals(color) && !gameField[xCoord][yCoord].equals(Field.EMPTY) && !gameField[xCoord][yCoord].equals(Field.MAYBE));
     }
 
     /**
@@ -86,9 +86,9 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
      */
     private boolean validMove(int xCoord, int yCoord, Field color, int w) {
         if (inGamefield(xCoord, yCoord)) {
-            if (gameField[xCoord][yCoord] == color) {
+            if (gameField[xCoord][yCoord].equals(color)) {
                 return true;
-            } else if (gameField[xCoord][yCoord] == Field.EMPTY) {
+            } else if (gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE)) {
                 return false;
             } else {
                 // Pruefe naechstes Feld in der Reihe
