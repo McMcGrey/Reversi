@@ -55,9 +55,9 @@ public class ConsoleInterface implements Observer {
 
     private void printGameField(GameBean bean) {
         //GameField
-        System.out.println("   |   A   |   B   |   C   |   D   |   E   |   F   |   G   |   H   ");
+        System.out.println("   | A | B | C | D | E | F | G | H ");
         for (int xCoord = 0; xCoord <= 7; xCoord++) {
-            System.out.println("-------------------------------------------------------------------");
+            System.out.println("------------------------------------");
             System.out.print(" " + (xCoord + 1));
             for (int yCoord = 0; yCoord <= 7; yCoord++) {
                 System.out.print(" | " + bean.getGameField()[xCoord][yCoord]);

@@ -20,10 +20,11 @@ public class Main {
         controller.addObserver(gui);
 
         // Start ConsoleInterface
-//        ConsoleInterface cns = new ConsoleInterface(controller);
-//        controller.addObserver(cns);
+        /*ConsoleInterface cns = new ConsoleInterface(controller);
+        controller.addObserver(cns);*/
 
         // Controller Test
+        //controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, false);
         /*controller.fieldClicked(Player.WHITE, (short) 2,(short) 4);
 		controller.fieldClicked(Player.BLACK, (short) 5, (short) 3);*/
 

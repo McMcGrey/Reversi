@@ -1,9 +1,7 @@
 package at.aau.reversi.logic;
 
-import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameLogicNetworkImpl extends GameLogicAbstract {
@@ -32,8 +30,8 @@ public class GameLogicNetworkImpl extends GameLogicAbstract {
     }
 
     @Override
-    public ArrayList<Move> possibleMoves(Field color) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public boolean possibleMoves(Field color) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

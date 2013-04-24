@@ -22,8 +22,15 @@ public class WeakAIImpl implements AI {
 
         logic.setGameField(copyArray(gameField));
 
+        ArrayList<Move> validMoves = new ArrayList<Move>();
         // Search for valid Moves
-        ArrayList<Move> validMoves = logic.possibleMoves(color);
+        for (short xCoord = 0; xCoord < 8; xCoord++) {
+            for (short yCoord = 0; yCoord < 8; yCoord++) {
+                if (gameField[xCoord][yCoord].equals(Field.MAYBE)) {
+                    validMoves.add(new Move(xCoord, yCoord));
+                }
+            }
+        }
 
         // Search for best move
         Move best = null;

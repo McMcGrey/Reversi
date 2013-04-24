@@ -1,6 +1,5 @@
 package at.aau.reversi.logic;
 
-import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
 
     public boolean validMove(short xCoord, short yCoord, Field color) {
         // Feld muss leer und im Spielfeld sein
-        if (gameField[xCoord][yCoord] == Field.EMPTY && inGamefield(xCoord, yCoord)) {
+        if ((gameField[xCoord][yCoord].equals(Field.EMPTY) ||gameField[xCoord][yCoord].equals(Field.MAYBE)) && inGamefield(xCoord, yCoord)) {
             // Alle nachbarn muessen ueberprueft werden
             for (int w = 0; w <= 7; w++) {
                 // Nachbar muss nur ueberprueft werden wenn er im Spielfeld ist
@@ -110,7 +109,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
 
     @Override
     public boolean turnStones(int xCoord, int yCoord, Field color, int w) {
-        if (!inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.EMPTY)) {
+        if (!inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE)) {
             return false;
         } else if (gameField[xCoord][yCoord].equals(color)) {
             return true;
@@ -125,13 +124,14 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
     }
 
     @Override
-    public ArrayList<Move> possibleMoves(Field color) {
+    public boolean possibleMoves(Field color) {
         // Search for valid Moves
-        ArrayList<Move> validMoves = new ArrayList<Move>();
+        boolean validMoves = false;
         for (short xCoord = 0; xCoord < 8; xCoord++) {
             for (short yCoord = 0; yCoord < 8; yCoord++) {
                 if (validMove(xCoord, yCoord, color)) {
-                    validMoves.add(new Move(xCoord, yCoord));
+                    gameField[xCoord][yCoord] = Field.MAYBE;
+                    validMoves = true;
                 }
             }
         }

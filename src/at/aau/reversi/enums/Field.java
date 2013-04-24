@@ -16,7 +16,11 @@ public enum Field {
     /**
      * Black field
      */
-    BLACK;
+    BLACK,
+    /**
+     * Possible field
+     */
+    MAYBE;
 
     @Override
     public String toString() {
@@ -27,6 +31,8 @@ public enum Field {
                 return "W";
             case 2:
                 return "B";
+            case 3:
+                return "M";
         }
         return "";
     }

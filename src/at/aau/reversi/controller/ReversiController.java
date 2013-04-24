@@ -54,6 +54,7 @@ public class ReversiController extends Observable {
         } else {
             logic = new GameLogicNetworkImpl();
         }
+        logic.possibleMoves(Field.WHITE);
         gameBean.setGameField(logic.getGameField());
 
         // When white gamer is human, unfreeze gamefield
@@ -76,14 +77,12 @@ public class ReversiController extends Observable {
      * @param yCoord Y Coordinate of gameField
      */
     public void fieldClicked(Player player, short xCoord, short yCoord) {
-        // TODO:
 
         if (player == gameBean.getCurrentPlayer() && gameBean.isGameFieldActive()) {
             // The white player has the color white, this is setted here
             Field color = (player == Player.WHITE) ? Field.WHITE : Field.BLACK;
             //Field color = Field.WHITE;
-
-            if (logic.validMove(xCoord, yCoord, color)) {
+            if (gameBean.getGameField()[xCoord][yCoord].equals(Field.MAYBE)) {
 
                 // Spielzug durchfuehren
                 applyMove(xCoord, yCoord, color);
@@ -120,8 +119,8 @@ public class ReversiController extends Observable {
     private void applyMove(short xCoord, short yCoord, Field color) {
         // Spielzug durchfuehren
         gameBean.setGameField(logic.calcNewGameField(xCoord, yCoord, color));
-        if(logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.BLACK : Field.WHITE).isEmpty()) {
-            if (logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.WHITE : Field.BLACK).isEmpty()) {
+        if(!logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.BLACK : Field.WHITE)) {
+            if (!logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.WHITE : Field.BLACK)) {
                 endGame();
             } else {
                 String message = "Zur Zeit ist kein Zug möglich, "
