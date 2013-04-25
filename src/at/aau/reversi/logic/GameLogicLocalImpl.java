@@ -36,7 +36,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
 
     public boolean validMove(short xCoord, short yCoord, Field color) {
         // Feld muss leer und im Spielfeld sein
-        if ((gameField[xCoord][yCoord].equals(Field.EMPTY) ||gameField[xCoord][yCoord].equals(Field.MAYBE)) && inGamefield(xCoord, yCoord)) {
+        if ((gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE)) && inGamefield(xCoord, yCoord)) {
             // Alle nachbarn muessen ueberprueft werden
             for (int w = 0; w <= 7; w++) {
                 // Nachbar muss nur ueberprueft werden wenn er im Spielfeld ist
@@ -129,6 +129,9 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
         boolean validMoves = false;
         for (short xCoord = 0; xCoord < 8; xCoord++) {
             for (short yCoord = 0; yCoord < 8; yCoord++) {
+                if (gameField[xCoord][yCoord].equals(Field.MAYBE)) {
+                    gameField[xCoord][yCoord] = Field.EMPTY;
+                }
                 if (validMove(xCoord, yCoord, color)) {
                     gameField[xCoord][yCoord] = Field.MAYBE;
                     validMoves = true;
