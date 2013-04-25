@@ -15,10 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class Game_Field extends JFrame implements Observer, Runnable {
 
@@ -30,7 +27,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private Draw_Game_Field gameFieldPanel;
     private ReversiController controller;
     private GameBean gameBean;
-    private java.util.List eventList = new ArrayList();
+    private Stack eventStack = new Stack();
     private boolean isRunning = true;
 
     /**
@@ -516,8 +513,8 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        eventList.add(arg);
+    public synchronized void update(Observable o, Object arg) {
+        eventStack.push(arg);
     }
 
     public JFrame getFrame() {
@@ -541,9 +538,13 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
         while (isRunning) {
 
-            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-                Object o = i.next();
-                i.remove();
+
+            if(!eventStack.isEmpty()){
+
+                Object o;
+                synchronized (this){
+                    o = eventStack.pop();
+                }
 
                 if (o instanceof GameBean) {
 
