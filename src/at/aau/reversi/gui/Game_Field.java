@@ -15,10 +15,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Game_Field extends JFrame implements Observer {
+public class Game_Field extends JFrame implements Observer, Runnable {
 
     private JTextField numw;
     private JTextField numb;
@@ -28,6 +30,8 @@ public class Game_Field extends JFrame implements Observer {
     private Draw_Game_Field gameFieldPanel;
     private ReversiController controller;
     private GameBean gameBean;
+    private java.util.List eventList = new ArrayList();
+    private boolean isRunning = true;
 
     /**
      * Launch the application.
@@ -48,6 +52,8 @@ public class Game_Field extends JFrame implements Observer {
     public Game_Field(ReversiController controller) {
         init();
         this.controller = controller;
+        Thread t = new Thread(this);
+        t.start();
     }
 
     /**
@@ -115,7 +121,7 @@ public class Game_Field extends JFrame implements Observer {
         mntmBeenden.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                System.exit(0);
+                isRunning = false;
 
             }
         });
@@ -197,11 +203,20 @@ public class Game_Field extends JFrame implements Observer {
      		JButton btnSpielerVsComputer = new JButton("Spieler vs Computer");
      		btnSpielerVsComputer.addActionListener(new ActionListener() {
      			public void actionPerformed(ActionEvent e) {
-     				
+
+                     startSinglePlayer();
+
+                     while(gameBean == null){
+
+                         try {
+                             Thread.sleep(50);
+                         } catch (InterruptedException e1) {
+                             e1.printStackTrace();
+                         }
+
+                     }
      				((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
      				frame.setTitle("Spielfeld");
-     				
-     				startSinglePlayer();
      				
      			}
      		});
@@ -503,32 +518,7 @@ public class Game_Field extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof GameBean) {
-
-            this.gameBean = (GameBean) arg;
-            gameFieldPanel.updateGameField(gameBean);
-
-            String message;
-            if (gameBean.getCurrentPlayer().equals(Player.WHITE)) {
-                message = "Weiss ist am Zug";
-            } else {
-                message = "Schwarz ist am Zug";
-            }
-            rule_output.setText(message);
-            numw.setText("" + gameBean.getWhite());
-            numb.setText("" + gameBean.getBlack());
-
-
-        } else if (arg instanceof ErrorBean) {
-
-            ErrorBean errorBean = (ErrorBean) arg;
-            if(errorBean.getErrorDisplayType().equals(ErrorDisplayType.INLINE)){
-                rule_output.setText(errorBean.getErrorMessage());
-            }else{
-                JOptionPane.showMessageDialog(this, errorBean.getErrorMessage());
-            }
-
-        }
+        eventList.add(arg);
     }
 
     public JFrame getFrame() {
@@ -544,6 +534,70 @@ public class Game_Field extends JFrame implements Observer {
     }
 
     private void handleClick(Move m) {
-        controller.fieldClicked(gameBean.getCurrentPlayer(), m.getxCoord(), m.getyCoord());
+        new HandleClickThread(m).start();
+    }
+
+    @Override
+    public void run() {
+
+        while(isRunning){
+
+            for(Iterator i = eventList.iterator();i.hasNext();){
+                Object o = i.next();
+                i.remove();
+
+                if (o instanceof GameBean) {
+
+                    this.gameBean = (GameBean) o;
+                    gameFieldPanel.updateGameField(gameBean);
+
+                    String message;
+                    if (gameBean.getCurrentPlayer().equals(Player.WHITE)) {
+                        message = "Weiss ist am Zug";
+                    } else {
+                        message = "Schwarz ist am Zug";
+                    }
+                    rule_output.setText(message);
+                    numw.setText("" + gameBean.getWhite());
+                    numb.setText("" + gameBean.getBlack());
+
+
+                } else if (o instanceof ErrorBean) {
+
+                    ErrorBean errorBean = (ErrorBean) o;
+                    if(errorBean.getErrorDisplayType().equals(ErrorDisplayType.INLINE)){
+                        rule_output.setText(errorBean.getErrorMessage());
+                    }else{
+                        JOptionPane.showMessageDialog(this, errorBean.getErrorMessage());
+                    }
+
+                }
+            }
+
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.exit(0);
+
+    }
+
+
+    class HandleClickThread extends Thread{
+
+        Move m;
+
+        HandleClickThread(Move m) {
+            this.m=m;
+        }
+
+        @Override
+        public void run() {
+
+            controller.fieldClicked(gameBean.getCurrentPlayer(), m.getxCoord(), m.getyCoord());
+
+        }
     }
 }

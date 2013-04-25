@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class Draw_Game_Field extends JPanel {
 
@@ -57,7 +57,7 @@ public class Draw_Game_Field extends JPanel {
 
     }
 
-    private void Gamefield_update(Graphics g) {                                        // Updatet das Feld
+    private void Gamefield_update(Graphics g) {                                   // Updatet das Feld
 
         Image white = null;
         Image black = null;

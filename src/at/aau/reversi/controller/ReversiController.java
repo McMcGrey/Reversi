@@ -88,6 +88,16 @@ public class ReversiController extends Observable {
                 // Spielzug durchfuehren
                 applyMove(xCoord, yCoord, color);
 
+                // Spielfeld mit Zug des aktuellen Spielers aktualisieren
+                setChanged();
+                notifyObservers(gameBean);
+                // Delay bevor AI spielt
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 // Wenn AI notwendig ist, AI ausfuehren
                 applyAI();
 
