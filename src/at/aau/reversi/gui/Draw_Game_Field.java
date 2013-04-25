@@ -2,16 +2,12 @@ package at.aau.reversi.gui;
 
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.enums.Field;
-import at.aau.reversi.enums.Player;
-
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Draw_Game_Field extends JPanel {
 
@@ -61,9 +57,11 @@ public class Draw_Game_Field extends JPanel {
 
         Image white = null;
         Image black = null;
+        Image maybe = null;
         try {
             white = ImageIO.read(new File("src/at/aau/reversi/gui/images/white.png"));
             black = ImageIO.read(new File("src/at/aau/reversi/gui/images/black.png"));
+            maybe = ImageIO.read(new File("src/at/aau/reversi/gui/images/possibleTurn.png"));
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -75,16 +73,12 @@ public class Draw_Game_Field extends JPanel {
                 Field[][] gamefield = gameBean.getGameField();
 
                 if (gamefield[posX][posY].equals(Field.WHITE)) {
-
                     g.drawImage(white, 50 * posX, 50 * posY, this);
-
-
                 } else if (gamefield[posX][posY].equals(Field.BLACK)) {
-
                     g.drawImage(black, 50 * posX, 50 * posY, this);
-
-                } else if (gamefield[posX][posY].equals("empty")) {
-
+                } else if (gamefield[posX][posY].equals(Field.MAYBE)) {
+                    g.drawImage(maybe, 50 * posX, 50 * posY, this);
+                } else {
 
                 }
 
