@@ -28,6 +28,13 @@ public class RandomAIImpl extends AbstractAIImpl implements AI {
     @Override
     public Move calcNextStep(Field[][] gameField, Field white) {
 
+        // Delay bevor AI spielt
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ArrayList<Move> validMoves = getMoves(gameField);
 
         return validMoves.get(getRandom(validMoves));
