@@ -30,7 +30,7 @@ public class ReversiController extends Observable {
      * @param playerTypeBlack
      * @param isHost          When Game over Network and Acts as host
      */
-    public void startGame(PlayerType playerTypeWhite, PlayerType playerTypeBlack, boolean isHost) {
+    public void startGame(PlayerType playerTypeWhite, PlayerType playerTypeBlack, AIType aiTypeWhite, AIType aiTypeBlack, boolean isHost) {
 
         // Init Game
         gameBean = new GameBean();
@@ -39,34 +39,12 @@ public class ReversiController extends Observable {
         this.playerTypeWhite = playerTypeWhite;
 
         if (playerTypeWhite == PlayerType.AI) {
-            /*if(aiTypeWhite == AIType.AI_RANDOM) {
-                whiteAI = new RandomAIImpl();
-            } else if (aiTypeWhite == AIType.AI_GREEDY) {
-                whiteAI = new GreedyAIImpl();
-            } else if (aiTypeWhite == AIType.AI_MINMAX) {
-                whiteAI = new MinMaxAIImpl();
-            } else if (aiTypeWhite == AIType.AI_ALPHABETHA) {
-                whiteAI = new AlphaBethaAIImpl();
-            } else {
-                whiteAI = new AdaptivAIImpl();
-            }*/
-            whiteAI = new RandomAIImpl();
+            whiteAI = setAIStrenght(aiTypeWhite);
         }else{
             whiteAI = null;
         }
         if (playerTypeBlack == PlayerType.AI) {
-            /*if(aiTypeBlack == AIType.AI_RANDOM) {
-                blackAI = new RandomAIImpl();
-            } else if (aiTypeBlack == AIType.AI_GREEDY) {
-                blackAI = new GreedyAIImpl();
-            } else if (aiTypeBlack == AIType.AI_MINMAX) {
-                blackAI = new MinMaxAIImpl();
-            } else if (aiTypeBlack == AIType.AI_ALPHABETHA) {
-                blackAI = new AlphaBethaAIImpl();
-            } else {
-                blackAI = new AdaptivAIImpl();
-            }*/
-            blackAI = new RandomAIImpl();
+            blackAI = setAIStrenght(aiTypeBlack);
         }else{
             blackAI = null;
         }
@@ -99,9 +77,9 @@ public class ReversiController extends Observable {
      */
     public void fieldClicked(Player player, short xCoord, short yCoord) {
 
-        if (player == gameBean.getCurrentPlayer() && gameBean.isGameFieldActive()) {
+        if (player.equals(gameBean.getCurrentPlayer()) && gameBean.isGameFieldActive()) {
             // The white player has the color white, this is setted here
-            Field color = (player == Player.WHITE) ? Field.WHITE : Field.BLACK;
+            Field color = (player.equals(Player.WHITE)) ? Field.WHITE : Field.BLACK;
             //Field color = Field.WHITE;
             if (gameBean.getGameField()[xCoord][yCoord].equals(Field.MAYBE)) {
 
@@ -140,12 +118,12 @@ public class ReversiController extends Observable {
     private void applyMove(short xCoord, short yCoord, Field color) {
         // Spielzug durchfuehren
         gameBean.setGameField(logic.calcNewGameField(xCoord, yCoord, color));
-        if(!logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.BLACK : Field.WHITE)) {
-            if (!logic.possibleMoves((gameBean.getCurrentPlayer() == Player.WHITE) ? Field.WHITE : Field.BLACK)) {
+        if(!logic.possibleMoves((gameBean.getCurrentPlayer().equals(Player.WHITE)) ? Field.BLACK : Field.WHITE)) {
+            if (!logic.possibleMoves((gameBean.getCurrentPlayer().equals(Player.WHITE)) ? Field.WHITE : Field.BLACK)) {
                 endGame();
             } else {
                 String message = "Zur Zeit ist kein Zug möglich, "
-                        + ((gameBean.getCurrentPlayer() == Player.WHITE) ? "weiss ist am Zug": "schwarz ist am Zug");
+                        + ((gameBean.getCurrentPlayer().equals(Player.WHITE)) ? "weiss ist am Zug": "schwarz ist am Zug");
                 setChanged();
                 notifyObservers(new ErrorBean(message, ErrorDisplayType.POPUP));
                 // Check if AI has to set the next move
@@ -182,14 +160,14 @@ public class ReversiController extends Observable {
 
     private void applyAI() {
 
-        if (gameBean.getCurrentPlayer() == Player.WHITE) {
+        if (gameBean.getCurrentPlayer().equals(Player.WHITE)) {
             if (whiteAI != null) {
 
                 Move move = whiteAI.calcNextStep(gameBean.getGameField(), Field.WHITE);
                 applyMove(move.getxCoord(), move.getyCoord(), Field.WHITE);
 
             }
-        } else if (gameBean.getCurrentPlayer() == Player.BLACK) {
+        } else if (gameBean.getCurrentPlayer().equals(Player.BLACK)) {
             if (blackAI != null) {
 
                 Move move = blackAI.calcNextStep(gameBean.getGameField(), Field.BLACK);
@@ -216,5 +194,21 @@ public class ReversiController extends Observable {
         }
         setChanged();
         notifyObservers(new ErrorBean("Spielende: " + winner, ErrorDisplayType.POPUP));
+    }
+
+    private AI setAIStrenght(AIType aiType) {
+        AI ai;
+        if(aiType == AIType.AI_RANDOM) {
+            ai = new RandomAIImpl();
+        } else if (aiType == AIType.AI_GREEDY) {
+            ai = new GreedyAIImpl();
+        } else if (aiType == AIType.AI_MINMAX) {
+            ai = new MinMaxAIImpl();
+        } else if (aiType == AIType.AI_ALPHABETHA) {
+            ai = new AlphaBethaAIImpl();
+        } else {
+            ai = new AdaptivAIImpl();
+        }
+        return ai;
     }
 }

@@ -4,6 +4,7 @@ import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.controller.ReversiController;
+import at.aau.reversi.enums.AIType;
 import at.aau.reversi.enums.ErrorDisplayType;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
@@ -522,11 +523,11 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     }
 
     private void startSinglePlayer() {
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, false);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_RANDOM, AIType.AI_RANDOM, false);
     }
 
     private void startMultiPlayer() {
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, false);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, AIType.AI_RANDOM, AIType.AI_RANDOM, false);
     }
 
     private void handleClick(Move m) {
