@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Time: 21:39
  * To change this template use File | Settings | File Templates.
  */
-public class AbstractAIImpl {
+public abstract class AbstractAIImpl {
 
     GameLogicLocalImpl logic;
 

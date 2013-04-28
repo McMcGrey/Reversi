@@ -3,10 +3,7 @@ package at.aau.reversi.controller;
 import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
-import at.aau.reversi.enums.ErrorDisplayType;
-import at.aau.reversi.enums.Field;
-import at.aau.reversi.enums.Player;
-import at.aau.reversi.enums.PlayerType;
+import at.aau.reversi.enums.*;
 import at.aau.reversi.logic.*;
 
 import java.util.List;
@@ -20,6 +17,8 @@ public class ReversiController extends Observable {
     private GameLogic logic;
     private PlayerType playerTypeWhite;
     private PlayerType playerTypeBlack;
+    private AIType aiTypeWhite;
+    private AIType aiTypeBlack;
 
     public ReversiController() {
     }
@@ -40,12 +39,32 @@ public class ReversiController extends Observable {
         this.playerTypeWhite = playerTypeWhite;
 
         if (playerTypeWhite == PlayerType.AI) {
-            whiteAI = new RandomAIImpl();
+            if(aiTypeWhite == AIType.AI_RANDOM) {
+                whiteAI = new RandomAIImpl();
+            } else if (aiTypeWhite == AIType.AI_GREEDY) {
+                whiteAI = new GreedyAIImpl();
+            } else if (aiTypeWhite == AIType.AI_MINMAX) {
+                whiteAI = new MinMaxAIImpl();
+            } else if (aiTypeWhite == AIType.AI_ALPHABETHA) {
+                whiteAI = new AlphaBethaAIImpl();
+            } else {
+                whiteAI = new AdaptivAIImpl();
+            }
         }else{
             whiteAI = null;
         }
         if (playerTypeBlack == PlayerType.AI) {
-            blackAI = new RandomAIImpl();
+            if(aiTypeBlack == AIType.AI_RANDOM) {
+                blackAI = new RandomAIImpl();
+            } else if (aiTypeBlack == AIType.AI_GREEDY) {
+                blackAI = new GreedyAIImpl();
+            } else if (aiTypeBlack == AIType.AI_MINMAX) {
+                blackAI = new MinMaxAIImpl();
+            } else if (aiTypeBlack == AIType.AI_ALPHABETHA) {
+                blackAI = new AlphaBethaAIImpl();
+            } else {
+                blackAI = new AdaptivAIImpl();
+            }
         }else{
             blackAI = null;
         }

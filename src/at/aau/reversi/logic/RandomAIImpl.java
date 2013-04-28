@@ -35,7 +35,6 @@ public class RandomAIImpl extends AbstractAIImpl implements AI {
 
     public int getRandom(ArrayList<Move> array) {
         int randomMove = new Random().nextInt(array.size());
-        System.out.println(randomMove);
         return randomMove;
     }
 
