@@ -6,14 +6,12 @@ import at.aau.reversi.enums.Field;
 import java.util.ArrayList;
 
 /**
- * The WeakAII looks at all possible moves and takes the move which has the most own stones as result<br/>
+ * The GreedyAII looks at all possible moves and takes the move which has the most own stones as result<br/>
  * (Takes the move which "turns" the most stones)
  */
-public class WeakAIImpl implements AI {
+public class GreedyAIImpl extends AbstractAIImpl implements AI {
 
-    GameLogicLocalImpl logic;
-
-    public WeakAIImpl() {
+    public GreedyAIImpl() {
         logic = new GameLogicLocalImpl();
     }
 
@@ -22,15 +20,7 @@ public class WeakAIImpl implements AI {
 
         logic.setGameField(copyArray(gameField));
 
-        ArrayList<Move> validMoves = new ArrayList<Move>();
-        // Search for valid Moves
-        for (short xCoord = 0; xCoord < 8; xCoord++) {
-            for (short yCoord = 0; yCoord < 8; yCoord++) {
-                if (gameField[xCoord][yCoord].equals(Field.MAYBE)) {
-                    validMoves.add(new Move(xCoord, yCoord));
-                }
-            }
-        }
+        ArrayList<Move> validMoves = getMoves(gameField);
 
         // Search for best move
         Move best = null;
@@ -66,31 +56,6 @@ public class WeakAIImpl implements AI {
             }
         }
         return count;
-    }
-
-    private void printGameField(Field[][] gameField) {
-        //GameField
-        System.out.println("   | A | B | C | D | E | F | G | H ");
-        for (int xCoord = 0; xCoord <= 7; xCoord++) {
-            System.out.println("-----------------------------------");
-            System.out.print(" " + (xCoord + 1));
-            for (int yCoord = 0; yCoord <= 7; yCoord++) {
-                System.out.print(" | " + gameField[yCoord][xCoord]);
-            }
-            System.out.print("\r\n");
-        }
-    }
-
-    private Field[][] copyArray(Field[][] gameField) {
-
-        Field[][] copy = new Field[8][8];
-        for (int i = 0; i < 8; i++) {
-            for (int z = 0; z < 8; z++) {
-                copy[i][z] = gameField[i][z];
-            }
-        }
-
-        return copy;
     }
 
 }

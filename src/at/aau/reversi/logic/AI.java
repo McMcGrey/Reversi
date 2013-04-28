@@ -5,6 +5,6 @@ import at.aau.reversi.bean.Move;
 
 public interface AI {
 
-    public Move calcNextStep(Field[][] gameFields, Field white);
+    public Move calcNextStep(Field[][] gameField, Field white);
 
 }

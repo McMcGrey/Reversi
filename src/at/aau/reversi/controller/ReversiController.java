@@ -40,12 +40,12 @@ public class ReversiController extends Observable {
         this.playerTypeWhite = playerTypeWhite;
 
         if (playerTypeWhite == PlayerType.AI) {
-            whiteAI = new WeakAIImpl();
+            whiteAI = new RandomAIImpl();
         }else{
             whiteAI = null;
         }
         if (playerTypeBlack == PlayerType.AI) {
-            blackAI = new WeakAIImpl();
+            blackAI = new RandomAIImpl();
         }else{
             blackAI = null;
         }
