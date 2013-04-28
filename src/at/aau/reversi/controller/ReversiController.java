@@ -39,7 +39,7 @@ public class ReversiController extends Observable {
         this.playerTypeWhite = playerTypeWhite;
 
         if (playerTypeWhite == PlayerType.AI) {
-            if(aiTypeWhite == AIType.AI_RANDOM) {
+            /*if(aiTypeWhite == AIType.AI_RANDOM) {
                 whiteAI = new RandomAIImpl();
             } else if (aiTypeWhite == AIType.AI_GREEDY) {
                 whiteAI = new GreedyAIImpl();
@@ -49,12 +49,13 @@ public class ReversiController extends Observable {
                 whiteAI = new AlphaBethaAIImpl();
             } else {
                 whiteAI = new AdaptivAIImpl();
-            }
+            }*/
+            whiteAI = new RandomAIImpl();
         }else{
             whiteAI = null;
         }
         if (playerTypeBlack == PlayerType.AI) {
-            if(aiTypeBlack == AIType.AI_RANDOM) {
+            /*if(aiTypeBlack == AIType.AI_RANDOM) {
                 blackAI = new RandomAIImpl();
             } else if (aiTypeBlack == AIType.AI_GREEDY) {
                 blackAI = new GreedyAIImpl();
@@ -64,7 +65,8 @@ public class ReversiController extends Observable {
                 blackAI = new AlphaBethaAIImpl();
             } else {
                 blackAI = new AdaptivAIImpl();
-            }
+            }*/
+            blackAI = new RandomAIImpl();
         }else{
             blackAI = null;
         }
