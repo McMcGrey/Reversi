@@ -899,6 +899,9 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
 
         // SPIELFELD ENDE
+        JIpTextField ipTextField = new JIpTextField(JIpTextField.IPVersion.IPV4);
+        play_site.add(ipTextField);
+        ipTextField.setBounds(20,20,100,20);
 
 
     }
