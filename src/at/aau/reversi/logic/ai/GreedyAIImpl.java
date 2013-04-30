@@ -1,7 +1,8 @@
-package at.aau.reversi.logic;
+package at.aau.reversi.logic.ai;
 
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
+import at.aau.reversi.logic.GameLogicLocalImpl;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class GreedyAIImpl extends AbstractAIImpl implements AI {
     }
 
     @Override
-    public Move calcNextStep(Field[][] gameField, Field color) {
+    public Move calcNextStep(Field[][] gameField, Field color, int iterations) {
 
         // Delay bevor AI spielt
         try {
@@ -46,21 +47,6 @@ public class GreedyAIImpl extends AbstractAIImpl implements AI {
         }
 
         return best;
-    }
-
-    private int countFields(Field[][] gameField, Field color) {
-        //todo: move countFields to better place
-        int count = 0;
-        for (short i = 0; i < 8; i++) {
-            for (short z = 0; z < 8; z++) {
-
-                if (gameField[i][z].equals(color)) {
-                    count++;
-                }
-
-            }
-        }
-        return count;
     }
 
 }

@@ -1,7 +1,8 @@
-package at.aau.reversi.logic;
+package at.aau.reversi.logic.ai;
 
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
+import at.aau.reversi.logic.GameLogicLocalImpl;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,7 +27,7 @@ public class RandomAIImpl extends AbstractAIImpl implements AI {
     }
 
     @Override
-    public Move calcNextStep(Field[][] gameField, Field white) {
+    public Move calcNextStep(Field[][] gameField, Field color, int iterations) {
 
         // Delay bevor AI spielt
         try {

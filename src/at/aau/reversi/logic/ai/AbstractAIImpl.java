@@ -1,7 +1,8 @@
-package at.aau.reversi.logic;
+package at.aau.reversi.logic.ai;
 
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.Field;
+import at.aau.reversi.logic.GameLogicLocalImpl;
 
 import java.util.ArrayList;
 
@@ -56,5 +57,19 @@ public abstract class AbstractAIImpl {
         }
 
         return validMoves;
+    }
+
+    protected int countFields(Field[][] gameField, Field color) {
+        int count = 0;
+        for (short i = 0; i < 8; i++) {
+            for (short z = 0; z < 8; z++) {
+
+                if (gameField[i][z].equals(color)) {
+                    count++;
+                }
+
+            }
+        }
+        return count;
     }
 }

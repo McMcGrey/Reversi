@@ -5,6 +5,7 @@ import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.*;
 import at.aau.reversi.logic.*;
+import at.aau.reversi.logic.ai.*;
 
 import java.util.List;
 import java.util.Observable;
@@ -157,14 +158,14 @@ public class ReversiController extends Observable {
         if (gameBean.getCurrentPlayer().equals(Player.WHITE)) {
             if (whiteAI != null) {
 
-                Move move = whiteAI.calcNextStep(gameBean.getGameField(), Field.WHITE);
+                Move move = whiteAI.calcNextStep(gameBean.getGameField(), Field.WHITE, 10);
                 applyMove(move.getxCoord(), move.getyCoord(), Field.WHITE);
 
             }
         } else if (gameBean.getCurrentPlayer().equals(Player.BLACK)) {
             if (blackAI != null) {
 
-                Move move = blackAI.calcNextStep(gameBean.getGameField(), Field.BLACK);
+                Move move = blackAI.calcNextStep(gameBean.getGameField(), Field.BLACK, 10);
                 applyMove(move.getxCoord(), move.getyCoord(), Field.BLACK);
 
             }
