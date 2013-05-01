@@ -31,17 +31,19 @@ public class MinMaxAIImpl extends AbstractAIImpl implements AI {
         int result = 0;
         Move bestMove = validMoves.get(0);
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         for (Move move : validMoves) {
             logic.setGameField(copyArray(gameField));
             logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
             if (!logic.possibleMoves(oponent)) {
                 return move;
             }
-            placeholder = calcOponentMove(gameField, color, oponent);
-            for (int i = 2; i <= iterations; i++){
-                placeholder = calcMove(gameField, color, oponent);
-
-            }
+            placeholder = calcOponentMove(gameField, color, oponent, iterations - 1);
             if (placeholder > result) {
                 bestMove = move;
             }
@@ -49,18 +51,37 @@ public class MinMaxAIImpl extends AbstractAIImpl implements AI {
         return bestMove;
     }
 
-    private int calcOponentMove(Field[][] gameField, Field color, Field oponent) {
+    private int calcOponentMove(Field[][] gameField, Field color, Field oponent, int iterations) {
 
         ArrayList<Integer> results = new ArrayList<Integer>();
+        ArrayList<Integer> innerResults;
         ArrayList<Move> validMovesOponent;
         int counter = 100;
+        int innerCounter;
 
         if (!logic.possibleMoves(oponent)) {
             return countFields(gameField, color);
         }
         validMovesOponent = getMoves(gameField);
         for (Move moveOponent : validMovesOponent) {
-            results.add(countFields(logic.calcNewGameField(moveOponent.getxCoord(), moveOponent.getyCoord(), oponent), color));
+            if (iterations == 0) {
+                results.add(countFields(logic.calcNewGameField(moveOponent.getxCoord(), moveOponent.getyCoord(), oponent), color));
+            } else {
+                innerCounter = 100;
+                innerResults = new ArrayList<Integer>();
+                logic.possibleMoves(color);
+                validMoves = getMoves(gameField);
+                for (Move move : validMoves) {
+                    logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
+                    innerResults.add(calcOponentMove(gameField, color, oponent, iterations - 1));
+                }
+
+                for (Integer res : innerResults) {
+                    if (res < innerCounter) {
+                        innerCounter = res;
+                    }
+                }
+            }
         }
         for (Integer res : results) {
             if (res < counter) {
@@ -71,26 +92,26 @@ public class MinMaxAIImpl extends AbstractAIImpl implements AI {
         return counter;
     }
 
-    private int calcMove(Field[][] gameField, Field color, Field oponent) {
+    /*private int calcMove(Field[][] gameField, Field color, Field oponent, int iterations) {
 
-        ArrayList<Integer> results = new ArrayList<Integer>();
-        int counter = 100;
+        ArrayList<Integer> innerResukts = new ArrayList<Integer>();
+        int innerCounter = 100;
 
         logic.possibleMoves(color);
         validMoves = getMoves(gameField);
-        for (Move moveOponent : validMoves) {
-            logic.calcNewGameField(moveOponent.getxCoord(), moveOponent.getyCoord(), color);
-            results.add(calcOponentMove(gameField, color , oponent));
+        for (Move move : validMoves) {
+            logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
+            innerResukts.add(calcOponentMove(gameField, color, oponent, iterations));
         }
 
-        for (Integer res : results) {
-            if (res < counter) {
-                counter = res;
+        for (Integer res : innerResukts) {
+            if (res < innerCounter) {
+                innerCounter = res;
             }
         }
 
-        return counter;
+        return innerCounter;
 
-    }
+    }*/
 
 }

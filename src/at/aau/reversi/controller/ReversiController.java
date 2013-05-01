@@ -158,14 +158,14 @@ public class ReversiController extends Observable {
         if (gameBean.getCurrentPlayer().equals(Player.WHITE)) {
             if (whiteAI != null) {
 
-                Move move = whiteAI.calcNextStep(gameBean.getGameField(), Field.WHITE, 2);
+                Move move = whiteAI.calcNextStep(gameBean.getGameField(), Field.WHITE, 3);
                 applyMove(move.getxCoord(), move.getyCoord(), Field.WHITE);
 
             }
         } else if (gameBean.getCurrentPlayer().equals(Player.BLACK)) {
             if (blackAI != null) {
 
-                Move move = blackAI.calcNextStep(gameBean.getGameField(), Field.BLACK, 2);
+                Move move = blackAI.calcNextStep(gameBean.getGameField(), Field.BLACK, 3);
                 applyMove(move.getxCoord(), move.getyCoord(), Field.BLACK);
 
             }
