@@ -92,26 +92,4 @@ public class MinMaxAIImpl extends AbstractAIImpl implements AI {
         return counter;
     }
 
-    /*private int calcMove(Field[][] gameField, Field color, Field oponent, int iterations) {
-
-        ArrayList<Integer> innerResukts = new ArrayList<Integer>();
-        int innerCounter = 100;
-
-        logic.possibleMoves(color);
-        validMoves = getMoves(gameField);
-        for (Move move : validMoves) {
-            logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
-            innerResukts.add(calcOponentMove(gameField, color, oponent, iterations));
-        }
-
-        for (Integer res : innerResukts) {
-            if (res < innerCounter) {
-                innerCounter = res;
-            }
-        }
-
-        return innerCounter;
-
-    }*/
-
 }
