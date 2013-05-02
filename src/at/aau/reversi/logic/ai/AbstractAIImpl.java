@@ -44,6 +44,7 @@ public abstract class AbstractAIImpl {
 
     protected ArrayList<Move> getMoves(Field[][] gameField) {
 
+
         logic.setGameField(copyArray(gameField));
 
         ArrayList<Move> validMoves = new ArrayList<Move>();

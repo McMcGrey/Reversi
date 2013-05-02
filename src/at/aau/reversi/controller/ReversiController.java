@@ -201,6 +201,8 @@ public class ReversiController extends Observable {
             ai = new MinMaxAIImpl();
         } else if (aiType == AIType.AI_ALPHABETHA) {
             ai = new AlphaBethaAIImpl();
+        } else if (aiType == AIType.AI_REGION) {
+            ai = new RegionAIImpl();
         } else {
             ai = new AdaptivAIImpl();
         }
