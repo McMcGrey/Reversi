@@ -45,6 +45,7 @@ public class MinMaxAIImpl extends AbstractAIImpl implements AI {
             }
             placeholder = calcOponentMove(gameField, color, oponent, iterations - 1);
             if (placeholder > result) {
+                result = placeholder;
                 bestMove = move;
             }
         }

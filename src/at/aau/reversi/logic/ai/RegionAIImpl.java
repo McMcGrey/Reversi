@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class RegionAIImpl extends AbstractAIImpl implements AI {
 
     private ArrayList<Move> validMoves;
-    private int cornerBias = 15;
+    private int cornerBias = 10;
     private int edgeBias = 5;
-    private int region4Bias = -15;
+    private int region4Bias = -5;
 
     public RegionAIImpl() {
         logic = new GameLogicLocalImpl();
@@ -46,13 +46,11 @@ public class RegionAIImpl extends AbstractAIImpl implements AI {
                 return move;
             }
             placeholder = weightMove(move, calcOponentMove(gameField, color, oponent, iterations - 1));
-            System.out.println(move.getxCoord() + ", " + move.getyCoord() + "; " + placeholder);
             if (placeholder > result) {
+                result = placeholder;
                 bestMove = move;
-                System.out.println("Taken");
             }
         }
-        System.out.println("---------------------");
         return bestMove;
     }
 
