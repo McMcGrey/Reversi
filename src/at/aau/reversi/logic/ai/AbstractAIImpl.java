@@ -15,7 +15,12 @@ import java.util.ArrayList;
  */
 public abstract class AbstractAIImpl {
 
-    GameLogicLocalImpl logic;
+    protected Move bestMove = null;
+    protected GameLogicLocalImpl logic;
+    protected ArrayList<Move> validMoves;
+    protected int cornerBias = 10;
+    protected int edgeBias = 5;
+    protected int region4Bias = -5;
 
     protected Field[][] copyArray(Field[][] gameField) {
 
@@ -73,4 +78,72 @@ public abstract class AbstractAIImpl {
         }
         return count;
     }
+
+    protected int weightMove (Move move, int placeholder) {
+        if ((move.getxCoord() == 0 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 0 && move.getyCoord() == 7) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 7)) {
+            placeholder = placeholder + cornerBias;
+        } else if ((move.getxCoord() == 0 && move.getyCoord() == 1) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 1) ||
+                (move.getxCoord() == 0 && move.getyCoord() == 6) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 6) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 7) ||
+                (move.getxCoord() == 6 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 6 && move.getyCoord() == 1) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 1) ||
+                (move.getxCoord() == 6 && move.getyCoord() == 6) ||
+                (move.getxCoord() == 6 && move.getyCoord() == 7) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 6)) {
+            placeholder = placeholder + region4Bias;
+        } else if (move.getxCoord() == 0 || move.getxCoord() == 7 ||
+                move.getyCoord() == 0 || move.getyCoord() == 7) {
+            placeholder = placeholder + edgeBias;
+        }
+        return placeholder;
+    }
+
+    protected int calcOponentMove(Field[][] gameField, Field color, Field oponent, int iterations) {
+
+        ArrayList<Integer> results = new ArrayList<Integer>();
+        ArrayList<Integer> innerResults;
+        ArrayList<Move> validMovesOponent;
+        int counter = 100;
+        int innerCounter;
+
+        if (!logic.possibleMoves(oponent)) {
+            return countFields(gameField, color);
+        }
+        validMovesOponent = getMoves(gameField);
+        for (Move moveOponent : validMovesOponent) {
+            if (iterations == 0) {
+                results.add(countFields(logic.calcNewGameField(moveOponent.getxCoord(), moveOponent.getyCoord(), oponent), color));
+            } else {
+                innerCounter = 100;
+                innerResults = new ArrayList<Integer>();
+                logic.possibleMoves(color);
+                validMoves = getMoves(gameField);
+                for (Move move : validMoves) {
+                    logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
+                    innerResults.add(calcOponentMove(gameField, color, oponent, iterations - 1));
+                }
+
+                for (Integer res : innerResults) {
+                    if (res < innerCounter) {
+                        innerCounter = res;
+                    }
+                }
+            }
+        }
+        for (Integer res : results) {
+            if (res < counter) {
+                counter = res;
+            }
+        }
+
+        return counter;
+    }
+
 }

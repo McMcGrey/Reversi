@@ -28,25 +28,25 @@ public class GreedyAIImpl extends AbstractAIImpl implements AI {
 
         ArrayList<Move> validMoves = getMoves(gameField);
 
-        // Search for best move
-        Move best = null;
+        // Search for bestMove move
+        Move bestMove = null;
         int bestCount = 0;
         for (Move move : validMoves) {
-            if (best == null) {
-                best = move;
+            if (bestMove == null) {
+                bestMove = move;
                 logic.setGameField(copyArray(gameField));
-                bestCount = countFields(logic.calcNewGameField(best.getxCoord(), best.getyCoord(), color), color);
+                bestCount = countFields(logic.calcNewGameField(bestMove.getxCoord(), bestMove.getyCoord(), color), color);
             } else {
                 logic.setGameField(copyArray(gameField));
                 int tempCnt = countFields(logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color), color);
                 if (tempCnt > bestCount) {
                     bestCount = tempCnt;
-                    best = move;
+                    bestMove = move;
                 }
             }
         }
 
-        return best;
+        return bestMove;
     }
 
 }
