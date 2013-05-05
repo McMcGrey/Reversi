@@ -105,6 +105,13 @@ public abstract class AbstractAIImpl {
         return placeholder;
     }
 
+    protected int getOponetPossibilities (Field[][] gameField, Move move, Field color, Field oponent) {
+        logic.setGameField(copyArray(gameField));
+        logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
+        logic.possibleMoves(oponent);
+        return getMoves(gameField).size();
+    }
+
     protected int calcOponentMove(Field[][] gameField, Field color, Field oponent, int iterations) {
 
         ArrayList<Integer> results = new ArrayList<Integer>();
@@ -135,6 +142,7 @@ public abstract class AbstractAIImpl {
                         innerCounter = res;
                     }
                 }
+                results.add(innerCounter);
             }
         }
         for (Integer res : results) {

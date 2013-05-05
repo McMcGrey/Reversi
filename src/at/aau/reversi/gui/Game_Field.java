@@ -523,7 +523,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     }
 
     private void startSinglePlayer() {
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_GREEDY, AIType.AI_REGION, false);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_GREEDY, AIType.AI_FROMTIERS, false);
     }
 
     private void startMultiPlayer() {

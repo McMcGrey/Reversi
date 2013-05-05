@@ -21,9 +21,9 @@ public enum AIType {
      */
     AI_MINMAX,
     /**
-     * AlphaBetha AI
+     * Frontiers AI
      */
-    AI_ALPHABETHA,
+    AI_FROMTIERS,
     /**
      * Regoin AI
      */

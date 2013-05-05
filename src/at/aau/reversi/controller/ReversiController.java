@@ -199,8 +199,8 @@ public class ReversiController extends Observable {
             ai = new GreedyAIImpl();
         } else if (aiType == AIType.AI_MINMAX) {
             ai = new MinMaxAIImpl();
-        } else if (aiType == AIType.AI_ALPHABETHA) {
-            ai = new AlphaBethaAIImpl();
+        } else if (aiType == AIType.AI_FROMTIERS) {
+            ai = new Frontiers();
         } else if (aiType == AIType.AI_REGION) {
             ai = new RegionAIImpl();
         } else {

@@ -10,12 +10,12 @@ import java.util.ArrayList;
  * Created with IntelliJ IDEA.
  * User: arne
  * Date: 28.04.13
- * Time: 22:10
+ * Time: 22:11
  * To change this template use File | Settings | File Templates.
  */
-public class MinMaxAIImpl extends AbstractAIImpl implements AI {
+public class Frontiers extends AbstractAIImpl implements AI {
 
-    public MinMaxAIImpl() {
+    public Frontiers() {
         logic = new GameLogicLocalImpl();
     }
 
@@ -24,7 +24,6 @@ public class MinMaxAIImpl extends AbstractAIImpl implements AI {
         Field oponent = (color.equals(Field.WHITE) ? Field.BLACK : Field.WHITE);
         validMoves = getMoves(gameField);
 
-
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -32,8 +31,6 @@ public class MinMaxAIImpl extends AbstractAIImpl implements AI {
         }
 
         bestMove = getNextMove(gameField, color, oponent, iterations);
-
-
         return bestMove;
     }
 
@@ -46,13 +43,20 @@ public class MinMaxAIImpl extends AbstractAIImpl implements AI {
         for (Move move : validMoves) {
             logic.setGameField(copyArray(gameField));
             logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
-
-            placeholder = calcOponentMove(gameField, color, oponent, iterations - 1);
+            if (!logic.possibleMoves(oponent)) {
+                return move;
+            }
+            placeholder = weightMove(move, calcOponentMove(gameField, color, oponent, iterations - 1));
             if (placeholder > result) {
                 result = placeholder;
                 bestMove = move;
+            } else if (placeholder == result) {
+                if (getOponetPossibilities(gameField, bestMove, color, oponent) > getOponetPossibilities(gameField, move, oponent, color)) {
+                    bestMove = move;
+                }
             }
         }
         return  bestMove;
     }
+
 }

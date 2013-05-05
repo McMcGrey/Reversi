@@ -31,11 +31,10 @@ public class RegionAIImpl extends AbstractAIImpl implements AI {
         }
 
         bestMove = getNextMove(gameField, color, oponent, iterations);
-        System.out.println("-----");
         return bestMove;
     }
 
-    protected Move getNextMove(Field[][] gameField, Field color, Field oponent, int iterations) {
+    private Move getNextMove(Field[][] gameField, Field color, Field oponent, int iterations) {
         ArrayList<Integer> results = new ArrayList<Integer>();
         int placeholder;
         int result = 0;
@@ -49,11 +48,9 @@ public class RegionAIImpl extends AbstractAIImpl implements AI {
             }
 
             placeholder = weightMove(move, calcOponentMove(gameField, color, oponent, iterations - 1));
-            System.out.println(move.getxCoord() + ", " + move.getyCoord() + "; " + placeholder);
             if (placeholder > result) {
                 result = placeholder;
                 bestMove = move;
-                System.out.println("Taken");
             }
         }
         return  bestMove;
