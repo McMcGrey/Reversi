@@ -18,9 +18,9 @@ public abstract class AbstractAIImpl {
     protected Move bestMove = null;
     protected GameLogicLocalImpl logic;
     protected ArrayList<Move> validMoves;
-    private final int cornerBias = 10;
-    private final int edgeBias = 5;
-    private final int region4Bias = -10;
+    final int cornerBias = 10;
+    final int edgeBias = 5;
+    final int region4Bias = -10;
     private final int X_WAY[] = {-1, -1, -1, 0, 1, 1, 1, 0};
     private final int Y_WAY[] = {-1, 0, 1, 1, 1, 0, -1, -1};
 
@@ -114,17 +114,17 @@ public abstract class AbstractAIImpl {
         return getMoves(gameField).size();
     }
 
-    protected int isStabel (Field[][] gameField, Move move, Field color, Field oponent, int placeholder) {
+    protected boolean isStabel (Field[][] gameField, Move move, Field color, Field oponent) {
         ArrayList<Boolean> stabels = new ArrayList<Boolean>();
         for (int w = 0; w <= 7; w++) {
             stabels.add(checkStabel(gameField, move.getxCoord() + X_WAY[w], move.getyCoord() + Y_WAY[w], color, oponent, w));
         }
         for (int w = 0; w <= 3; w++) {
             if (stabels.get(w).equals(false) && stabels.get(w + 4).equals(false)){
-                return placeholder;
+                return false;
             }
         }
-        return placeholder + edgeBias;
+        return true;
     }
     private boolean checkStabel (Field[][] gameField, int xCoord, int yCoord, Field color, Field oponent, int w) {
         if (!logic.inGamefield(xCoord, yCoord)) {

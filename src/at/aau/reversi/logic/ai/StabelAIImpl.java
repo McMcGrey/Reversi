@@ -45,7 +45,7 @@ public class StabelAIImpl extends AbstractAIImpl implements AI {
             if (!logic.possibleMoves(oponent)) {
                 return move;
             }
-            placeholder = isStabel(gameField, move, color, oponent,weightMove(gameField, move, calcOponentMove(gameField, color, oponent, iterations - 1), color));
+            placeholder = weightMove(gameField, move, calcOponentMove(gameField, color, oponent, iterations - 1), color, oponent);
             if (placeholder > result) {
                 result = placeholder;
                 bestMove = move;
@@ -56,5 +56,37 @@ public class StabelAIImpl extends AbstractAIImpl implements AI {
             }
         }
         return  bestMove;
+    }
+
+    protected int weightMove (Field[][] gameField, Move move, int placeholder, Field color, Field oponent) {
+        if ((move.getxCoord() == 0 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 0 && move.getyCoord() == 7) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 7)) {
+            placeholder = placeholder + cornerBias;
+        } else if (!isStabel(gameField, move, color, oponent) &&
+                ((move.getxCoord() == 0 && move.getyCoord() == 1) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 1) ||
+                (move.getxCoord() == 0 && move.getyCoord() == 6) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 6) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 7) ||
+                (move.getxCoord() == 6 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 6 && move.getyCoord() == 1) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 1) ||
+                (move.getxCoord() == 6 && move.getyCoord() == 6) ||
+                (move.getxCoord() == 6 && move.getyCoord() == 7) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 6)))  {
+            placeholder = placeholder + region4Bias;
+        } else if (!isStabel(gameField, move, color, oponent) && (
+                move.getxCoord() == 0 || move.getxCoord() == 7 ||
+                move.getyCoord() == 0 || move.getyCoord() == 7)) {
+            placeholder = placeholder + cornerBias;
+        } else if (move.getxCoord() == 0 || move.getxCoord() == 7 || move.getyCoord() == 0 || move.getyCoord() == 7 ||
+                isStabel(gameField, move, color, oponent)) {
+            placeholder = placeholder + edgeBias;
+        }
+
+        return placeholder;
     }
 }
