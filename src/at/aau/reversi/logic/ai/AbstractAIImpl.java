@@ -124,7 +124,7 @@ public abstract class AbstractAIImpl {
                 return placeholder;
             }
         }
-        return placeholder + cornerBias;
+        return placeholder + edgeBias;
     }
     private boolean checkStabel (Field[][] gameField, int xCoord, int yCoord, Field color, Field oponent, int w) {
         if (!logic.inGamefield(xCoord, yCoord)) {
