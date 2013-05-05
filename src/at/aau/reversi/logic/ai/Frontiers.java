@@ -46,7 +46,7 @@ public class Frontiers extends AbstractAIImpl implements AI {
             if (!logic.possibleMoves(oponent)) {
                 return move;
             }
-            placeholder = weightMove(move, calcOponentMove(gameField, color, oponent, iterations - 1));
+            placeholder = weightMove(gameField, move, calcOponentMove(gameField, color, oponent, iterations - 1), color);
             if (placeholder > result) {
                 result = placeholder;
                 bestMove = move;

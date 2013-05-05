@@ -20,7 +20,8 @@ public abstract class AbstractAIImpl {
     protected ArrayList<Move> validMoves;
     protected int cornerBias = 10;
     protected int edgeBias = 5;
-    protected int region4Bias = -5;
+    protected int semiEdgeBias = -5;
+    protected int region4Bias = -10;
 
     protected Field[][] copyArray(Field[][] gameField) {
 
@@ -79,24 +80,24 @@ public abstract class AbstractAIImpl {
         return count;
     }
 
-    protected int weightMove (Move move, int placeholder) {
+    protected int weightMove (Field[][] gameField, Move move, int placeholder, Field color) {
         if ((move.getxCoord() == 0 && move.getyCoord() == 0) ||
                 (move.getxCoord() == 0 && move.getyCoord() == 7) ||
                 (move.getxCoord() == 7 && move.getyCoord() == 0) ||
                 (move.getxCoord() == 7 && move.getyCoord() == 7)) {
             placeholder = placeholder + cornerBias;
-        } else if ((move.getxCoord() == 0 && move.getyCoord() == 1) ||
+        } else if (((move.getxCoord() == 0 && move.getyCoord() == 1) ||
                 (move.getxCoord() == 1 && move.getyCoord() == 0) ||
-                (move.getxCoord() == 1 && move.getyCoord() == 1) ||
-                (move.getxCoord() == 0 && move.getyCoord() == 6) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 1)) && !gameField[0][0].equals(color) ||
+                ((move.getxCoord() == 0 && move.getyCoord() == 6) ||
                 (move.getxCoord() == 1 && move.getyCoord() == 6) ||
-                (move.getxCoord() == 1 && move.getyCoord() == 7) ||
-                (move.getxCoord() == 6 && move.getyCoord() == 0) ||
+                (move.getxCoord() == 1 && move.getyCoord() == 7)) && !gameField[0][7].equals(color) ||
+                ((move.getxCoord() == 6 && move.getyCoord() == 0) ||
                 (move.getxCoord() == 6 && move.getyCoord() == 1) ||
-                (move.getxCoord() == 7 && move.getyCoord() == 1) ||
-                (move.getxCoord() == 6 && move.getyCoord() == 6) ||
+                (move.getxCoord() == 7 && move.getyCoord() == 1)) && !gameField[7][0].equals(color) ||
+                ((move.getxCoord() == 6 && move.getyCoord() == 6) ||
                 (move.getxCoord() == 6 && move.getyCoord() == 7) ||
-                (move.getxCoord() == 7 && move.getyCoord() == 6)) {
+                (move.getxCoord() == 7 && move.getyCoord() == 6)) && !gameField[7][7].equals(color)) {
             placeholder = placeholder + region4Bias;
         } else if (move.getxCoord() == 0 || move.getxCoord() == 7 ||
                 move.getyCoord() == 0 || move.getyCoord() == 7) {
