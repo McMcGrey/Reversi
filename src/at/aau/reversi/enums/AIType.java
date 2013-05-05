@@ -29,6 +29,10 @@ public enum AIType {
      */
     AI_REGION,
     /**
+     * Stabel AI
+     */
+    AI_STABEL,
+    /**
      * Adativ AI
      */
     AI_ADAPTIV;

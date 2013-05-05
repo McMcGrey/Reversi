@@ -18,10 +18,11 @@ public abstract class AbstractAIImpl {
     protected Move bestMove = null;
     protected GameLogicLocalImpl logic;
     protected ArrayList<Move> validMoves;
-    protected int cornerBias = 10;
-    protected int edgeBias = 5;
-    protected int semiEdgeBias = -5;
-    protected int region4Bias = -10;
+    private final int cornerBias = 10;
+    private final int edgeBias = 5;
+    private final int region4Bias = -10;
+    private final int X_WAY[] = {-1, -1, -1, 0, 1, 1, 1, 0};
+    private final int Y_WAY[] = {-1, 0, 1, 1, 1, 0, -1, -1};
 
     protected Field[][] copyArray(Field[][] gameField) {
 
@@ -111,6 +112,28 @@ public abstract class AbstractAIImpl {
         logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
         logic.possibleMoves(oponent);
         return getMoves(gameField).size();
+    }
+
+    protected int isStabel (Field[][] gameField, Move move, Field color, Field oponent, int placeholder) {
+        ArrayList<Boolean> stabels = new ArrayList<Boolean>();
+        for (int w = 0; w <= 7; w++) {
+            stabels.add(checkStabel(gameField, move.getxCoord() + X_WAY[w], move.getyCoord() + Y_WAY[w], color, oponent, w));
+        }
+        for (int w = 0; w <= 3; w++) {
+            if (stabels.get(w).equals(false) && stabels.get(w + 4).equals(false)){
+                return placeholder;
+            }
+        }
+        return placeholder + cornerBias;
+    }
+    private boolean checkStabel (Field[][] gameField, int xCoord, int yCoord, Field color, Field oponent, int w) {
+        if (!logic.inGamefield(xCoord, yCoord)) {
+            return true;
+        } else if (gameField[xCoord][yCoord].equals(oponent) || gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.EMPTY)) {
+            return false;
+        } else {
+            return checkStabel(gameField, xCoord + X_WAY[w], yCoord + Y_WAY[w], color, oponent, w);
+        }
     }
 
     protected int calcOponentMove(Field[][] gameField, Field color, Field oponent, int iterations) {

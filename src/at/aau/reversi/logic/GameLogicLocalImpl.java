@@ -58,9 +58,9 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
      * @param yCoord Spalte
      * @return true/false
      */
-    private boolean inGamefield(int xCoord, int yCoord) {
+     public boolean inGamefield(int xCoord, int yCoord) {
         return (xCoord >= 0 && xCoord < 8 && yCoord >= 0 && yCoord < 8);
-    }
+     }
 
     /**
      * Ueberprueft, ob angrenzendes Feld gueltig ist,
