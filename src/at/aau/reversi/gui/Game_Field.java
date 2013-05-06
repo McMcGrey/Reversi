@@ -9,6 +9,7 @@ import at.aau.reversi.enums.ErrorDisplayType;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -16,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class Game_Field extends JFrame implements Observer, Runnable {
@@ -23,6 +26,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private JTextField numw;
     private JTextField numb;
     private JTextField rule_output;
+    private JLabel Backgroundfield;
     private JLabel Background;
     private JFrame frame;
     private Draw_Game_Field gameFieldPanel;
@@ -30,6 +34,24 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private GameBean gameBean;
     private Stack eventStack = new Stack();
     private boolean isRunning = true;
+    private JTextField txtA;
+    private JTextField txtB;
+    private JTextField txtC;
+    private JTextField txtD;
+    private JTextField txtE;
+    private JTextField txtF;
+    private JTextField txtG;
+    private JTextField txtH;
+    private JTextField textField;
+    private JTextField textField_1;
+    private JTextField textField_2;
+    private JTextField textField_3;
+    private JTextField textField_4;
+    private JTextField textField_5;
+    private JTextField textField_6;
+    private JTextField textField_7;
+    //private AIType AIwhite = AIType.AI_GREEDY;
+    private AIType aiBlack = AIType.AI_GREEDY;
 
     /**
      * Launch the application.
@@ -82,6 +104,12 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
         frame = new JFrame();
         frame.setTitle(" Reversi ");
+        try {
+            frame.setIconImage(ImageIO.read(new File("src/at/aau/reversi/gui/images/JframeIcon.png")));
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(0, 0, 690, 560);
         frame.setResizable(false);
@@ -132,10 +160,73 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         mnKi.setHorizontalAlignment(SwingConstants.RIGHT);
         menuBar.add(mnKi);
 
+
+        JMenuItem mntmStufe1 = new JMenuItem("Stufe 1 Random");
+        mntmStufe1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                aiBlack = AIType.AI_RANDOM;
+                eventStack.push(new ErrorBean("Schwierigkeit auf Random gesetzt", ErrorDisplayType.INLINE));
+
+            }
+        });
+        mnKi.add(mntmStufe1);
+
+        JMenuItem mntmStufe2 = new JMenuItem("Stufe 2 Greedy");
+        mntmStufe2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                aiBlack = AIType.AI_GREEDY;
+                eventStack.push(new ErrorBean("Schwierigkeit auf Greedy gesetzt", ErrorDisplayType.INLINE));
+
+            }
+        });
+        mnKi.add(mntmStufe2);
+
+        JMenuItem mntmStufe3 = new JMenuItem("Stufe 3 MinMax");
+        mntmStufe3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+
+
+            }
+        });
+        mnKi.add(mntmStufe3);
+
+        JMenuItem mntmStufe4 = new JMenuItem("Stufe 4 AlphaBeta");
+        mntmStufe4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+
+
+            }
+        });
+        mnKi.add(mntmStufe4);
+
+        JMenuItem mntmStufe5 = new JMenuItem("Stufe 5 Strategy");
+        mntmStufe5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+
+
+            }
+        });
+        mnKi.add(mntmStufe5);
+
+        JMenuItem mntmStufe6 = new JMenuItem("Stufe 6 Adaptiv");
+        mntmStufe6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+
+
+            }
+        });
+        mnKi.add(mntmStufe6);
+
         JMenu mnHilfe = new JMenu("Hilfe");
         menuBar.add(mnHilfe);
 
-        // MEN�BAR ENDE
+        // MENUEBAR ENDE
 
 
         // STARTBILDSCHIRM ANFANG
@@ -182,7 +273,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         btnExit.setBounds(568, 465, 89, 23);
         start_site.add(btnExit);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
         Background.setForeground(Color.WHITE);
         Background.setBounds(0, 0, 700, 600);
         start_site.add(Background);
@@ -253,7 +344,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         btnBack.setBounds(10, 465, 89, 23);
         game_variation_site.add(btnBack);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
         Background.setBounds(0, 0, 700, 600);
         game_variation_site.add(Background);
 
@@ -286,7 +377,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         btnExit2.setBounds(568, 465, 89, 23);
         options.add(btnExit2);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
         Background.setBounds(0, 0, 700, 600);
         options.add(Background);
 
@@ -319,7 +410,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         btnExit3.setBounds(568, 465, 89, 23);
         rules.add(btnExit3);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Spielregeln.jpg"));
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Spielregeln.png"));
         Background.setBounds(0, -43, 700, 600);
         rules.add(Background);
 
@@ -338,8 +429,8 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
                 boolean lokal = true;
 
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
-                frame.setTitle("Spielfeld");
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Netzwerkauswahl");
+                frame.setTitle("Netzwerkauswahl");
 
             }
         });
@@ -382,11 +473,141 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         btnExit4.setBounds(568, 465, 89, 23);
         multiplayer_site.add(btnExit4);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
         Background.setBounds(0, 0, 700, 600);
         multiplayer_site.add(Background);
 
         // Auswahl des Multiplayer ENDE
+
+        // Netzwerkauswahl
+
+        JPanel NT_Site = new JPanel();
+        frame.getContentPane().add(NT_Site, "Netzwerkauswahl");
+        NT_Site.setLayout(null);
+
+        JButton Server = new JButton("Server");
+        Server.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Client Seite");
+                frame.setTitle("Server Seite");
+
+            }
+        });
+        Server.setBounds(193, 153, 288, 87);
+        NT_Site.add(Server);
+
+        JButton Client = new JButton("Client");
+        Client.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Client Seite");
+                frame.setTitle("Client Seite");
+
+
+
+            }
+        });
+
+        Client.setBounds(193, 276, 288, 87);
+        NT_Site.add(Client);
+
+
+
+        JButton btnBack_2 = new JButton("Back");
+        btnBack_2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Multiplayer Auswahl");
+                frame.setTitle("Spielauswahl");
+            }
+        });
+
+
+        btnBack_2.setBounds(10, 465, 89, 23);
+        NT_Site.add(btnBack_2);
+
+        JButton btnExit5 = new JButton("Exit");
+        btnExit5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit( 0 );
+            }
+        });
+        btnExit4.setBounds(568, 465, 89, 23);
+        NT_Site.add(btnExit4);
+
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
+        Background.setBounds(0, 0, 700, 600);
+        NT_Site.add(Background);
+
+        // Ende Netzwerkauswahl
+
+        //Server Seite
+
+        JPanel Server_Site = new JPanel();
+        frame.getContentPane().add(Server_Site, "Server Seite");
+        Server_Site.setLayout(null);
+
+        JButton btnBackS = new JButton("Back");
+        btnBackS.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Netzwerkauswahl");
+                frame.setTitle("Startseite");
+            }
+        });
+        btnBackS.setBounds(10, 465, 89, 23);
+        Server_Site.add(btnBackS);
+
+        JButton btnExit6 = new JButton("Exit");
+        btnExit6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit( 0 );
+            }
+        });
+        btnExit6.setBounds(568, 465, 89, 23);
+        Server_Site.add(btnExit6);
+
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
+        Background.setBounds(0, 0, 700, 600);
+        Server_Site.add(Background);
+
+
+
+        //Ende Server Seite
+
+        //CLient Seite
+
+        JPanel Client_Site = new JPanel();
+        frame.getContentPane().add(Client_Site, "Client Seite");
+        Client_Site.setLayout(null);
+
+        JButton btnBackC = new JButton("Back");
+        btnBackC.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Netzwerkauswahl");
+                frame.setTitle("Startseite");
+            }
+        });
+        btnBackC.setBounds(10, 465, 89, 23);
+        Client_Site.add(btnBackC);
+
+        JButton btnExit7 = new JButton("Exit");
+        btnExit7.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit( 0 );
+            }
+        });
+        btnExit7.setBounds(568, 465, 89, 23);
+        Client_Site.add(btnExit7);
+
+
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
+        Background.setBounds(0, 0, 700, 600);
+        Client_Site.add(Background);
+
+        // Ende Client Seite
 
         // SPIELFELD ANFANG
 
@@ -475,33 +696,202 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
         numw = new JTextField();
         numw.setEditable(false);
-        numw.setBounds(541, 77, 96, 30);
+        numw.setBounds(561, 77, 50, 30);
         play_site.add(numw);
         numw.setColumns(10);
+        numw.setOpaque(false);
+        numw.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        Font fontw = new Font("Verdana", Font.BOLD, 16);
+        numw.setFont(fontw);
+        numw.setForeground(Color.BLACK);
+        numw.setHorizontalAlignment(JTextField.CENTER);
 
         numb = new JTextField();
         numb.setEditable(false);
-        numb.setBounds(541, 196, 97, 30);
+        numb.setBounds(561, 196, 50, 30);
         play_site.add(numb);
         numb.setColumns(10);
+        numb.setOpaque(false);
+        numb.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        Font fontb = new Font("Verdana", Font.BOLD, 16);
+        numb.setFont(fontb);
+        numb.setForeground(Color.BLACK);
+        numb.setHorizontalAlignment(JTextField.CENTER);
+
 
         rule_output = new JTextField();
         rule_output.setEditable(false);
-        rule_output.setBounds(40, 471, 400, 27);
+        rule_output.setBounds(40, 481, 400, 27);
         play_site.add(rule_output);
         rule_output.setColumns(10);
 
-        JLabel white_stone = new JLabel("numb_image");
-        white_stone.setIcon(new ImageIcon("src/at/aau/reversi/gui/images/white.png"));
-        white_stone.setBounds(459, 67, 50, 50);
+        txtA = new JTextField();
+        txtA.setEditable(false);
+        txtA.setHorizontalAlignment(SwingConstants.CENTER);
+        txtA.setBorder(null);
+        txtA.setColumns(10);
+        txtA.setOpaque(false);
+        txtA.setText(" A");
+        txtA.setBounds(40, 42, 50, 20);
+        play_site.add(txtA);
+
+        txtB = new JTextField();
+        txtB.setEditable(false);
+        txtB.setText(" B");
+        txtB.setOpaque(false);
+        txtB.setHorizontalAlignment(SwingConstants.CENTER);
+        txtB.setColumns(10);
+        txtB.setBorder(null);
+        txtB.setBounds(89, 42, 50, 20);
+        play_site.add(txtB);
+
+        txtC = new JTextField();
+        txtC.setEditable(false);
+        txtC.setText(" C");
+        txtC.setOpaque(false);
+        txtC.setHorizontalAlignment(SwingConstants.CENTER);
+        txtC.setColumns(10);
+        txtC.setBorder(null);
+        txtC.setBounds(140, 42, 50, 20);
+        play_site.add(txtC);
+
+        txtD = new JTextField();
+        txtD.setEditable(false);
+        txtD.setText(" D");
+        txtD.setOpaque(false);
+        txtD.setHorizontalAlignment(SwingConstants.CENTER);
+        txtD.setColumns(10);
+        txtD.setBorder(null);
+        txtD.setBounds(191, 42, 50, 20);
+        play_site.add(txtD);
+
+        txtE = new JTextField();
+        txtE.setEditable(false);
+        txtE.setText(" E");
+        txtE.setOpaque(false);
+        txtE.setHorizontalAlignment(SwingConstants.CENTER);
+        txtE.setColumns(10);
+        txtE.setBorder(null);
+        txtE.setBounds(241, 42, 50, 20);
+        play_site.add(txtE);
+
+        txtF = new JTextField();
+        txtF.setEditable(false);
+        txtF.setText(" F");
+        txtF.setOpaque(false);
+        txtF.setHorizontalAlignment(SwingConstants.CENTER);
+        txtF.setColumns(10);
+        txtF.setBorder(null);
+        txtF.setBounds(290, 42, 50, 20);
+        play_site.add(txtF);
+
+        txtG = new JTextField();
+        txtG.setEditable(false);
+        txtG.setText(" G");
+        txtG.setOpaque(false);
+        txtG.setHorizontalAlignment(SwingConstants.CENTER);
+        txtG.setColumns(10);
+        txtG.setBorder(null);
+        txtG.setBounds(340, 42, 50, 20);
+        play_site.add(txtG);
+
+        txtH = new JTextField();
+        txtH.setEditable(false);
+        txtH.setText(" H");
+        txtH.setOpaque(false);
+        txtH.setHorizontalAlignment(SwingConstants.CENTER);
+        txtH.setColumns(10);
+        txtH.setBorder(null);
+        txtH.setBounds(390, 42, 50, 20);
+        play_site.add(txtH);
+
+        textField = new JTextField();
+        textField.setEditable(false);
+        textField.setBorder(null);
+        textField.setOpaque(false);
+        textField.setText("1");
+        textField.setBounds(30, 60, 20, 50);
+        play_site.add(textField);
+        textField.setColumns(10);
+
+        textField_1 = new JTextField();
+        textField_1.setEditable(false);
+        textField_1.setText("2");
+        textField_1.setOpaque(false);
+        textField_1.setColumns(10);
+        textField_1.setBorder(null);
+        textField_1.setBounds(30, 110, 20, 50);
+        play_site.add(textField_1);
+
+        textField_2 = new JTextField();
+        textField_2.setEditable(false);
+        textField_2.setText("3");
+        textField_2.setOpaque(false);
+        textField_2.setColumns(10);
+        textField_2.setBorder(null);
+        textField_2.setBounds(30, 161, 20, 50);
+        play_site.add(textField_2);
+
+        textField_3 = new JTextField();
+        textField_3.setEditable(false);
+        textField_3.setText("4");
+        textField_3.setOpaque(false);
+        textField_3.setColumns(10);
+        textField_3.setBorder(null);
+        textField_3.setBounds(30, 211, 20, 50);
+        play_site.add(textField_3);
+
+        textField_4 = new JTextField();
+        textField_4.setEditable(false);
+        textField_4.setText("5");
+        textField_4.setOpaque(false);
+        textField_4.setColumns(10);
+        textField_4.setBorder(null);
+        textField_4.setBounds(30, 260, 20, 50);
+        play_site.add(textField_4);
+
+        textField_5 = new JTextField();
+        textField_5.setEditable(false);
+        textField_5.setText("6");
+        textField_5.setOpaque(false);
+        textField_5.setColumns(10);
+        textField_5.setBorder(null);
+        textField_5.setBounds(30, 310, 20, 50);
+        play_site.add(textField_5);
+
+        textField_6 = new JTextField();
+        textField_6.setEditable(false);
+        textField_6.setText("7");
+        textField_6.setOpaque(false);
+        textField_6.setColumns(10);
+        textField_6.setBorder(null);
+        textField_6.setBounds(30, 360, 20, 50);
+        play_site.add(textField_6);
+
+        textField_7 = new JTextField();
+        textField_7.setEditable(false);
+        textField_7.setText("8");
+        textField_7.setOpaque(false);
+        textField_7.setColumns(10);
+        textField_7.setBorder(null);
+        textField_7.setBounds(30, 410, 20, 50);
+        play_site.add(textField_7);
+
+        JLabel black_stone = new JLabel("numb_image");
+        black_stone.setIcon(new ImageIcon("src/at/aau/reversi/gui/images/white.png"));
+        black_stone.setBounds(509, 67, 50, 50);
+        play_site.add(black_stone);
+
+        JLabel white_stone = new JLabel("numw_image");
+        white_stone.setIcon(new ImageIcon("src/at/aau/reversi/gui/images/black.png"));
+        white_stone.setBounds(509, 186, 50, 50);
         play_site.add(white_stone);
 
-        JLabel lblNewLabel = new JLabel("numw_image");
-        lblNewLabel.setIcon(new ImageIcon("src/at/aau/reversi/gui/images/black.png"));
-        lblNewLabel.setBounds(459, 186, 50, 50);
-        play_site.add(lblNewLabel);
+        Backgroundfield = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Backgroundfield.png"));
+        Backgroundfield.setBounds(23, 41, 434, 438);
+        play_site.add(Backgroundfield);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/Background1.jpg"));
+        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
         Background.setBounds(0, 0, 700, 600);
         play_site.add(Background);
 
@@ -523,7 +913,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     }
 
     private void startSinglePlayer() {
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_GREEDY, AIType.AI_STABEL, false);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_GREEDY, aiBlack, false);
     }
 
     private void startMultiPlayer() {
