@@ -146,6 +146,23 @@ public abstract class GameLogicAbstract implements GameLogic {
     }
 
     @Override
+    public boolean possibleMoves(Field color) {
+        // Search for valid Moves
+        boolean validMoves = false;
+        for (short xCoord = 0; xCoord < 8; xCoord++) {
+            for (short yCoord = 0; yCoord < 8; yCoord++) {
+                if (validMove(xCoord, yCoord, color)) {
+                    gameField[xCoord][yCoord] = Field.MAYBE;
+                    validMoves = true;
+                } else if (gameField[xCoord][yCoord].equals(Field.MAYBE)) {
+                    gameField[xCoord][yCoord] = Field.EMPTY;
+                }
+            }
+        }
+        return validMoves;
+    }
+
+    @Override
     public Field[][] getGameField() {
         return gameField;
     }
