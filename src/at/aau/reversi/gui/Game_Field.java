@@ -991,4 +991,20 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
         }
     }
+
+    public void testStartSinglePlayer(){
+        startSinglePlayer();
+
+        while (gameBean == null) {
+
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+        ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
+        frame.setTitle("Spielfeld");
+    }
 }
