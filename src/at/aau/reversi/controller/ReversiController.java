@@ -7,6 +7,9 @@ import at.aau.reversi.enums.*;
 import at.aau.reversi.logic.*;
 import at.aau.reversi.logic.ai.*;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Observable;
 
@@ -20,6 +23,8 @@ public class ReversiController extends Observable {
     private PlayerType playerTypeBlack;
     private AIType aiTypeWhite;
     private AIType aiTypeBlack;
+    private Gameserver server;
+    private InetAddress serverAddress;
 
     public ReversiController() {
     }
@@ -36,6 +41,22 @@ public class ReversiController extends Observable {
         // Init Game
         gameBean = new GameBean();
 
+        // When a server exists, remove it from Observer-Pattern
+        if(server != null){
+            deleteObserver(server);
+            server = null;
+        }
+        if(isHost){
+            try {
+                server = new Gameserver();
+            } catch (IOException e) {
+                setChanged();
+                notifyObservers(new ErrorBean("Es hat sich kein Client verbunden", ErrorDisplayType.POPUP));
+                return;
+            }
+            addObserver(server);
+        }
+
         this.playerTypeBlack = playerTypeBlack;
         this.playerTypeWhite = playerTypeWhite;
 
@@ -49,11 +70,18 @@ public class ReversiController extends Observable {
         }else{
             blackAI = null;
         }
-        if (!isHost) {
+
+        if(playerTypeBlack.equals(PlayerType.NETWORK) && !isHost){
+            try {
+                logic = new GameLogicNetworkImpl(serverAddress);
+            } catch (IOException e) {
+                setChanged();
+                notifyObservers(new ErrorBean("Fehler beim Verbinden zum Server", ErrorDisplayType.POPUP));
+            }
+        }else{
             logic = new GameLogicLocalImpl();
-        } else {
-            logic = new GameLogicNetworkImpl();
         }
+
         logic.possibleMoves(Field.WHITE);
         gameBean.setGameField(logic.getGameField());
 
@@ -209,5 +237,9 @@ public class ReversiController extends Observable {
             ai = new AdaptivAIImpl();
         }
         return ai;
+    }
+
+    public void setServerAddress(InetAddress serverAddress) {
+        this.serverAddress = serverAddress;
     }
 }

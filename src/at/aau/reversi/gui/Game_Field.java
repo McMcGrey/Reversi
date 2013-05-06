@@ -19,6 +19,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 public class Game_Field extends JFrame implements Observer, Runnable {
@@ -489,8 +493,10 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         Server.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Client Seite");
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Server Seite");
                 frame.setTitle("Server Seite");
+
+                new StartServerGameThread().start();
 
             }
         });
@@ -504,7 +510,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
                 ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Client Seite");
                 frame.setTitle("Client Seite");
 
-
+                startGameAsClient();
 
             }
         });
@@ -924,6 +930,21 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         new HandleClickThread(m).start();
     }
 
+    private void startGameAsServer(){
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.NETWORK, AIType.AI_GREEDY, AIType.AI_GREEDY, true);
+    }
+
+    private void startGameAsClient(){
+        try {
+            InetAddress address = InetAddress.getByName("127.0.0.1");
+            controller.setServerAddress(address);
+            controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.NETWORK, AIType.AI_GREEDY, AIType.AI_GREEDY, false);
+        } catch (UnknownHostException e) {
+            eventStack.push(new ErrorBean("Ungültige Server-Adresse", ErrorDisplayType.POPUP));
+        }
+
+    }
+
     @Override
     public void run() {
 
@@ -988,6 +1009,16 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         public void run() {
 
             controller.fieldClicked(gameBean.getCurrentPlayer(), m.getxCoord(), m.getyCoord());
+
+        }
+    }
+
+    class StartServerGameThread extends Thread{
+
+        @Override
+        public void run() {
+
+            startGameAsServer();
 
         }
     }

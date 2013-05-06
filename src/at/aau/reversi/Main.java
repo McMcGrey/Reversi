@@ -4,6 +4,7 @@ import at.aau.reversi.controller.ReversiController;
 import at.aau.reversi.enums.PlayerType;
 import at.aau.reversi.gui.ConsoleInterface;
 import at.aau.reversi.gui.Game_Field;
+import at.aau.reversi.logic.Gameserver;
 
 public class Main {
 

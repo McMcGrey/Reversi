@@ -1,10 +1,19 @@
 package at.aau.reversi.logic;
 
+import at.aau.reversi.constants.Constants;
 import at.aau.reversi.enums.Field;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.List;
 
 public class GameLogicNetworkImpl extends GameLogicAbstract {
+
+
+    public GameLogicNetworkImpl(InetAddress serverAddress) throws IOException {
+        Socket socket = new Socket(serverAddress, Constants.SERVER_PORT);
+    }
 
     @Override
     public Field[][] calcNewGameField(short xCoord, short yCoord, Field color) {
