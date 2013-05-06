@@ -6,10 +6,11 @@ import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.*;
 import at.aau.reversi.logic.*;
 import at.aau.reversi.logic.ai.*;
+import at.aau.reversi.network.Gameclient;
+import at.aau.reversi.network.Gameserver;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Observable;
 
@@ -24,6 +25,7 @@ public class ReversiController extends Observable {
     private AIType aiTypeWhite;
     private AIType aiTypeBlack;
     private Gameserver server;
+    private Gameclient client;
     private InetAddress serverAddress;
 
     public ReversiController() {
@@ -48,7 +50,7 @@ public class ReversiController extends Observable {
         }
         if(isHost){
             try {
-                server = new Gameserver();
+                server = new Gameserver(this);
             } catch (IOException e) {
                 setChanged();
                 notifyObservers(new ErrorBean("Es hat sich kein Client verbunden", ErrorDisplayType.POPUP));
@@ -74,6 +76,8 @@ public class ReversiController extends Observable {
         if(playerTypeBlack.equals(PlayerType.NETWORK) && !isHost){
             try {
                 logic = new GameLogicNetworkImpl(serverAddress);
+                client = new Gameclient(serverAddress);
+
             } catch (IOException e) {
                 setChanged();
                 notifyObservers(new ErrorBean("Fehler beim Verbinden zum Server", ErrorDisplayType.POPUP));

@@ -498,6 +498,13 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
                 new StartServerGameThread().start();
 
+                // Todo: listener
+
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
+                frame.setTitle("Spiel als Server");
+
+
+
             }
         });
         Server.setBounds(193, 153, 288, 87);

@@ -10,6 +10,10 @@ package at.aau.reversi.constants;
 public class Constants {
 
     public static final int SERVER_PORT = 12345;
-    public static final int SERVER_TIMEOUT = 6000;
+    public static final int SERVER_CONNECT_TIMEOUT = 10000;
+    public static final int SERVER_TIMEOUT = 1000;
+    public static final int SERVER_HALLO_TIME = 5000;
+
+    public static final boolean LOGGING = true;
 
 }

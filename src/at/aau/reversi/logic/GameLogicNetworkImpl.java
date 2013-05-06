@@ -12,7 +12,7 @@ public class GameLogicNetworkImpl extends GameLogicAbstract {
 
 
     public GameLogicNetworkImpl(InetAddress serverAddress) throws IOException {
-        Socket socket = new Socket(serverAddress, Constants.SERVER_PORT);
+        //Socket socket = new Socket(serverAddress, Constants.SERVER_PORT);
     }
 
     @Override
