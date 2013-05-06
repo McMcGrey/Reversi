@@ -11,8 +11,7 @@ import at.aau.reversi.enums.NetworkPackageType;
  */
 public class NetworkPackage {
 
-    private NetworkPackageType type;
-    private Object data;
+    protected NetworkPackageType type;
 
     public NetworkPackage() {
     }
@@ -21,24 +20,11 @@ public class NetworkPackage {
         this.type = type;
     }
 
-    public NetworkPackage(NetworkPackageType type, Object data) {
-        this.type = type;
-        this.data = data;
-    }
-
     public NetworkPackageType getType() {
         return type;
     }
 
     public void setType(NetworkPackageType type) {
         this.type = type;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
     }
 }

@@ -25,7 +25,6 @@ public class ReversiController extends Observable {
     private AIType aiTypeWhite;
     private AIType aiTypeBlack;
     private Gameserver server;
-    private Gameclient client;
     private InetAddress serverAddress;
 
     public ReversiController() {
@@ -73,10 +72,10 @@ public class ReversiController extends Observable {
             blackAI = null;
         }
 
-        if(playerTypeBlack.equals(PlayerType.NETWORK) && !isHost){
+        if(playerTypeWhite.equals(PlayerType.NETWORK) && !isHost){
             try {
-                logic = new GameLogicNetworkImpl(serverAddress);
-                client = new Gameclient(serverAddress);
+                //logic = new GameLogicNetworkImpl(serverAddress);
+                logic = new Gameclient(serverAddress, this);
 
             } catch (IOException e) {
                 setChanged();
@@ -110,7 +109,7 @@ public class ReversiController extends Observable {
      */
     public void fieldClicked(Player player, short xCoord, short yCoord) {
 
-        if (player.equals(gameBean.getCurrentPlayer()) && gameBean.isGameFieldActive()) {
+        if (player.equals(gameBean.getCurrentPlayer())) {
             // The white player has the color white, this is setted here
             Field color = (player.equals(Player.WHITE)) ? Field.WHITE : Field.BLACK;
             //Field color = Field.WHITE;
@@ -245,5 +244,21 @@ public class ReversiController extends Observable {
 
     public void setServerAddress(InetAddress serverAddress) {
         this.serverAddress = serverAddress;
+    }
+
+    public void sendErrorMessageToObservers(ErrorBean errorbean){
+        setChanged();
+        notifyObservers(errorbean);
+    }
+
+    public void notifyControllerAtClientGame(GameBean bean){
+        this.gameBean = bean;
+
+        if(gameBean.getCurrentPlayer().equals(Player.BLACK)){
+            gameBean.setGameFieldActive(true);
+        }
+
+        setChanged();
+        notifyObservers(gameBean);
     }
 }

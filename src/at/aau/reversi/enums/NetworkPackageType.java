@@ -12,5 +12,6 @@ public enum NetworkPackageType {
     REQUEST,
     RESPONSE,
     ERROR_BEAN,
-    GAME_BEAN
+    GAME_BEAN,
+    MOVE
 }

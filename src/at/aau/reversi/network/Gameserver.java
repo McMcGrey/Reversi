@@ -1,16 +1,23 @@
 package at.aau.reversi.network;
 
+import at.aau.reversi.bean.ErrorBean;
+import at.aau.reversi.bean.GameBean;
+import at.aau.reversi.bean.Move;
 import at.aau.reversi.constants.Constants;
 import at.aau.reversi.controller.ReversiController;
+import at.aau.reversi.enums.ErrorDisplayType;
 import at.aau.reversi.enums.NetworkPackageType;
+import at.aau.reversi.enums.Player;
 import com.google.gson.Gson;
-import com.sun.org.apache.bcel.internal.classfile.ConstantString;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,7 +35,6 @@ public class Gameserver implements Observer, Runnable{
     private ServerSocket server;
     private boolean isRunning = true;
     private boolean logging = true;
-    private HalloTimeCounter halloTimeCounter;
     private Gson gson = new Gson();
     private ObjectInputStream input;
     private ObjectOutputStream output;
@@ -55,11 +61,30 @@ public class Gameserver implements Observer, Runnable{
     @Override
     public void update(Observable o, Object arg) {
 
-        Gson gson = new Gson();
-        String message = gson.toJson(arg);
+        if(arg instanceof GameBean){
 
-        if(logging){
-            System.out.println(message);
+            GameBean bean = (GameBean)arg;
+            GamebeanPackage gamebeanPackage = new GamebeanPackage(bean);
+
+            try {
+                if(Constants.LOGGING) {
+                    System.out.println("SERVER - Write GameBean");
+                }
+                output.writeObject(gson.toJson(gamebeanPackage));
+                output.flush();
+            } catch (IOException e) {
+                sendErrorMessageToController();
+            }
+
+        }else if(arg instanceof ErrorBean){
+
+            if(Constants.LOGGING) {
+                System.out.println("SERVER - Write Errorbean");
+            }
+            ErrorBean error = (ErrorBean)arg;
+            //todo: implement error
+
+
         }
 
     }
@@ -68,24 +93,14 @@ public class Gameserver implements Observer, Runnable{
     public void run() {
         try {
 
-            halloTimeCounter = new HalloTimeCounter();
             output = new ObjectOutputStream(client.getOutputStream());
             output.flush();
             input = new ObjectInputStream(client.getInputStream());
 
             while(isRunning){
 
-                if(halloTimeCounter.isTimeExceeded()){
-                    if(Constants.LOGGING) {
-                        System.out.println("SERVER - Send Hallo Package");
-                    }
-                    sendHalloPackage();
-                    if(Constants.LOGGING) {
-                        System.out.println("SERVER - Hallo Package sent successful");
-                    }
-                    halloTimeCounter.reset();
-                }
-
+                // wait for client messages
+                waitForClientEvent();
 
                 try {
                     Thread.sleep(100);
@@ -93,26 +108,39 @@ public class Gameserver implements Observer, Runnable{
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            sendErrorMessageToController();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            sendErrorMessageToController();
         }
 
     }
 
-    private void sendHalloPackage() throws IOException, ClassNotFoundException {
+    /**
+     * Client events could be a field click
+     */
+    private void waitForClientEvent() throws IOException, ClassNotFoundException {
 
+        try{
+            String message = (String)input.readObject();
+            NetworkPackage networkPackage = gson.fromJson(message, NetworkPackage.class);
 
-        output.flush();
-        output.writeObject(gson.toJson(new NetworkPackage(NetworkPackageType.REQUEST)));
-        output.flush();
+            if(Constants.LOGGING) {
+                System.out.println("SERVER - Got a request");
+            }
+            if(networkPackage.getType().equals(NetworkPackageType.MOVE))  {
 
-        String message = (String) input.readObject();
-        NetworkPackage response = gson.fromJson(message, NetworkPackage.class);
+                MovePackage movePackage = gson.fromJson(message, MovePackage.class);
+                controller.fieldClicked(Player.BLACK, movePackage.getMove().getxCoord(), movePackage.getMove().getyCoord());
 
-        if(!response.getType().equals(NetworkPackageType.RESPONSE)){
-            throw new RuntimeException("Test");
+            }
+
+        }catch(SocketTimeoutException ex){
+            // The socket timeout exception occurs when nothing was send, ignore this in this case
         }
 
+    }
+
+    private void sendErrorMessageToController(){
+        controller.sendErrorMessageToObservers(new ErrorBean("Fehler bei Netzwerkverbindung", ErrorDisplayType.POPUP));
     }
 }

@@ -519,6 +519,11 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
                 startGameAsClient();
 
+                // Todo: listener
+
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
+                frame.setTitle("Spiel als Client");
+
             }
         });
 
@@ -945,7 +950,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         try {
             InetAddress address = InetAddress.getByName("127.0.0.1");
             controller.setServerAddress(address);
-            controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.NETWORK, AIType.AI_GREEDY, AIType.AI_GREEDY, false);
+            controller.startGame(PlayerType.NETWORK, PlayerType.HUMAN_PLAYER, AIType.AI_GREEDY, AIType.AI_GREEDY, false);
         } catch (UnknownHostException e) {
             eventStack.push(new ErrorBean("Ungültige Server-Adresse", ErrorDisplayType.POPUP));
         }
