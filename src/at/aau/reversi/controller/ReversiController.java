@@ -44,8 +44,12 @@ public class ReversiController extends Observable {
 
         // When a server exists, remove it from Observer-Pattern
         if(server != null){
+            server.killServer();
             deleteObserver(server);
             server = null;
+        }
+        if(logic != null && logic instanceof Gameclient){
+            logic = null;
         }
         if(isHost){
             try {

@@ -2,7 +2,6 @@ package at.aau.reversi.network;
 
 import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
-import at.aau.reversi.bean.Move;
 import at.aau.reversi.constants.Constants;
 import at.aau.reversi.controller.ReversiController;
 import at.aau.reversi.enums.ErrorDisplayType;
@@ -16,8 +15,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -46,12 +43,21 @@ public class Gameserver implements Observer, Runnable{
         server = new ServerSocket(Constants.SERVER_PORT);
         server.setSoTimeout(Constants.SERVER_CONNECT_TIMEOUT);
         // Wait for client connection
-        client = server.accept();
+        try{
+            client = server.accept();
+        }catch(IOException e){
+            throw e;
+        }finally {
+            server.close();
+            if(Constants.LOGGING) {
+                System.out.println("SERVER - No client Connected, BYE.");
+            }
+        }
 
         client.setSoTimeout(Constants.SERVER_TIMEOUT);
 
         if(Constants.LOGGING) {
-            System.out.println("Verbindung akzeptiert.");
+            System.out.println("SERVER - Verbindung akzeptiert.");
         }
         Thread t = new Thread(this);
         t.start();
@@ -59,36 +65,41 @@ public class Gameserver implements Observer, Runnable{
     }
 
     public void killServer(){
+        if(Constants.LOGGING) {
+            System.out.println("SERVER - Got Kill");
+        }
         isRunning = false;
     }
 
     @Override
     public void update(Observable o, Object arg) {
 
-        if(arg instanceof GameBean){
+        if(client.isConnected()){
+            if(arg instanceof GameBean){
 
-            GameBean bean = (GameBean)arg;
-            GamebeanPackage gamebeanPackage = new GamebeanPackage(bean);
+                GameBean bean = (GameBean)arg;
+                GamebeanPackage gamebeanPackage = new GamebeanPackage(bean);
 
-            try {
-                if(Constants.LOGGING) {
-                    System.out.println("SERVER - Write GameBean");
+                try {
+                    if(Constants.LOGGING) {
+                        System.out.println("SERVER - Write GameBean");
+                    }
+                    output.writeObject(gson.toJson(gamebeanPackage));
+                    output.flush();
+                } catch (IOException e) {
+                    closeAndSendErrorMessageToController();
                 }
-                output.writeObject(gson.toJson(gamebeanPackage));
-                output.flush();
-            } catch (IOException e) {
-                sendErrorMessageToController();
+
+            }else if(arg instanceof ErrorBean){
+
+                if(Constants.LOGGING) {
+                    System.out.println("SERVER - Write Errorbean");
+                }
+                ErrorBean error = (ErrorBean)arg;
+                //todo: implement error
+
+
             }
-
-        }else if(arg instanceof ErrorBean){
-
-            if(Constants.LOGGING) {
-                System.out.println("SERVER - Write Errorbean");
-            }
-            ErrorBean error = (ErrorBean)arg;
-            //todo: implement error
-
-
         }
 
     }
@@ -112,14 +123,22 @@ public class Gameserver implements Observer, Runnable{
                 }
             }
 
+            if(Constants.LOGGING) {
+                System.out.println("SERVER - Started shutdown processs");
+            }
+
             if(client.isConnected()){
                 client.close();
             }
             server.close();
+
+            if(Constants.LOGGING) {
+                System.out.println("SERVER - BYE");
+            }
         } catch (IOException e) {
-            sendErrorMessageToController();
+            closeAndSendErrorMessageToController();
         } catch (ClassNotFoundException e) {
-            sendErrorMessageToController();
+            closeAndSendErrorMessageToController();
         }
 
     }
@@ -149,7 +168,16 @@ public class Gameserver implements Observer, Runnable{
 
     }
 
-    private void sendErrorMessageToController(){
+    private void closeAndSendErrorMessageToController(){
+        this.killServer();
+        try {
+            if(client.isConnected()){
+                client.close();
+            }
+            server.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         controller.sendErrorMessageToObservers(new ErrorBean("Fehler bei Netzwerkverbindung", ErrorDisplayType.NETWORK));
     }
 }
