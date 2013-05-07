@@ -49,6 +49,7 @@ public class ReversiController extends Observable {
             server = null;
         }
         if(logic != null && logic instanceof Gameclient){
+            ((Gameclient)logic).killClient();
             logic = null;
         }
         if(isHost){

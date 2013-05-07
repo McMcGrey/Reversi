@@ -12,6 +12,7 @@ import at.aau.reversi.logic.GameLogic;
 import at.aau.reversi.logic.GameLogicAbstract;
 import com.google.gson.Gson;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -58,6 +59,13 @@ public class Gameclient extends GameLogicAbstract implements Runnable, GameLogic
         new Thread(this).start();
     }
 
+    public void killClient(){
+        if(Constants.LOGGING) {
+            System.out.println("CLIENT - Got Kill");
+        }
+        this.running = false;
+    }
+
     @Override
     public void run() {
         try {
@@ -98,6 +106,8 @@ public class Gameclient extends GameLogicAbstract implements Runnable, GameLogic
 
                 }  catch(SocketTimeoutException ex){
                     // The socket timeout exception occurs when nothing was send, ignore this in this case
+                } catch (EOFException e){
+                    sendErrorMessageToController();
                 }
                 try {
                     Thread.sleep(100);
@@ -105,7 +115,10 @@ public class Gameclient extends GameLogicAbstract implements Runnable, GameLogic
                 }
             }
 
-
+            connection.close();
+            if(Constants.LOGGING) {
+                System.out.println("CLIENT - BYE");
+            }
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }catch (ClassNotFoundException e) {
@@ -163,6 +176,12 @@ public class Gameclient extends GameLogicAbstract implements Runnable, GameLogic
     }
 
     private void sendErrorMessageToController(){
+        this.killClient();
+        try {
+            connection.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         controller.sendErrorMessageToObservers(new ErrorBean("Fehler bei Netzwerkverbindung", ErrorDisplayType.NETWORK));
     }
 }
