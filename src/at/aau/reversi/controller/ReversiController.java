@@ -113,7 +113,18 @@ public class ReversiController extends Observable {
      */
     public void fieldClicked(Player player, short xCoord, short yCoord) {
 
-        if (player.equals(gameBean.getCurrentPlayer())) {
+        fieldClicked(player, xCoord,yCoord,false);
+    }
+
+    public void fieldClicked(Player player, short xCoord, short yCoord, boolean network) {
+
+        boolean valid = true;
+        if((gameBean.getCurrentPlayer().equals(Player.BLACK)&&playerTypeBlack.equals(PlayerType.NETWORK)&&!network)
+                ||(gameBean.getCurrentPlayer().equals(Player.WHITE)&&playerTypeWhite.equals(PlayerType.NETWORK)&&!network)){
+            valid = false;
+        }
+
+        if (player.equals(gameBean.getCurrentPlayer()) && valid) {
             // The white player has the color white, this is setted here
             Field color = (player.equals(Player.WHITE)) ? Field.WHITE : Field.BLACK;
             //Field color = Field.WHITE;
@@ -143,6 +154,7 @@ public class ReversiController extends Observable {
             notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", ErrorDisplayType.INLINE));
 
         }
+
     }
 
     private void applyMove(short xCoord, short yCoord, Field color) {

@@ -74,38 +74,41 @@ public class Gameserver implements Observer, Runnable{
     @Override
     public void update(Observable o, Object arg) {
 
-        if(client.isConnected()){
-            if(arg instanceof GameBean){
+        if(arg instanceof GameBean){
 
-                GameBean bean = (GameBean)arg;
-                GamebeanPackage gamebeanPackage = new GamebeanPackage(bean);
+            GameBean bean = (GameBean)arg;
+            GamebeanPackage gamebeanPackage = new GamebeanPackage(bean);
 
-                try {
-                    if(Constants.LOGGING) {
-                        System.out.println("SERVER - Write GameBean");
-                    }
+            try {
+                if(Constants.LOGGING) {
+                    System.out.println("SERVER - Write GameBean");
+                }
+                if(!client.isClosed()){
                     output.writeObject(gson.toJson(gamebeanPackage));
                     output.flush();
-                } catch (IOException e) {
-                    closeAndSendErrorMessageToController();
                 }
+            } catch (IOException e) {
+                closeAndSendErrorMessageToController();
+            }
 
-            }else if(arg instanceof ErrorBean){
+        }else if(arg instanceof ErrorBean){
 
-                if(Constants.LOGGING) {
-                    System.out.println("SERVER - Write Errorbean");
-                }
-                ErrorBean error = (ErrorBean)arg;
-                ErrorBeanPackage errorBeanPackage = new ErrorBeanPackage(error);
+            if(Constants.LOGGING) {
+                System.out.println("SERVER - Write Errorbean");
+            }
+            ErrorBean error = (ErrorBean)arg;
+            ErrorBeanPackage errorBeanPackage = new ErrorBeanPackage(error);
 
-                try {
+            try {
+                if(!client.isClosed()){
                     output.writeObject(gson.toJson(errorBeanPackage));
                     output.flush();
-                } catch (IOException e) {
-                    closeAndSendErrorMessageToController();
                 }
-
+            } catch (IOException e) {
+                e.printStackTrace();
+                closeAndSendErrorMessageToController();
             }
+
         }
 
     }
@@ -164,7 +167,7 @@ public class Gameserver implements Observer, Runnable{
             if(networkPackage.getType().equals(NetworkPackageType.MOVE))  {
 
                 MovePackage movePackage = gson.fromJson(message, MovePackage.class);
-                controller.fieldClicked(Player.BLACK, movePackage.getMove().getxCoord(), movePackage.getMove().getyCoord());
+                controller.fieldClicked(Player.BLACK, movePackage.getMove().getxCoord(), movePackage.getMove().getyCoord(), true);
 
             }
 
