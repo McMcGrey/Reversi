@@ -96,8 +96,14 @@ public class Gameserver implements Observer, Runnable{
                     System.out.println("SERVER - Write Errorbean");
                 }
                 ErrorBean error = (ErrorBean)arg;
-                //todo: implement error
+                ErrorBeanPackage errorBeanPackage = new ErrorBeanPackage(error);
 
+                try {
+                    output.writeObject(gson.toJson(errorBeanPackage));
+                    output.flush();
+                } catch (IOException e) {
+                    closeAndSendErrorMessageToController();
+                }
 
             }
         }
@@ -169,6 +175,9 @@ public class Gameserver implements Observer, Runnable{
     }
 
     private void closeAndSendErrorMessageToController(){
+        if(Constants.LOGGING){
+            System.out.println("SERVER - ERROR: Closing Connection");
+        }
         this.killServer();
         try {
             if(client.isConnected()){
