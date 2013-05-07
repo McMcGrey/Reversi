@@ -6,7 +6,11 @@ import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.*;
 import at.aau.reversi.logic.*;
 import at.aau.reversi.logic.ai.*;
+import at.aau.reversi.network.Gameclient;
+import at.aau.reversi.network.Gameserver;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.List;
 import java.util.Observable;
 
@@ -20,6 +24,8 @@ public class ReversiController extends Observable {
     private PlayerType playerTypeBlack;
     private AIType aiTypeWhite;
     private AIType aiTypeBlack;
+    private Gameserver server;
+    private InetAddress serverAddress;
 
     public ReversiController() {
     }
@@ -36,6 +42,27 @@ public class ReversiController extends Observable {
         // Init Game
         gameBean = new GameBean();
 
+        // When a server exists, remove it from Observer-Pattern
+        if(server != null){
+            server.killServer();
+            deleteObserver(server);
+            server = null;
+        }
+        if(logic != null && logic instanceof Gameclient){
+            ((Gameclient)logic).killClient();
+            logic = null;
+        }
+        if(isHost){
+            try {
+                server = new Gameserver(this);
+            } catch (IOException e) {
+                setChanged();
+                notifyObservers(new ErrorBean("Es hat sich kein Client verbunden", ErrorDisplayType.POPUP));
+                return;
+            }
+            addObserver(server);
+        }
+
         this.playerTypeBlack = playerTypeBlack;
         this.playerTypeWhite = playerTypeWhite;
 
@@ -49,11 +76,20 @@ public class ReversiController extends Observable {
         }else{
             blackAI = null;
         }
-        if (!isHost) {
+
+        if(playerTypeWhite.equals(PlayerType.NETWORK) && !isHost){
+            try {
+                //logic = new GameLogicNetworkImpl(serverAddress);
+                logic = new Gameclient(serverAddress, this);
+
+            } catch (IOException e) {
+                setChanged();
+                notifyObservers(new ErrorBean("Fehler beim Verbinden zum Server", ErrorDisplayType.POPUP));
+            }
+        }else{
             logic = new GameLogicLocalImpl();
-        } else {
-            logic = new GameLogicNetworkImpl();
         }
+
         logic.possibleMoves(Field.WHITE);
         gameBean.setGameField(logic.getGameField());
 
@@ -78,7 +114,18 @@ public class ReversiController extends Observable {
      */
     public void fieldClicked(Player player, short xCoord, short yCoord) {
 
-        if (player.equals(gameBean.getCurrentPlayer()) && gameBean.isGameFieldActive()) {
+        fieldClicked(player, xCoord,yCoord,false);
+    }
+
+    public void fieldClicked(Player player, short xCoord, short yCoord, boolean network) {
+
+        boolean valid = true;
+        if((gameBean.getCurrentPlayer().equals(Player.BLACK)&&playerTypeBlack.equals(PlayerType.NETWORK)&&!network)
+                ||(gameBean.getCurrentPlayer().equals(Player.WHITE)&&playerTypeWhite.equals(PlayerType.NETWORK)&&!network)){
+            valid = false;
+        }
+
+        if (player.equals(gameBean.getCurrentPlayer()) && valid) {
             // The white player has the color white, this is setted here
             Field color = (player.equals(Player.WHITE)) ? Field.WHITE : Field.BLACK;
             //Field color = Field.WHITE;
@@ -108,6 +155,7 @@ public class ReversiController extends Observable {
             notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", ErrorDisplayType.INLINE));
 
         }
+
     }
 
     private void applyMove(short xCoord, short yCoord, Field color) {
@@ -209,5 +257,31 @@ public class ReversiController extends Observable {
             ai = new AdaptivAIImpl();
         }
         return ai;
+    }
+
+    public void setServerAddress(InetAddress serverAddress) {
+        this.serverAddress = serverAddress;
+    }
+
+    public void sendErrorMessageToObservers(ErrorBean errorbean){
+        setChanged();
+        notifyObservers(errorbean);
+    }
+
+    public void notifyControllerAtClientGame(GameBean bean){
+        this.gameBean = bean;
+
+        if(gameBean.getCurrentPlayer().equals(Player.BLACK)){
+            gameBean.setGameFieldActive(true);
+        }
+
+        setChanged();
+        notifyObservers(gameBean);
+    }
+
+    public void handleErrorBeanFromClientToController(ErrorBean bean){
+
+        setChanged();
+        notifyObservers(bean);
     }
 }

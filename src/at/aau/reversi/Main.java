@@ -1,8 +1,6 @@
 package at.aau.reversi;
 
 import at.aau.reversi.controller.ReversiController;
-import at.aau.reversi.enums.PlayerType;
-import at.aau.reversi.gui.ConsoleInterface;
 import at.aau.reversi.gui.Game_Field;
 
 public class Main {

@@ -65,24 +65,26 @@ public class Draw_Game_Field extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+        if (gameBean != null) {
 
-        for (int posX = 0; posX < 8; posX++) {
+            for (int posX = 0; posX < 8; posX++) {
 
-            for (int posY = 0; posY < 8; posY++) {
+                for (int posY = 0; posY < 8; posY++) {
 
-                Field[][] gamefield = gameBean.getGameField();
+                    Field[][] gamefield = gameBean.getGameField();
 
-                if (gamefield[posX][posY].equals(Field.WHITE)) {
-                    g.drawImage(white, 50 * posX, 50 * posY, this);
-                } else if (gamefield[posX][posY].equals(Field.BLACK)) {
-                    g.drawImage(black, 50 * posX, 50 * posY, this);
-                } else if (gamefield[posX][posY].equals(Field.MAYBE)) {
-                    g.drawImage(maybe, 50 * posX, 50 * posY, this);
-                } else {
+                    if (gamefield[posX][posY].equals(Field.WHITE)) {
+                        g.drawImage(white, 50 * posX, 50 * posY, this);
+                    } else if (gamefield[posX][posY].equals(Field.BLACK)) {
+                        g.drawImage(black, 50 * posX, 50 * posY, this);
+                    } else if (gamefield[posX][posY].equals(Field.MAYBE)) {
+                        g.drawImage(maybe, 50 * posX, 50 * posY, this);
+                    } else {
 
+                    }
+
+                    //repaint();
                 }
-
-                //repaint();
             }
         }
     }
