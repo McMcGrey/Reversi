@@ -156,6 +156,6 @@ public class Gameclient extends GameLogicAbstract implements Runnable, GameLogic
     }
 
     private void sendErrorMessageToController(){
-        controller.sendErrorMessageToObservers(new ErrorBean("Fehler bei Netzwerkverbindung", ErrorDisplayType.POPUP));
+        controller.sendErrorMessageToObservers(new ErrorBean("Fehler bei Netzwerkverbindung", ErrorDisplayType.NETWORK));
     }
 }

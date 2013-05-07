@@ -58,6 +58,10 @@ public class Gameserver implements Observer, Runnable{
 
     }
 
+    public void killServer(){
+        isRunning = false;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
 
@@ -107,6 +111,11 @@ public class Gameserver implements Observer, Runnable{
                 } catch (InterruptedException e) {
                 }
             }
+
+            if(client.isConnected()){
+                client.close();
+            }
+            server.close();
         } catch (IOException e) {
             sendErrorMessageToController();
         } catch (ClassNotFoundException e) {
@@ -141,6 +150,6 @@ public class Gameserver implements Observer, Runnable{
     }
 
     private void sendErrorMessageToController(){
-        controller.sendErrorMessageToObservers(new ErrorBean("Fehler bei Netzwerkverbindung", ErrorDisplayType.POPUP));
+        controller.sendErrorMessageToObservers(new ErrorBean("Fehler bei Netzwerkverbindung", ErrorDisplayType.NETWORK));
     }
 }

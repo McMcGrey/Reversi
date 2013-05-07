@@ -991,7 +991,22 @@ public class Game_Field extends JFrame implements Observer, Runnable {
                     ErrorBean errorBean = (ErrorBean) o;
                     if (errorBean.getErrorDisplayType().equals(ErrorDisplayType.INLINE)) {
                         rule_output.setText(errorBean.getErrorMessage());
-                    } else {
+                    } else if(errorBean.getErrorDisplayType().equals(ErrorDisplayType.NETWORK)){
+                        String array[] = new String[2];
+                        array[0] = "Auf KI umstellen";
+                        array[1] = "Spiel beenden";
+
+                        int result = JOptionPane.showOptionDialog(this, errorBean.getErrorMessage(), "Netzwerkfehler",JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, array, null);
+
+                        if(result == 1){
+                            ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Startseite");
+                            frame.setTitle("Startseite");
+                        }else if(result == 0){
+
+                            //todo: Start Game versus KI
+                        }
+
+                    }else {
                         JOptionPane.showMessageDialog(this, errorBean.getErrorMessage());
                     }
 

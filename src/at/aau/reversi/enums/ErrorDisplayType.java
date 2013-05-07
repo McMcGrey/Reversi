@@ -11,6 +11,10 @@ public enum ErrorDisplayType {
     /**
      * Use a popup to display the error
      */
-    POPUP
+    POPUP,
+    /**
+     * Should be used when the network connection was lost
+     */
+    NETWORK
 }
 
