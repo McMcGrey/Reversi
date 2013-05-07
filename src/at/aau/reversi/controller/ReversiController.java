@@ -265,4 +265,10 @@ public class ReversiController extends Observable {
         setChanged();
         notifyObservers(gameBean);
     }
+
+    public void handleErrorBeanFromClientToController(ErrorBean bean){
+
+        setChanged();
+        notifyObservers(bean);
+    }
 }

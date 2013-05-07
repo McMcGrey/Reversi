@@ -87,6 +87,13 @@ public class Gameclient extends GameLogicAbstract implements Runnable, GameLogic
                         }
                         controller.notifyControllerAtClientGame(gamebeanPackage.getBean());
 
+                    }else if(request.getType().equals(NetworkPackageType.ERROR_BEAN)) {
+
+                        if(Constants.LOGGING) {
+                            System.out.println("CLIENT - Got ErrorBean");
+                        }
+                        ErrorBeanPackage errorBeanPackage = gson.fromJson(message, ErrorBeanPackage.class);
+                        controller.handleErrorBeanFromClientToController(errorBeanPackage.getBean());
                     }
 
                 }  catch(SocketTimeoutException ex){
