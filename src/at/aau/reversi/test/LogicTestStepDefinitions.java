@@ -1,8 +1,11 @@
 package at.aau.reversi.test;
 
+import at.aau.reversi.bean.ErrorBean;
+import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.controller.ReversiController;
 import at.aau.reversi.enums.AIType;
+import at.aau.reversi.enums.ErrorDisplayType;
 import at.aau.reversi.enums.Field;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
@@ -102,7 +105,13 @@ public class LogicTestStepDefinitions {
 
     @Dann("^sollte ich \"([^\"]*)\" als Fehler bekommen$")
     public void sollte_ich_als_Fehler_bekommen(String errormessage) {
-
+    	
+//    	Player player = null;
+//    	GameBean gameBean = null;
+//    	if (!player.equals(gameBean.getCurrentPlayer()) && gameBean.isGameFieldActive()){
+//    	controller.notifyObservers(new ErrorBean("Ungueltiger Zug", ErrorDisplayType.INLINE));
+//    	
+//    	}
         Assert.assertTrue(false);
     }
 
