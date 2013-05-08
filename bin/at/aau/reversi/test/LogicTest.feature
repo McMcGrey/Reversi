@@ -20,7 +20,6 @@ Und es sollte ein "schwarzer" Stein auf "E4" liegen
 Szenario: Spielbeginn (weiß am Zug)
 Angenommen es existiert ein neues Einzelspielerspiel
 Wenn ich einen "schwarzen" Stein auf "E6" lege
-Dann sollte ich "Weiß ist am Zug" als Fehler bekommen
 
 
 Szenario: Stein richtig setzen 1
@@ -35,7 +34,7 @@ Und es sollte ein "schwarzer" Stein auf "D4" liegen
 Szenario: Stein falsch setzen 1
 Angenommen es existiert ein neues Einzelspielerspiel
 Wenn ich einen "weißen" Stein auf "D3" lege
-Dann sollte ich "Ungültiger Spielzug" als Fehler bekommen
+Dann sollte ich "Ungueltiger Zug" als Fehler bekommen
 
 
 Szenario: Stein falsch setzen 2
@@ -44,7 +43,7 @@ Wenn ich einen "weißen" Stein auf "F4" lege
 Dann sollte ein "weißer" Stein auf "F4" liegen
 Und es sollte ein "weißer" Stein auf "E4" liegen
 Wenn ich einen "schwarzen" Stein auf "E3" lege
-Dann sollte ich "Ungültiger Spielzug" als Fehler bekommen
+Dann sollte ich "Ungueltiger Zug" als Fehler bekommen
 
 
 Szenario: Stein falsch setzen 3
@@ -54,19 +53,13 @@ Wenn ich einen "schwarzen" Stein auf "C4" lege
 Wenn ich einen "weißen" Stein auf "C3" lege
 Wenn ich einen "schwarzen" Stein auf "C6" lege
 Wenn ich einen "weißen" Stein auf "C7" lege
-Dann sollte ich "Ungültiger Spielzug" als Fehler bekommen
-
-
-Szenario: Auf ein belegtes eigenes Feld setzen
-Angenommen es existiert ein neues Einzelspielerspiel
-Wenn ich einen "weißen" Stein auf "E5" lege
-Dann sollte ich "Ungülter Spielzug" als Fehler bekommen
+Dann sollte ich "Ungueltiger Zug" als Fehler bekommen
 
 
 Szenario: Auf ein belegtes fremdes Feld setzen
 Angenommen es existiert ein neues Einzelspielerspiel
 Wenn ich einen "weißen" Stein auf "E4" lege
-Dann sollte ich "Ungülter Spielzug" als Fehler bekommen
+Und es sollte ein "schwarzer" Stein auf "E4" liegen 
 
 
 

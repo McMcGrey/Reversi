@@ -1,5 +1,8 @@
 package at.aau.reversi.test;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
@@ -30,10 +33,11 @@ import junit.framework.Assert;
  */
 
 
-public class LogicTestStepDefinitions {
+public class LogicTestStepDefinitions implements Observer {
 
     ReversiController controller;
     GameLogic logic = new GameLogicLocalImpl();
+    ErrorBean error;
 
     @Angenommen("^es existiert ein neues Einzelspielerspiel$")
     public void es_existiert_ein_neues_Einzelspielerspiel() {
@@ -46,6 +50,7 @@ public class LogicTestStepDefinitions {
         Game_Field gui = new Game_Field(controller);
         gui.getFrame().setVisible(true);
         controller.addObserver(gui);
+        controller.addObserver(this);
 
         gui.testStartSinglePlayer();
 
@@ -106,13 +111,20 @@ public class LogicTestStepDefinitions {
     @Dann("^sollte ich \"([^\"]*)\" als Fehler bekommen$")
     public void sollte_ich_als_Fehler_bekommen(String errormessage) {
     	
+    	
+    	sleep();
+    	
+    	if(error != null){
+    		Assert.assertTrue("Falsche ...", errormessage.equals(error.getErrorMessage()));
+    	}else{
+    		Assert.assertTrue(false);
+    	}
 //    	Player player = null;
 //    	GameBean gameBean = null;
 //    	if (!player.equals(gameBean.getCurrentPlayer()) && gameBean.isGameFieldActive()){
 //    	controller.notifyObservers(new ErrorBean("Ungueltiger Zug", ErrorDisplayType.INLINE));
 //    	
 //    	}
-        Assert.assertTrue(false);
     }
 
     private void sleep(){
@@ -122,5 +134,14 @@ public class LogicTestStepDefinitions {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+
+		if(arg1 instanceof ErrorBean){
+			error = (ErrorBean)arg1;
+		}
+		
+	}
 
 }
