@@ -21,7 +21,7 @@ public enum AIType {
      */
     AI_MINMAX,
     /**
-     * Frontiers AI
+     * FrontiersAIImpl AI
      */
     AI_FROMTIERS,
     /**

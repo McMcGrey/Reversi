@@ -168,7 +168,7 @@ public class ReversiController extends Observable {
                 String message = "Zur Zeit ist kein Zug möglich, "
                         + ((gameBean.getCurrentPlayer().equals(Player.WHITE)) ? "weiss ist am Zug": "schwarz ist am Zug");
                 setChanged();
-                notifyObservers(new ErrorBean(message, ErrorDisplayType.POPUP));
+                notifyObservers(new ErrorBean(message, ErrorDisplayType.INLINE));
                 // Check if AI has to set the next move
                 applyAI();
             }
@@ -248,7 +248,7 @@ public class ReversiController extends Observable {
         } else if (aiType == AIType.AI_MINMAX) {
             ai = new MinMaxAIImpl();
         } else if (aiType == AIType.AI_FROMTIERS) {
-            ai = new Frontiers();
+            ai = new FrontiersAIImpl();
         } else if (aiType == AIType.AI_REGION) {
             ai = new RegionAIImpl();
         } else if (aiType == AIType.AI_STABLE) {

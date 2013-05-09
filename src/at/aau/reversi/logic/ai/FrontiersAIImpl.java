@@ -13,9 +13,9 @@ import java.util.ArrayList;
  * Time: 22:11
  * To change this template use File | Settings | File Templates.
  */
-public class Frontiers extends AbstractAIImpl implements AI {
+public class FrontiersAIImpl extends AbstractAIImpl implements AI {
 
-    public Frontiers() {
+    public FrontiersAIImpl() {
         logic = new GameLogicLocalImpl();
     }
 
