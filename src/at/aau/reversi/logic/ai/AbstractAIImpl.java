@@ -114,10 +114,10 @@ public abstract class AbstractAIImpl {
         return getMoves(gameField).size();
     }
 
-    protected boolean isStabel (Field[][] gameField, Move move, Field color, Field oponent) {
+    protected boolean isStable(Field[][] gameField, Move move, Field color, Field oponent) {
         ArrayList<Boolean> stabels = new ArrayList<Boolean>();
         for (int w = 0; w <= 7; w++) {
-            stabels.add(checkStabel(gameField, move.getxCoord() + X_WAY[w], move.getyCoord() + Y_WAY[w], color, oponent, w));
+            stabels.add(checkStable(gameField, move.getxCoord() + X_WAY[w], move.getyCoord() + Y_WAY[w], color, oponent, w));
         }
         for (int w = 0; w <= 3; w++) {
             if (stabels.get(w).equals(false) && stabels.get(w + 4).equals(false)){
@@ -126,13 +126,13 @@ public abstract class AbstractAIImpl {
         }
         return true;
     }
-    private boolean checkStabel (Field[][] gameField, int xCoord, int yCoord, Field color, Field oponent, int w) {
+    private boolean checkStable(Field[][] gameField, int xCoord, int yCoord, Field color, Field oponent, int w) {
         if (!logic.inGamefield(xCoord, yCoord)) {
             return true;
         } else if (gameField[xCoord][yCoord].equals(oponent) || gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.EMPTY)) {
             return false;
         } else {
-            return checkStabel(gameField, xCoord + X_WAY[w], yCoord + Y_WAY[w], color, oponent, w);
+            return checkStable(gameField, xCoord + X_WAY[w], yCoord + Y_WAY[w], color, oponent, w);
         }
     }
 

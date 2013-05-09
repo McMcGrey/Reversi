@@ -31,7 +31,7 @@ public enum AIType {
     /**
      * Stabel AI
      */
-    AI_STABEL,
+    AI_STABLE,
     /**
      * Adativ AI
      */

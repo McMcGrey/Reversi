@@ -19,11 +19,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Stack;
 
 public class Game_Field extends JFrame implements Observer, Runnable {
 
@@ -55,7 +55,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private JTextField textField_6;
     private JTextField textField_7;
     //private AIType AIwhite = AIType.AI_GREEDY;
-    private AIType aiBlack = AIType.AI_GREEDY;
+    private AIType aiBlack = AIType.AI_STABLE;
 
     /**
      * Launch the application.

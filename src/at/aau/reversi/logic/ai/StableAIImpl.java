@@ -13,9 +13,9 @@ import java.util.ArrayList;
  * Time: 01:02
  * To change this template use File | Settings | File Templates.
  */
-public class StabelAIImpl extends AbstractAIImpl implements AI {
+public class StableAIImpl extends AbstractAIImpl implements AI {
 
-    public StabelAIImpl() {
+    public StableAIImpl() {
         logic = new GameLogicLocalImpl();
     }
 
@@ -64,7 +64,7 @@ public class StabelAIImpl extends AbstractAIImpl implements AI {
                 (move.getxCoord() == 7 && move.getyCoord() == 0) ||
                 (move.getxCoord() == 7 && move.getyCoord() == 7)) {
             placeholder = placeholder + cornerBias;
-        } else if (!isStabel(gameField, move, color, oponent) &&
+        } else if (!isStable(gameField, move, color, oponent) &&
                 ((move.getxCoord() == 0 && move.getyCoord() == 1) ||
                 (move.getxCoord() == 1 && move.getyCoord() == 0) ||
                 (move.getxCoord() == 1 && move.getyCoord() == 1) ||
@@ -78,12 +78,12 @@ public class StabelAIImpl extends AbstractAIImpl implements AI {
                 (move.getxCoord() == 6 && move.getyCoord() == 7) ||
                 (move.getxCoord() == 7 && move.getyCoord() == 6)))  {
             placeholder = placeholder + region4Bias;
-        } else if (!isStabel(gameField, move, color, oponent) && (
+        } else if (isStable(gameField, move, color, oponent) && (
                 move.getxCoord() == 0 || move.getxCoord() == 7 ||
                 move.getyCoord() == 0 || move.getyCoord() == 7)) {
             placeholder = placeholder + cornerBias;
         } else if (move.getxCoord() == 0 || move.getxCoord() == 7 || move.getyCoord() == 0 || move.getyCoord() == 7 ||
-                isStabel(gameField, move, color, oponent)) {
+                isStable(gameField, move, color, oponent)) {
             placeholder = placeholder + edgeBias;
         }
 
