@@ -253,6 +253,8 @@ public class ReversiController extends Observable {
             ai = new RegionAIImpl();
         } else if (aiType == AIType.AI_STABLE) {
             ai = new StableAIImpl();
+        } else if (aiType == AIType.AI_GROUP) {
+            ai = new GroupAIImpl();
         } else {
             ai = new AdaptivAIImpl();
         }

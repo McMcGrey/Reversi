@@ -20,6 +20,7 @@ public abstract class AbstractAIImpl {
     protected ArrayList<Move> validMoves;
     final int cornerBias = 10;
     final int edgeBias = 5;
+    final int groupBias = 2;
     final int region4Bias = -10;
     private final int X_WAY[] = {-1, -1, -1, 0, 1, 1, 1, 0};
     private final int Y_WAY[] = {-1, 0, 1, 1, 1, 0, -1, -1};
@@ -135,6 +136,30 @@ public abstract class AbstractAIImpl {
             return checkStable(gameField, xCoord + X_WAY[w], yCoord + Y_WAY[w], color, oponent, w);
         }
     }
+
+    protected boolean breakingGroup(Field[][] gameField, Move move, Field color, Field oponent) {
+        ArrayList<Boolean> stabels = new ArrayList<Boolean>();
+        for (int w = 0; w <= 7; w++) {
+            stabels.add(checkGroup(gameField, move.getxCoord() + X_WAY[w], move.getyCoord() + Y_WAY[w], color, oponent, w));
+        }
+        for (int w = 0; w <= 3; w++) {
+            if (stabels.get(w).equals(true) && stabels.get(w + 4).equals(true)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkGroup(Field[][] gameField, int xCoord, int yCoord, Field color, Field oponent, int w) {
+        if (!logic.inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.EMPTY)) {
+            return false;
+        } else if (gameField[xCoord][yCoord].equals(oponent)) {
+            return true;
+        } else {
+            return checkGroup(gameField, xCoord + X_WAY[w], yCoord + Y_WAY[w], color, oponent, w);
+        }
+    }
+
 
     protected int calcOponentMove(Field[][] gameField, Field color, Field oponent, int iterations) {
 

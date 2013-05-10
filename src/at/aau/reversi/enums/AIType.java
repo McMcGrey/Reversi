@@ -33,6 +33,10 @@ public enum AIType {
      */
     AI_STABLE,
     /**
+     * Breaking Groups AI
+     */
+    AI_GROUP,
+    /**
      * Adativ AI
      */
     AI_ADAPTIV;
