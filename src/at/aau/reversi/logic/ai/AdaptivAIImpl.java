@@ -48,19 +48,21 @@ public class AdaptivAIImpl extends AbstractAIImpl implements AI {
         int average = ((intermedeateResult.get(0) - intermedeateResult.get(1)) + pointGraph.get(size-1)) / 2;
 
 
-        if (average < -6 ) {
+        if (average < -9 ) {
             ai = new RandomAIImpl();
-        }else if (-6 <= average && average < -3) {
+        }else if (-9 <= average && average < -6) {
             ai = new GreedyAIImpl();
-        } else if (-3 <= average && average <= 3) {
+        } else if (-6 <= average && average <= -3) {
             ai = new MinMaxAIImpl();
-        } else if (3 < average && average <= 6) {
+        } else if (-3 < average && average <= 3) {
             ai = new RegionAIImpl();
-        } else if (6 < average && average <= 9) {
+        } else if (3 < average && average <= 6) {
             ai = new FrontiersAIImpl();
         }
-        else {
+        else if(6 < average && average <= 9) {
             ai = new StableAIImpl();
+        } else {
+            ai = new GroupAIImpl();
         }
     }
 
