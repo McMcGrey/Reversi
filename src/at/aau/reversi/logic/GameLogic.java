@@ -28,8 +28,6 @@ public interface GameLogic {
 
     public Move getMoveFromInputstring(String inputString) throws InvalidInputException;
 
-    public boolean turnStones(int xCoord, int yCoord, Field color, int w);
-
     public boolean possibleMoves(Field color);
 
     public Field endGame ();

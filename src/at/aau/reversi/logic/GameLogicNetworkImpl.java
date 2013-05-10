@@ -1,11 +1,9 @@
 package at.aau.reversi.logic;
 
-import at.aau.reversi.constants.Constants;
 import at.aau.reversi.enums.Field;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.util.List;
 
 public class GameLogicNetworkImpl extends GameLogicAbstract {
@@ -31,11 +29,6 @@ public class GameLogicNetworkImpl extends GameLogicAbstract {
     public Field[][] getGameField() {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public boolean turnStones(int xCoord, int yCoord, Field color, int w) {
-        return false; //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

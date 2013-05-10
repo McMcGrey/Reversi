@@ -1,7 +1,6 @@
 package at.aau.reversi.network;
 
 import at.aau.reversi.bean.ErrorBean;
-import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.constants.Constants;
 import at.aau.reversi.controller.ReversiController;
@@ -162,12 +161,6 @@ public class Gameclient extends GameLogicAbstract implements Runnable, GameLogic
 
 
         return new Field[0][];  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public boolean turnStones(int xCoord, int yCoord, Field color, int w) {
-        //fixme: is method necessary?
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

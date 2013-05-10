@@ -2,7 +2,6 @@ package at.aau.reversi.logic;
 
 import at.aau.reversi.enums.Field;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,8 +31,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
         this.gameField = gameField;
     }
 
-    @Override
-    public boolean turnStones(int xCoord, int yCoord, Field color, int w) {
+    private boolean turnStones(int xCoord, int yCoord, Field color, int w) {
         if (!inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE)) {
             return false;
         } else if (gameField[xCoord][yCoord].equals(color)) {
