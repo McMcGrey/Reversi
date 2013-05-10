@@ -50,19 +50,25 @@ public class AdaptivAIImpl extends AbstractAIImpl implements AI {
 
         if (average < -9 ) {
             ai = new RandomAIImpl();
+            System.out.println("Random" + average);
         }else if (-9 <= average && average < -6) {
             ai = new GreedyAIImpl();
+            System.out.println("Greedy" + average);
         } else if (-6 <= average && average <= -3) {
             ai = new MinMaxAIImpl();
-        } else if (-3 < average && average <= 3) {
+            System.out.println("MinMax" + average);
+        } else if (-3 < average && average <= 0) {
             ai = new RegionAIImpl();
-        } else if (3 < average && average <= 6) {
+            System.out.println("Region" + average);
+        } else if (0 < average && average <= 3) {
             ai = new FrontiersAIImpl();
-        }
-        else if(6 < average && average <= 9) {
+            System.out.println("Frontiers" + average);
+        }else if(3 < average && average <= 6) {
             ai = new StableAIImpl();
+            System.out.println("Stable" + average);
         } else {
             ai = new GroupAIImpl();
+            System.out.println("Group" + average);
         }
     }
 

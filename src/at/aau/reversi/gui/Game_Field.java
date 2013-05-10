@@ -55,7 +55,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private JTextField textField_6;
     private JTextField textField_7;
     //private AIType AIwhite = AIType.AI_GREEDY;
-    private AIType aiBlack = AIType.AI_GROUP;
+    private AIType aiBlack = AIType.AI_ADAPTIV;
 
     /**
      * Launch the application.
