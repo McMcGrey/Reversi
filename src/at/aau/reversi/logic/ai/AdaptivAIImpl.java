@@ -26,12 +26,10 @@ public class AdaptivAIImpl extends AbstractAIImpl implements AI {
 
     @Override
     public Move calcNextStep(Field[][] gameField, Field color, int iterations) {
-        if (countToChange == 1) {
+        if (countToChange%2 == 0 && countToChange != 0) {
             setAi(gameField, color, iterations);
-            countToChange = 0;
-        } else {
-            countToChange++;
         }
+        countToChange++;
 
         bestMove = ai.calcNextStep(gameField, color, iterations);
         addToPointGraph(gameField, bestMove, color);
@@ -48,22 +46,22 @@ public class AdaptivAIImpl extends AbstractAIImpl implements AI {
         int average = ((intermedeateResult.get(0) - intermedeateResult.get(1)) + pointGraph.get(size-1)) / 2;
 
 
-        if (average < -9 ) {
+        if ((average < -9 && !isMainPhase())) {
             ai = new RandomAIImpl();
             System.out.println("Random" + average);
-        }else if (-9 <= average && average < -6) {
+        }else if ((average < -6 && !isMainPhase()) || average < -6 && isMainPhase()) {
             ai = new GreedyAIImpl();
             System.out.println("Greedy" + average);
-        } else if (-6 <= average && average <= -3) {
+        } else if ((average < -3 && !isMainPhase()) || average < -4 && isMainPhase()) {
             ai = new MinMaxAIImpl();
             System.out.println("MinMax" + average);
-        } else if (-3 < average && average <= 0) {
+        } else if ((average < 0 && !isMainPhase()) || average < 2 && isMainPhase()) {
             ai = new RegionAIImpl();
             System.out.println("Region" + average);
-        } else if (0 < average && average <= 3) {
+        } else if ((average < 3 && !isMainPhase())|| average < 6 && isMainPhase()) {
             ai = new FrontiersAIImpl();
             System.out.println("Frontiers" + average);
-        }else if(3 < average && average <= 6) {
+        }else if((average < 6 && !isMainPhase()) || average < 10 && isMainPhase()) {
             ai = new StableAIImpl();
             System.out.println("Stable" + average);
         } else {
@@ -77,5 +75,10 @@ public class AdaptivAIImpl extends AbstractAIImpl implements AI {
         logic.calcNewGameField(bestMove.getxCoord(), bestMove.getyCoord(), color);
         List<Integer> intermedeateResult = logic.getIntermediateResult();
         pointGraph.add(intermedeateResult.get(0) - intermedeateResult.get(1));
+    }
+
+    private boolean isMainPhase(){
+        if (countToChange <= 40 && countToChange >= 10) return true;
+        return false;
     }
 }
