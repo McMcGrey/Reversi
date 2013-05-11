@@ -20,7 +20,11 @@ public enum Field {
     /**
      * Possible field
      */
-    MAYBE;
+    MAYBE,
+    /**
+     * Tipp field
+     */
+    TIPP;
 
     @Override
     public String toString() {

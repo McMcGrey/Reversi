@@ -33,7 +33,7 @@ public class GroupAIImpl extends AbstractAIImpl implements AI {
         bestMove = getNextMove(gameField, color, oponent, iterations);
         return bestMove;
     }
-    private Move getNextMove(Field[][] gameField, Field color, Field oponent, int iterations) {
+    public Move getNextMove(Field[][] gameField, Field color, Field oponent, int iterations) {
         ArrayList<Integer> results = new ArrayList<Integer>();
         int placeholder;
         int result = 0;
