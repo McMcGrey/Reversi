@@ -238,6 +238,16 @@ public class ReversiController extends Observable {
         setChanged();
         notifyObservers(new ErrorBean("Spielende: " + winner, ErrorDisplayType.POPUP));
     }
+    
+    public void getTipp() {
+    	AI ai = new GroupAIImpl();
+    	Field color = gameBean.getCurrentPlayer().equals(Player.WHITE) ? Field.WHITE : Field.BLACK;
+        Move move = ai.calcNextStep(gameBean.getGameField(), color, 3);
+    	gameBean.getGameField()[move.getxCoord()][move.getyCoord()] = Field.TIPP;
+
+        setChanged();
+        notifyObservers(gameBean);
+    }
 
     private AI setAIStrenght(AIType aiType) {
         AI ai;
