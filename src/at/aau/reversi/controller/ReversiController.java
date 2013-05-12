@@ -244,6 +244,9 @@ public class ReversiController extends Observable {
     	Field color = gameBean.getCurrentPlayer().equals(Player.WHITE) ? Field.WHITE : Field.BLACK;
         Move move = ai.calcNextStep(gameBean.getGameField(), color, 3);
     	gameBean.getGameField()[move.getxCoord()][move.getyCoord()] = Field.TIPP;
+
+        setChanged();
+        notifyObservers(gameBean);
     }
 
     private AI setAIStrenght(AIType aiType) {
