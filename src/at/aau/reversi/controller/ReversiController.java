@@ -241,8 +241,8 @@ public class ReversiController extends Observable {
     
     public void getTipp() {
     	AI ai = new GroupAIImpl();
-    	Field oponent = gameBean.getCurrentPlayer().equals(Player.WHITE) ? Field.BLACK : Field.WHITE;
-    	Move move = ai.getNextMove(gameBean.getGameField(), gameBean.getCurrentPlayer(), oponent, 3);
+    	Field color = gameBean.getCurrentPlayer().equals(Player.WHITE) ? Field.WHITE : Field.BLACK;
+        Move move = ai.calcNextStep(gameBean.getGameField(), color, 3);
     	gameBean.getGameField()[move.getxCoord()][move.getyCoord()] = Field.TIPP;
     }
 

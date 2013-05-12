@@ -83,7 +83,7 @@ public abstract class GameLogicAbstract implements GameLogic {
     @Override
     public boolean validMove(short xCoord, short yCoord, Field color) {
         // Feld muss leer und im Spielfeld sein
-        if ((gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE)) && inGamefield(xCoord, yCoord)) {
+        if ((gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE)) || gameField[xCoord][yCoord].equals(Field.TIPP) && inGamefield(xCoord, yCoord)) {
             // Alle nachbarn muessen ueberprueft werden
             for (int w = 0; w <= 7; w++) {
                 // Nachbar muss nur ueberprueft werden wenn er im Spielfeld ist
@@ -119,7 +119,7 @@ public abstract class GameLogicAbstract implements GameLogic {
      * @return true/false
      */
     private boolean validNeighbour(int xCoord, int yCoord, Field color) {
-        return (!gameField[xCoord][yCoord].equals(color) && !gameField[xCoord][yCoord].equals(Field.EMPTY) && !gameField[xCoord][yCoord].equals(Field.MAYBE));
+        return (!gameField[xCoord][yCoord].equals(color) && !gameField[xCoord][yCoord].equals(Field.EMPTY) && !gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.TIPP));
     }
 
     /**
@@ -135,7 +135,7 @@ public abstract class GameLogicAbstract implements GameLogic {
         if (inGamefield(xCoord, yCoord)) {
             if (gameField[xCoord][yCoord].equals(color)) {
                 return true;
-            } else if (gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE)) {
+            } else if (gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.TIPP)) {
                 return false;
             } else {
                 // Pruefe naechstes Feld in der Reihe
@@ -154,7 +154,7 @@ public abstract class GameLogicAbstract implements GameLogic {
                 if (validMove(xCoord, yCoord, color)) {
                     gameField[xCoord][yCoord] = Field.MAYBE;
                     validMoves = true;
-                } else if (gameField[xCoord][yCoord].equals(Field.MAYBE)) {
+                } else if (gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.TIPP)) {
                     gameField[xCoord][yCoord] = Field.EMPTY;
                 }
             }

@@ -32,7 +32,7 @@ public class GameLogicLocalImpl extends GameLogicAbstract {
     }
 
     private boolean turnStones(int xCoord, int yCoord, Field color, int w) {
-        if (!inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE)) {
+        if (!inGamefield(xCoord, yCoord) || gameField[xCoord][yCoord].equals(Field.EMPTY) || gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.TIPP)) {
             return false;
         } else if (gameField[xCoord][yCoord].equals(color)) {
             return true;
