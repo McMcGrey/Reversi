@@ -314,6 +314,17 @@ public class ReversiController extends Observable {
 
         }else if(playerTypeBlack.equals(PlayerType.NETWORK)){
 
+            playerTypeBlack = PlayerType.AI;
+            blackAI = new AdaptivAIImpl();
+
+            server.killServer();
+            deleteObserver(server);
+            server = null;
+
+            applyAI();
+
+            setChanged();
+            notifyObservers(gameBean);
         }
 
     }
