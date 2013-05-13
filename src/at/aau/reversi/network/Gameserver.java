@@ -72,7 +72,7 @@ public class Gameserver implements Observer, Runnable{
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public synchronized void update(Observable o, Object arg) {
 
         if(arg instanceof GameBean){
 
