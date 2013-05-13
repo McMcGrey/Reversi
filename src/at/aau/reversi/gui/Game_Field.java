@@ -331,62 +331,75 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         JRadioButton rb1 = new JRadioButton("Grad 1: Random");
         rb1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                aiBlack = AIType.AI_RANDOM;
-                eventStack.push(new ErrorBean(
-                        "Schwierigkeit auf Random gesetzt",
-                        ErrorDisplayType.INLINE));
-
+            aiBlack = AIType.AI_RANDOM;
+            eventStack.push(new ErrorBean(
+                "Schwierigkeit auf Random gesetzt",
+                ErrorDisplayType.INLINE));
             }
         });
         rb1.setBounds(80, 80, 160, 23);
         rb1.setOpaque(false);
         options.add(rb1);
+
         JRadioButton rb2 = new JRadioButton("Grad 2: Greedy");
         rb2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                aiBlack = AIType.AI_GREEDY;
-                eventStack.push(new ErrorBean(
-                        "Schwierigkeit auf Greedy gesetzt",
-                        ErrorDisplayType.INLINE));
-
+            aiBlack = AIType.AI_GREEDY;
+            eventStack.push(new ErrorBean(
+                "Schwierigkeit auf Greedy gesetzt",
+                ErrorDisplayType.INLINE));
             }
         });
         rb2.setBounds(80, 120, 160, 23);
         rb2.setOpaque(false);
         options.add(rb2);
+
         JRadioButton rb3 = new JRadioButton("Grad 3: MinMax");
         rb3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+            aiBlack = AIType.AI_MINMAX;
+            eventStack.push(new ErrorBean(
+                "Schwierigkeit auf MinMax gesetzt",
+                ErrorDisplayType.INLINE));
             }
         });
         rb3.setBounds(80, 160, 160, 23);
         rb3.setOpaque(false);
         options.add(rb3);
+
         JRadioButton rb4 = new JRadioButton("Grad 4: Regions");
         rb4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+            aiBlack = AIType.AI_REGION;
+            eventStack.push(new ErrorBean(
+                "Schwierigkeit auf Regions gesetzt",
+                ErrorDisplayType.INLINE));
             }
         });
         rb4.setBounds(80, 200, 160, 23);
         rb4.setOpaque(false);
         options.add(rb4);
+
         JRadioButton rb5 = new JRadioButton("Grad 5: Frontiers");
         rb5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+            aiBlack = AIType.AI_FROMTIERS;
+            eventStack.push(new ErrorBean(
+                "Schwierigkeit auf Frontiers gesetzt",
+                ErrorDisplayType.INLINE));
             }
         });
         rb5.setOpaque(false);
         rb5.setBounds(80, 240, 160, 23);
         options.add(rb5);
+
         JRadioButton rb6 = new JRadioButton("Grad 6: Stable Disk's");
         rb6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+            aiBlack = AIType.AI_STABLE;
+            eventStack.push(new ErrorBean(
+                "Schwierigkeit auf Stable Disk's gesetzt",
+                ErrorDisplayType.INLINE));
             }
         });
         rb6.setBounds(80, 280, 200, 23);
@@ -396,12 +409,28 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         JRadioButton rb7 = new JRadioButton("Grad 7: Breaking Groups");
         rb7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+            aiBlack = AIType.AI_GROUP;
+            eventStack.push(new ErrorBean(
+                "Schwierigkeit auf Breaking Groups gesetzt",
+                ErrorDisplayType.INLINE));
             }
         });
         rb7.setBounds(80, 320, 200, 23);
         rb7.setOpaque(false);
         options.add(rb7);
+
+        JRadioButton rb8 = new JRadioButton("Adaptiv");
+        rb8.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                aiBlack = AIType.AI_ADAPTIV;
+                eventStack.push(new ErrorBean(
+                        "Schwierigkeit auf Adaptiv gesetzt",
+                        ErrorDisplayType.INLINE));
+            }
+        });
+        rb8.setBounds(80, 400, 200, 23);
+        rb8.setOpaque(false);
+        options.add(rb8);
 
         ButtonGroup g1 = new ButtonGroup();
         g1.add(rb1);
@@ -411,6 +440,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         g1.add(rb5);
         g1.add(rb6);
         g1.add(rb7);
+        g1.add(rb8);
 
         JButton btnBack2 = new JButton("Back");
         btnBack2.addActionListener(new ActionListener() {
