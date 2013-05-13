@@ -173,8 +173,6 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         JCheckBoxMenuItem mntmStufe1 = new JCheckBoxMenuItem("Moeglichen Zuege anzeigen");
         mntmStufe1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
                 repaint();
             }
         });
@@ -183,9 +181,8 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         JCheckBoxMenuItem mntmStufe2 = new JCheckBoxMenuItem("Tipp anzeigen");
         mntmStufe2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
-                repaint();
+            getTipp();
+            repaint();
             }
         });
         mnKi.add(mntmStufe2);
@@ -1303,5 +1300,8 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         }
         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
         frame.setTitle("Spielfeld");
+    }
+    public void getTipp() {
+        controller.getTipp();
     }
 }

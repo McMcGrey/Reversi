@@ -37,6 +37,8 @@ public enum Field {
                 return "B";
             case 3:
                 return "M";
+            case 4:
+                return "T";
         }
         return "";
     }

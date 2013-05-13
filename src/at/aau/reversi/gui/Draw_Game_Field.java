@@ -58,10 +58,13 @@ public class Draw_Game_Field extends JPanel {
         Image white = null;
         Image black = null;
         Image maybe = null;
+        Image tipp = null;
         try {
             white = ImageIO.read(new File("src/at/aau/reversi/gui/images/white.png"));
             black = ImageIO.read(new File("src/at/aau/reversi/gui/images/black.png"));
             maybe = ImageIO.read(new File("src/at/aau/reversi/gui/images/possibleTurn.png"));
+            tipp = ImageIO.read(new File("src/at/aau/reversi/gui/images/tipp.png"));
+
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -79,9 +82,9 @@ public class Draw_Game_Field extends JPanel {
                         g.drawImage(black, 50 * posX, 50 * posY, this);
                     } else if (gamefield[posX][posY].equals(Field.MAYBE)) {
                         g.drawImage(maybe, 50 * posX, 50 * posY, this);
-                    } else {
-
-                    }
+                    } else if (gamefield[posX][posY].equals(Field.TIPP) ){
+                        g.drawImage(tipp, 50 * posX, 50 * posY, this);
+                    } else {}
 
                     //repaint();
                 }
