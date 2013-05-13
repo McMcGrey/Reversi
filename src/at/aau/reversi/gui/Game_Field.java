@@ -104,16 +104,12 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (InstantiationException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (IllegalAccessException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (UnsupportedLookAndFeelException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
 
@@ -123,7 +119,6 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         try {
             frame.setIconImage(ImageIO.read(new File("src/at/aau/reversi/gui/images/JframeIcon.png")));
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1195,6 +1190,8 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
                 if (o instanceof GameBean) {
 
+                    ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), frame.getTitle());
+
                     this.gameBean = (GameBean) o;
                     gameFieldPanel.updateGameField(gameBean);
 
@@ -1226,7 +1223,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
                             frame.setTitle("Startseite");
                         }else if(result == 0){
 
-                            //todo: Start Game versus KI
+                            controller.setKIAfterConnectionLoss();
                         }
 
                     }else if(errorBean.getErrorDisplayType().equals(ErrorDisplayType.PROGRAM_FLOW)){

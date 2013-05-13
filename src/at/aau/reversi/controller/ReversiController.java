@@ -296,4 +296,25 @@ public class ReversiController extends Observable {
         setChanged();
         notifyObservers(bean);
     }
+
+    public void setKIAfterConnectionLoss(){
+
+        if(playerTypeWhite.equals(PlayerType.NETWORK)){
+
+            playerTypeWhite = PlayerType.AI;
+            whiteAI = new AdaptivAIImpl();
+
+            ((Gameclient)logic).killClient();
+            logic = new GameLogicLocalImpl();
+
+            applyAI();
+
+            setChanged();
+            notifyObservers(gameBean);
+
+        }else if(playerTypeBlack.equals(PlayerType.NETWORK)){
+
+        }
+
+    }
 }
