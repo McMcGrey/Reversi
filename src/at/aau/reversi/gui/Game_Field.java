@@ -20,10 +20,14 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 public class Game_Field extends JFrame implements Observer, Runnable {
 
@@ -32,6 +36,9 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private JTextField rule_output;
     private JLabel Backgroundfield;
     private JLabel Background;
+    private JLabel Background1;
+    private JLabel Background2;
+    private JLabel Background3;
     private JFrame frame;
     private Draw_Game_Field gameFieldPanel;
     private ReversiController controller;
@@ -54,6 +61,10 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private JTextField textField_5;
     private JTextField textField_6;
     private JTextField textField_7;
+    private JTextField KI_Auswahl;
+    private JTextField txtMeineIpAdresse;
+    private JTextField Ip_output;
+    private JTextField txtWarteAufVerbindung;
     //private AIType AIwhite = AIType.AI_GREEDY;
     private AIType aiBlack = AIType.AI_ADAPTIV;
 
@@ -138,14 +149,15 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         JMenuItem mntmNewGame = new JMenuItem("Neues Spiel");
         mntmNewGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielauswahl");
+                frame.setBounds(0, 0, 690, 560);
+                repaint();
+                ((CardLayout) frame.getContentPane().getLayout()).show(
+                        frame.getContentPane(), "Spielauswahl");
                 frame.setTitle("Spielauswahl");
 
             }
         });
         mnSpiel.add(mntmNewGame);
-
 
         JMenuItem mntmBeenden = new JMenuItem("Beenden");
         mntmBeenden.addActionListener(new ActionListener() {
@@ -157,75 +169,31 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         });
         mnSpiel.add(mntmBeenden);
 
-        JMenu mnAnsicht = new JMenu("Ansicht");
-        menuBar.add(mnAnsicht);
 
-        JMenu mnKi = new JMenu("KI");
+        JMenu mnKi = new JMenu("Ansicht");
         mnKi.setHorizontalAlignment(SwingConstants.RIGHT);
         menuBar.add(mnKi);
 
-
-        JMenuItem mntmStufe1 = new JMenuItem("Stufe 1 Random");
+        JCheckBoxMenuItem mntmStufe1 = new JCheckBoxMenuItem("Moeglichen Zuege anzeigen");
         mntmStufe1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                aiBlack = AIType.AI_RANDOM;
-                eventStack.push(new ErrorBean("Schwierigkeit auf Random gesetzt", ErrorDisplayType.INLINE));
 
+                repaint();
             }
         });
         mnKi.add(mntmStufe1);
 
-        JMenuItem mntmStufe2 = new JMenuItem("Stufe 2 Greedy");
+        JCheckBoxMenuItem mntmStufe2 = new JCheckBoxMenuItem("Tipp anzeigen");
         mntmStufe2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                aiBlack = AIType.AI_GREEDY;
-                eventStack.push(new ErrorBean("Schwierigkeit auf Greedy gesetzt", ErrorDisplayType.INLINE));
 
+                repaint();
             }
         });
         mnKi.add(mntmStufe2);
 
-        JMenuItem mntmStufe3 = new JMenuItem("Stufe 3 MinMax");
-        mntmStufe3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-
-
-            }
-        });
-        mnKi.add(mntmStufe3);
-
-        JMenuItem mntmStufe4 = new JMenuItem("Stufe 4 AlphaBeta");
-        mntmStufe4.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-
-
-            }
-        });
-        mnKi.add(mntmStufe4);
-
-        JMenuItem mntmStufe5 = new JMenuItem("Stufe 5 Strategy");
-        mntmStufe5.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-
-
-            }
-        });
-        mnKi.add(mntmStufe5);
-
-        JMenuItem mntmStufe6 = new JMenuItem("Stufe 6 Adaptiv");
-        mntmStufe6.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-
-
-            }
-        });
-        mnKi.add(mntmStufe6);
 
         JMenu mnHilfe = new JMenu("Hilfe");
         menuBar.add(mnHilfe);
@@ -244,7 +212,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
             }
         });
-        btnNewGame.setBounds(237, 124, 171, 69);
+        btnNewGame.setBounds(193, 153, 288, 87);
         start_site.add(btnNewGame);
 
         JButton btnRules = new JButton("Spielregeln");
@@ -254,19 +222,8 @@ public class Game_Field extends JFrame implements Observer, Runnable {
                 frame.setTitle("Spielregeln");
             }
         });
-        btnRules.setBounds(237, 217, 171, 69);
+        btnRules.setBounds(193, 276, 288, 87);
         start_site.add(btnRules);
-
-        JButton btnOptions = new JButton("Optionen");
-        btnOptions.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Optionen");
-                frame.setTitle("Optionen");
-            }
-        });
-        btnOptions.setBounds(237, 311, 171, 69);
-        start_site.add(btnOptions);
 
         JButton btnExit = new JButton("Exit");
         btnExit.addActionListener(new ActionListener() {
@@ -307,8 +264,8 @@ public class Game_Field extends JFrame implements Observer, Runnable {
                     }
 
                 }
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
-                frame.setTitle("Spielfeld");
+                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Optionen");
+                frame.setTitle("Optionen");
 
             }
         });
@@ -355,33 +312,159 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
         //FENSTER 2 SPIELAUSWAHL ENDE
 
-        //OPTIONEN ANFANG
+
+        // SPIELOPTIONEN ANFANG
 
         JPanel options = new JPanel();
         frame.getContentPane().add(options, "Optionen");
         options.setLayout(null);
 
+        KI_Auswahl = new JTextField();
+        KI_Auswahl.setText("Schwierigkeitsgrad auswaehlen : ");
+        KI_Auswahl.setBounds(80, 50, 300, 23);
+        options.add(KI_Auswahl);
+        KI_Auswahl.setColumns(10);
+        KI_Auswahl.setBorder(null);
+        KI_Auswahl.setOpaque(false);
+        KI_Auswahl.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        Font ki_auswahl = new Font("Verdana", Font.BOLD, 14);
+        KI_Auswahl.setFont(ki_auswahl);
+        KI_Auswahl.setForeground(Color.BLACK);
+        KI_Auswahl.setHorizontalAlignment(JTextField.LEFT);
+
+        JRadioButton rb1 = new JRadioButton("Grad 1: Random");
+        rb1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                aiBlack = AIType.AI_RANDOM;
+                eventStack.push(new ErrorBean(
+                        "Schwierigkeit auf Random gesetzt",
+                        ErrorDisplayType.INLINE));
+
+            }
+        });
+        rb1.setBounds(80, 80, 160, 23);
+        rb1.setOpaque(false);
+        options.add(rb1);
+        JRadioButton rb2 = new JRadioButton("Grad 2: Greedy");
+        rb2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                aiBlack = AIType.AI_GREEDY;
+                eventStack.push(new ErrorBean(
+                        "Schwierigkeit auf Greedy gesetzt",
+                        ErrorDisplayType.INLINE));
+
+            }
+        });
+        rb2.setBounds(80, 120, 160, 23);
+        rb2.setOpaque(false);
+        options.add(rb2);
+        JRadioButton rb3 = new JRadioButton("Grad 3: MinMax");
+        rb3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        rb3.setBounds(80, 160, 160, 23);
+        rb3.setOpaque(false);
+        options.add(rb3);
+        JRadioButton rb4 = new JRadioButton("Grad 4: Regions");
+        rb4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        rb4.setBounds(80, 200, 160, 23);
+        rb4.setOpaque(false);
+        options.add(rb4);
+        JRadioButton rb5 = new JRadioButton("Grad 5: Frontiers");
+        rb5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        rb5.setOpaque(false);
+        rb5.setBounds(80, 240, 160, 23);
+        options.add(rb5);
+        JRadioButton rb6 = new JRadioButton("Grad 6: Stable Disk's");
+        rb6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        rb6.setBounds(80, 280, 200, 23);
+        rb6.setOpaque(false);
+        options.add(rb6);
+
+        JRadioButton rb7 = new JRadioButton("Grad 7: Breaking Groups");
+        rb7.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        rb7.setBounds(80, 320, 200, 23);
+        rb7.setOpaque(false);
+        options.add(rb7);
+
+        ButtonGroup g1 = new ButtonGroup();
+        g1.add(rb1);
+        g1.add(rb2);
+        g1.add(rb3);
+        g1.add(rb4);
+        g1.add(rb5);
+        g1.add(rb6);
+        g1.add(rb7);
+
         JButton btnBack2 = new JButton("Back");
         btnBack2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Startseite");
+                ((CardLayout) frame.getContentPane().getLayout()).show(
+                        frame.getContentPane(), "Startseite");
                 frame.setTitle("Startseite");
+
             }
         });
         btnBack2.setBounds(10, 465, 89, 23);
         options.add(btnBack2);
 
-        JButton btnExit2 = new JButton("Exit");
-        btnExit2.addActionListener(new ActionListener() {
+        JButton btnnext = new JButton("Spiel starten");
+        btnnext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+
+
+
+
+                startSinglePlayer();
+
+                ((CardLayout) frame.getContentPane().getLayout()).show(
+                        frame.getContentPane(), "Spielfeld");
+                frame.setTitle("Spielfeld");
+
+
+                while (gameBean == null) {
+
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+
+                }
             }
         });
-        btnExit2.setBounds(568, 465, 89, 23);
-        options.add(btnExit2);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
+        btnnext.setBounds(528, 465, 120, 23);
+        options.add(btnnext);
+
+        Background3 = new JLabel(new ImageIcon(
+                "src/at/aau/reversi/gui/images/Backgroundfield.png"));
+        Background3.setBounds(40,40, 480, 400);
+        options.add(Background3);
+
+        Background = new JLabel(new ImageIcon(
+                "src/at/aau/reversi/gui/images/background1.png"));
         Background.setBounds(0, 0, 700, 600);
         options.add(Background);
 
@@ -560,17 +643,70 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
         // Ende Netzwerkauswahl
 
-        //Server Seite
+
+
+        // Server Seite
 
         JPanel Server_Site = new JPanel();
         frame.getContentPane().add(Server_Site, "Server Seite");
         Server_Site.setLayout(null);
 
+		/*
+		 * JIpTextField ipTextFieldout = new
+		 * JIpTextField(JIpTextField.IPVersion.IPV4);
+		 * ipTextFieldout.setBounds(196, 272, 271, 27);
+		 * Server_Site.add(ipTextFieldout);
+		 */
+
+		/*
+		 * JLabel Backgroundba = new JLabel("Backgroundba"); Backgroundba = new
+		 * JLabel(new
+		 * ImageIcon("src/at/aau/reversi/gui/images/backgroundfield.png"));
+		 * Backgroundba.setBorder(new LineBorder(new Color(0, 0, 0)));
+		 * Backgroundba.setBounds(196, 172, 271, 27);
+		 * Server_Site.add(Backgroundba);
+		 */
+
+        txtMeineIpAdresse = new JTextField();
+        txtMeineIpAdresse.setText("Meine IP Adresse :");
+        txtMeineIpAdresse.setBounds(196, 226, 211, 20);
+        Server_Site.add(txtMeineIpAdresse);
+        txtMeineIpAdresse.setColumns(10);
+        txtMeineIpAdresse.setBorder(null);
+        txtMeineIpAdresse.setOpaque(false);
+        txtMeineIpAdresse.setBorder(javax.swing.BorderFactory
+                .createEmptyBorder());
+        Font ipout = new Font("Verdana", Font.BOLD, 16);
+        txtMeineIpAdresse.setFont(ipout);
+        txtMeineIpAdresse.setForeground(Color.BLACK);
+        txtMeineIpAdresse.setHorizontalAlignment(JTextField.CENTER);
+
+        txtWarteAufVerbindung = new JTextField();
+        txtWarteAufVerbindung.setText("warte auf verbindung !");
+        txtWarteAufVerbindung.setBounds(196, 392, 271, 27);
+        Server_Site.add(txtWarteAufVerbindung);
+        txtWarteAufVerbindung.setColumns(14);
+        txtWarteAufVerbindung.setBorder(null);
+        txtWarteAufVerbindung.setOpaque(false);
+        txtMeineIpAdresse.setBorder(javax.swing.BorderFactory
+                .createEmptyBorder());
+        Font Serverout = new Font("Verdana", Font.BOLD, 16);
+        txtWarteAufVerbindung.setFont(Serverout);
+        txtWarteAufVerbindung.setForeground(Color.BLACK);
+        txtWarteAufVerbindung.setHorizontalAlignment(JTextField.CENTER);
+
+		/*
+		 * JLabel loadb = new JLabel("Ladebalken"); loadb = new JLabel(new
+		 * ImageIcon("src/at/aau/reversi/gui/images/Ladebalken2.gif"));
+		 * loadb.setBounds(126, 392, 400, 35); Server_Site.add(loadb);
+		 */
+
         JButton btnBackS = new JButton("Back");
         btnBackS.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Netzwerkauswahl");
+                ((CardLayout) frame.getContentPane().getLayout()).show(
+                        frame.getContentPane(), "Netzwerkauswahl");
                 frame.setTitle("Startseite");
             }
         });
@@ -580,31 +716,103 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         JButton btnExit6 = new JButton("Exit");
         btnExit6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit( 0 );
+                System.exit(0);
             }
         });
         btnExit6.setBounds(568, 465, 89, 23);
         Server_Site.add(btnExit6);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
+        Enumeration ifaces = null;
+        try {
+            ifaces = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+
+        while (ifaces.hasMoreElements()) {
+            NetworkInterface ni = (NetworkInterface) ifaces.nextElement();
+
+
+
+            Enumeration addrs = ni.getInetAddresses();
+
+            while (addrs.hasMoreElements()) {
+
+                InetAddress ia = (InetAddress) addrs.nextElement();
+
+
+
+                if (Pattern.matches(".*:.*", ia.getHostAddress()) == false
+                        && !ia.getHostAddress().equals("127.0.0.1")) {
+
+                    // ipTextFieldout.setAddress(ia.getHostAddress());
+                    // System.out.println(ia.getHostAddress());
+
+                    Ip_output = new JTextField();
+                    Ip_output.setText(ia.getHostAddress());
+                    Ip_output.setBounds(196, 272, 271, 27);
+                    Server_Site.add(Ip_output);
+                    Ip_output.setColumns(10);
+                    Ip_output.setBorder(null);
+                    Ip_output.setOpaque(false);
+                    Ip_output.setBorder(javax.swing.BorderFactory
+                            .createEmptyBorder());
+                    Font ip_out = new Font("Verdana", Font.BOLD, 16);
+                    Ip_output.setFont(ip_out);
+                    Ip_output.setForeground(Color.BLACK);
+                    Ip_output.setHorizontalAlignment(JTextField.CENTER);
+
+                }
+            }
+        }
+        Background2 = new JLabel(new ImageIcon(
+                "src/at/aau/reversi/gui/images/Backgroundfield.png"));
+        Background2.setBounds(185, 208, 310, 120);
+        Server_Site.add(Background2);
+
+        Background = new JLabel(new ImageIcon(
+                "src/at/aau/reversi/gui/images/background1.png"));
         Background.setBounds(0, 0, 700, 600);
         Server_Site.add(Background);
 
+        // Ende Server Seite
 
-
-        //Ende Server Seite
-
-        //CLient Seite
+        // CLient Seite
 
         JPanel Client_Site = new JPanel();
         frame.getContentPane().add(Client_Site, "Client Seite");
         Client_Site.setLayout(null);
 
+        JIpTextField ipTextFieldin = new JIpTextField(
+                JIpTextField.IPVersion.IPV4);
+        ipTextFieldin.setBounds(196, 272, 271, 27);
+        String ip = ipTextFieldin.getText();
+        Client_Site.add(ipTextFieldin);
+
+        txtMeineIpAdresse = new JTextField();
+        txtMeineIpAdresse.setText("Ip Adresse eintragen :");
+        txtMeineIpAdresse.setBounds(196, 226, 211, 20);
+        Client_Site.add(txtMeineIpAdresse);
+        txtMeineIpAdresse.setColumns(10);
+        txtMeineIpAdresse.setBorder(null);
+        txtMeineIpAdresse.setOpaque(false);
+        txtMeineIpAdresse.setBorder(javax.swing.BorderFactory
+                .createEmptyBorder());
+        Font ipoutc = new Font("Verdana", Font.BOLD, 16);
+        txtMeineIpAdresse.setFont(ipoutc);
+        txtMeineIpAdresse.setForeground(Color.BLACK);
+        txtMeineIpAdresse.setHorizontalAlignment(JTextField.CENTER);
+
+        JButton connect = new JButton(" Verbinden ");
+        connect.setBounds(245, 420, 201, 40);
+        Client_Site.add(connect);
+
         JButton btnBackC = new JButton("Back");
         btnBackC.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Netzwerkauswahl");
+                ((CardLayout) frame.getContentPane().getLayout()).show(
+                        frame.getContentPane(), "Netzwerkauswahl");
                 frame.setTitle("Startseite");
             }
         });
@@ -614,14 +822,19 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         JButton btnExit7 = new JButton("Exit");
         btnExit7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.exit( 0 );
+                System.exit(0);
             }
         });
         btnExit7.setBounds(568, 465, 89, 23);
         Client_Site.add(btnExit7);
 
+        Background1 = new JLabel(new ImageIcon(
+                "src/at/aau/reversi/gui/images/Backgroundfield.png"));
+        Background1.setBounds(185, 208, 310, 120);
+        Client_Site.add(Background1);
 
-        Background = new JLabel(new ImageIcon("src/at/aau/reversi/gui/images/background1.png"));
+        Background = new JLabel(new ImageIcon(
+                "src/at/aau/reversi/gui/images/background1.png"));
         Background.setBounds(0, 0, 700, 600);
         Client_Site.add(Background);
 
@@ -917,10 +1130,6 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
 
         // SPIELFELD ENDE
-        JIpTextField ipTextField = new JIpTextField(JIpTextField.IPVersion.IPV4);
-        play_site.add(ipTextField);
-        ipTextField.setBounds(20,20,100,20);
-
 
     }
 
