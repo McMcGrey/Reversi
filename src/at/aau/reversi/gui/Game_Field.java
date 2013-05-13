@@ -64,6 +64,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private JTextField KI_Auswahl;
     private JTextField txtMeineIpAdresse;
     private JTextField Ip_output;
+    private JIpTextField ipTextFieldin;
     private JTextField txtWarteAufVerbindung;
     //private AIType AIwhite = AIType.AI_GREEDY;
     private AIType aiBlack = AIType.AI_ADAPTIV;
@@ -595,12 +596,12 @@ public class Game_Field extends JFrame implements Observer, Runnable {
                 ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Client Seite");
                 frame.setTitle("Client Seite");
 
-                startGameAsClient();
+                //startGameAsClient();
 
                 // Todo: listener
 
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
-                frame.setTitle("Spiel als Client");
+//                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
+//                frame.setTitle("Spiel als Client");
 
             }
         });
@@ -778,7 +779,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         frame.getContentPane().add(Client_Site, "Client Seite");
         Client_Site.setLayout(null);
 
-        JIpTextField ipTextFieldin = new JIpTextField(
+        ipTextFieldin = new JIpTextField(
                 JIpTextField.IPVersion.IPV4);
         ipTextFieldin.setBounds(196, 272, 271, 27);
         String ip = ipTextFieldin.getText();
@@ -800,6 +801,12 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
         JButton connect = new JButton(" Verbinden ");
         connect.setBounds(245, 420, 201, 40);
+        connect.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                startGameAsClient();
+            }
+        });
         Client_Site.add(connect);
 
         JButton btnBackC = new JButton("Back");
@@ -1155,7 +1162,16 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
     private void startGameAsClient(){
         try {
-            InetAddress address = InetAddress.getByName("127.0.0.1");
+
+            InetAddress address;
+
+            //Wenn keine IP ausgewaehlt wurde, dann localhost
+            if(ipTextFieldin.getIpAddressString().isEmpty()){
+                address = InetAddress.getByName("localhost");
+            }else{
+                address = ipTextFieldin.getIpAddress();
+            }
+
             controller.setServerAddress(address);
             controller.startGame(PlayerType.NETWORK, PlayerType.HUMAN_PLAYER, AIType.AI_GREEDY, AIType.AI_GREEDY, false);
         } catch (UnknownHostException e) {
