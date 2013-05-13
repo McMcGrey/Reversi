@@ -642,22 +642,6 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         frame.getContentPane().add(Server_Site, "Server Seite");
         Server_Site.setLayout(null);
 
-		/*
-		 * JIpTextField ipTextFieldout = new
-		 * JIpTextField(JIpTextField.IPVersion.IPV4);
-		 * ipTextFieldout.setBounds(196, 272, 271, 27);
-		 * Server_Site.add(ipTextFieldout);
-		 */
-
-		/*
-		 * JLabel Backgroundba = new JLabel("Backgroundba"); Backgroundba = new
-		 * JLabel(new
-		 * ImageIcon("src/at/aau/reversi/gui/images/backgroundfield.png"));
-		 * Backgroundba.setBorder(new LineBorder(new Color(0, 0, 0)));
-		 * Backgroundba.setBounds(196, 172, 271, 27);
-		 * Server_Site.add(Backgroundba);
-		 */
-
         txtMeineIpAdresse = new JTextField();
         txtMeineIpAdresse.setText("Meine IP Adresse :");
         txtMeineIpAdresse.setBounds(196, 226, 211, 20);
@@ -1161,7 +1145,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
             InetAddress address;
 
             //Wenn keine IP ausgewaehlt wurde, dann localhost
-            if(ipTextFieldin.getIpAddressString().isEmpty()){
+            if(ipTextFieldin.getIpAddressString().equals("...")){
                 address = InetAddress.getByName("localhost");
             }else{
                 address = ipTextFieldin.getIpAddress();
