@@ -1232,7 +1232,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
                     }else if(errorBean.getErrorDisplayType().equals(ErrorDisplayType.PROGRAM_FLOW)){
 
                         ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
-                        frame.setTitle("Spiel als Server");
+                        frame.setTitle("Netzwerkspiel");
 
                     }else {
                         JOptionPane.showMessageDialog(this, errorBean.getErrorMessage());
