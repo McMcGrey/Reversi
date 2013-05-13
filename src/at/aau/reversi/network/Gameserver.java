@@ -115,11 +115,14 @@ public class Gameserver implements Observer, Runnable{
 
     @Override
     public void run() {
+
         try {
 
             output = new ObjectOutputStream(client.getOutputStream());
             output.flush();
             input = new ObjectInputStream(client.getInputStream());
+
+            gotConnection();
 
             while(isRunning){
 
@@ -178,6 +181,7 @@ public class Gameserver implements Observer, Runnable{
     }
 
     private void closeAndSendErrorMessageToController(){
+
         if(Constants.LOGGING){
             System.out.println("SERVER - ERROR: Closing Connection");
         }
@@ -191,5 +195,9 @@ public class Gameserver implements Observer, Runnable{
             e.printStackTrace();
         }
         controller.sendErrorMessageToObservers(new ErrorBean("Fehler bei Netzwerkverbindung", ErrorDisplayType.NETWORK));
+    }
+
+    private void gotConnection(){
+        controller.sendErrorMessageToObservers(new ErrorBean("switchToGame", ErrorDisplayType.PROGRAM_FLOW));
     }
 }

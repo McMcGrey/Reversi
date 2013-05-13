@@ -581,11 +581,6 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
                 new StartServerGameThread().start();
 
-                // Todo: listener
-
-                ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
-                frame.setTitle("Spiel als Server");
-
 
 
             }
@@ -1217,6 +1212,11 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 
                             //todo: Start Game versus KI
                         }
+
+                    }else if(errorBean.getErrorDisplayType().equals(ErrorDisplayType.PROGRAM_FLOW)){
+
+                        ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Spielfeld");
+                        frame.setTitle("Spiel als Server");
 
                     }else {
                         JOptionPane.showMessageDialog(this, errorBean.getErrorMessage());

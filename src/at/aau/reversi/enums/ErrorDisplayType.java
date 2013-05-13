@@ -15,6 +15,10 @@ public enum ErrorDisplayType {
     /**
      * Should be used when the network connection was lost
      */
-    NETWORK
+    NETWORK,
+    /**
+     * Is used to handle Information about the game to the observers
+     */
+    PROGRAM_FLOW
 }
 
