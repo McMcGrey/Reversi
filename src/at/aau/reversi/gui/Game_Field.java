@@ -173,6 +173,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         JCheckBoxMenuItem mntmStufe1 = new JCheckBoxMenuItem("Moeglichen Zuege anzeigen");
         mntmStufe1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                controller.togglePossibleMovesVisibility();
                 repaint();
             }
         });

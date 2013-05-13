@@ -119,7 +119,7 @@ public abstract class GameLogicAbstract implements GameLogic {
      * @return true/false
      */
     private boolean validNeighbour(int xCoord, int yCoord, Field color) {
-        return (!gameField[xCoord][yCoord].equals(color) && !gameField[xCoord][yCoord].equals(Field.EMPTY) && !gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.TIPP));
+        return (!gameField[xCoord][yCoord].equals(color) && !gameField[xCoord][yCoord].equals(Field.EMPTY) && !gameField[xCoord][yCoord].equals(Field.MAYBE) && !gameField[xCoord][yCoord].equals(Field.TIPP));
     }
 
     /**

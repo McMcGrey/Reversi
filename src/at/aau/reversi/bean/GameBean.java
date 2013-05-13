@@ -17,6 +17,7 @@ public class GameBean {
         currentPlayer = Player.WHITE;
         // Controller has to activate gameField;
         gameFieldActive = false;
+        showPossibleMoves = false;
 
         white = 2;
         black = 2;
@@ -36,6 +37,7 @@ public class GameBean {
      * When this field is true, the human in front of the computer is allowed to play
      */
     private boolean gameFieldActive;
+    private boolean showPossibleMoves;
 
     /**
      * Conter for player`s stones
@@ -103,5 +105,13 @@ public class GameBean {
 
     public void setBlack(int black) {
         this.black = black;
+    }
+
+    public boolean isShowPossibleMoves() {
+        return showPossibleMoves;
+    }
+
+    public void setShowPossibleMoves(boolean showPossibleMoves) {
+        this.showPossibleMoves = showPossibleMoves;
     }
 }

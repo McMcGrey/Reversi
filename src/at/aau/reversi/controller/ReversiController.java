@@ -4,7 +4,8 @@ import at.aau.reversi.bean.ErrorBean;
 import at.aau.reversi.bean.GameBean;
 import at.aau.reversi.bean.Move;
 import at.aau.reversi.enums.*;
-import at.aau.reversi.logic.*;
+import at.aau.reversi.logic.GameLogic;
+import at.aau.reversi.logic.GameLogicLocalImpl;
 import at.aau.reversi.logic.ai.*;
 import at.aau.reversi.network.Gameclient;
 import at.aau.reversi.network.Gameserver;
@@ -129,7 +130,7 @@ public class ReversiController extends Observable {
             // The white player has the color white, this is setted here
             Field color = (player.equals(Player.WHITE)) ? Field.WHITE : Field.BLACK;
             //Field color = Field.WHITE;
-            if (gameBean.getGameField()[xCoord][yCoord].equals(Field.MAYBE)) {
+            if (gameBean.getGameField()[xCoord][yCoord].equals(Field.MAYBE)  || gameBean.getGameField()[xCoord][yCoord].equals(Field.TIPP)) {
 
                 // Spielzug durchfuehren
                 applyMove(xCoord, yCoord, color);
@@ -244,6 +245,14 @@ public class ReversiController extends Observable {
     	Field color = gameBean.getCurrentPlayer().equals(Player.WHITE) ? Field.WHITE : Field.BLACK;
         Move move = ai.calcNextStep(gameBean.getGameField(), color, 3);
     	gameBean.getGameField()[move.getxCoord()][move.getyCoord()] = Field.TIPP;
+
+        setChanged();
+        notifyObservers(gameBean);
+    }
+
+    public void togglePossibleMovesVisibility () {
+        boolean x = gameBean.isShowPossibleMoves() ? false : true;
+        gameBean.setShowPossibleMoves(x);
 
         setChanged();
         notifyObservers(gameBean);

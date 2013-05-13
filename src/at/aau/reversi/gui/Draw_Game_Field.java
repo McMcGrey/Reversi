@@ -17,7 +17,6 @@ public class Draw_Game_Field extends JPanel {
 
     }
 
-
     protected void paintComponent(Graphics g) // Zeichnet das Feld
     {
         super.paintComponent(g);
@@ -62,7 +61,9 @@ public class Draw_Game_Field extends JPanel {
         try {
             white = ImageIO.read(new File("src/at/aau/reversi/gui/images/white.png"));
             black = ImageIO.read(new File("src/at/aau/reversi/gui/images/black.png"));
-            maybe = ImageIO.read(new File("src/at/aau/reversi/gui/images/possibleTurn.png"));
+            if (gameBean.isShowPossibleMoves()) {
+                maybe = ImageIO.read(new File("src/at/aau/reversi/gui/images/possibleTurn.png"));
+            }
             tipp = ImageIO.read(new File("src/at/aau/reversi/gui/images/tipp.png"));
 
         } catch (IOException e) {
