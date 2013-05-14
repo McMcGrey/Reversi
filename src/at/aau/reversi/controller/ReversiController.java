@@ -147,13 +147,13 @@ public class ReversiController extends Observable {
 
             } else {
                 setChanged();
-                notifyObservers(new ErrorBean("Ungültiger Zug", ErrorDisplayType.INLINE));
+                notifyObservers(new ErrorBean("Ungueltiger Zug", ErrorDisplayType.INLINE));
             }
 
         } else {
 
             setChanged();
-            notifyObservers(new ErrorBean("Zur Zeit ist kein Zug möglich", ErrorDisplayType.INLINE));
+            notifyObservers(new ErrorBean("Zur Zeit ist kein Zug moeglich", ErrorDisplayType.INLINE));
 
         }
 
