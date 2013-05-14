@@ -17,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Arrays;
 
@@ -106,6 +107,8 @@ public class Gameclient extends GameLogicAbstract implements Runnable, GameLogic
                 }  catch(SocketTimeoutException ex){
                     // The socket timeout exception occurs when nothing was send, ignore this in this case
                 } catch (EOFException e){
+                    sendErrorMessageToController();
+                } catch (SocketException ex){
                     sendErrorMessageToController();
                 }
                 try {
