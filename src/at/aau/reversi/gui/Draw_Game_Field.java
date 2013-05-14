@@ -47,9 +47,11 @@ public class Draw_Game_Field extends JPanel {
 
 
         }
-
+        if(g!=null && gameBean != null){
+        	
+        
         Gamefield_update(g);
-
+        }
     }
 
     private void Gamefield_update(Graphics g) {                                   // Updatet das Feld

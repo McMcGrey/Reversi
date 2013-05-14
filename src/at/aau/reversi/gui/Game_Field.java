@@ -179,7 +179,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         });
         mnKi.add(mntmStufe1);
 
-        JCheckBoxMenuItem mntmStufe2 = new JCheckBoxMenuItem("Tipp anzeigen");
+        JMenuItem mntmStufe2 = new JMenuItem("Tipp anzeigen");
         mntmStufe2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             getTipp();
