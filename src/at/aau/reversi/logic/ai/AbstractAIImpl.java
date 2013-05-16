@@ -138,16 +138,17 @@ public abstract class AbstractAIImpl {
     }
 
     protected boolean breakingGroup(Field[][] gameField, Move move, Field color, Field oponent) {
-        ArrayList<Boolean> stabels = new ArrayList<Boolean>();
+        ArrayList<Boolean> group = new ArrayList<Boolean>();
+        boolean x = false;
         for (int w = 0; w <= 7; w++) {
-            stabels.add(checkGroup(gameField, move.getxCoord() + X_WAY[w], move.getyCoord() + Y_WAY[w], color, oponent, w));
+            group.add(checkGroup(gameField, move.getxCoord() + X_WAY[w], move.getyCoord() + Y_WAY[w], color, oponent, w));
         }
         for (int w = 0; w <= 3; w++) {
-            if (stabels.get(w).equals(true) && stabels.get(w + 4).equals(true)){
-                return true;
+            if (group.get(w).equals(true) && group.get(w + 4).equals(true)){
+                x = true;
             }
         }
-        return false;
+        return x;
     }
 
     private boolean checkGroup(Field[][] gameField, int xCoord, int yCoord, Field color, Field oponent, int w) {
