@@ -39,10 +39,11 @@ public class FrontiersAIImpl extends AbstractAIImpl implements AI {
         int placeholder;
         int result = 0;
         Move bestMove = validMoves.get(0);
+        Field[][] gameField2 = gameField;
 
         for (Move move : validMoves) {
-            logic.setGameField(copyArray(gameField));
-            logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
+            logic.setGameField(copyArray(gameField2));
+            gameField = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
             if (!logic.possibleMoves(oponent)) {
                 return move;
             }
@@ -51,11 +52,16 @@ public class FrontiersAIImpl extends AbstractAIImpl implements AI {
                 result = placeholder;
                 bestMove = move;
             } else if (placeholder == result) {
-                if (getOponetPossibilities(gameField, bestMove, color, oponent) > getOponetPossibilities(gameField, move, color, oponent)) {
+                int optBest = getOponetPossibilities(gameField, bestMove, color, oponent);
+                int optnew = getOponetPossibilities(gameField, move, color, oponent);
+                System.out.println(optBest + ">" + optnew);
+                if ( optBest > optnew) {
                     bestMove = move;
+                    System.out.println("Test2");
                 }
             }
         }
+        System.out.println("---");
         return  bestMove;
     }
 

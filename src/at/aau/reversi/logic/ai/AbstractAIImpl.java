@@ -57,7 +57,8 @@ public abstract class AbstractAIImpl {
         for (short xCoord = 0; xCoord < 8; xCoord++) {
             for (short yCoord = 0; yCoord < 8; yCoord++) {
                 if (gameField[xCoord][yCoord].equals(Field.MAYBE)) {
-                    validMoves.add(new Move(xCoord, yCoord));
+                    Move move = new Move(xCoord, yCoord);
+                    validMoves.add(move);
                 }
             }
         }
@@ -106,9 +107,18 @@ public abstract class AbstractAIImpl {
 
     protected int getOponetPossibilities (Field[][] gameField, Move move, Field color, Field oponent) {
         gameField = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
-        logic.setGameField(copyArray(gameField));
-        logic.possibleMoves(oponent);
-        return getMoves(gameField).size();
+        gameField =possibleMoves(gameField, oponent);
+        int count = 0;
+        for (short i = 0; i < 8; i++) {
+            for (short z = 0; z < 8; z++) {
+
+                if (gameField[i][z].equals(Field.MAYBE)) {
+                    count++;
+                }
+
+            }
+        }
+        return count;
     }
 
     protected boolean isStable(Field[][] gameField, Move move, Field color, Field oponent) {
@@ -165,6 +175,7 @@ public abstract class AbstractAIImpl {
         ArrayList<Move> validMovesOponent;
         int counter = 100;
         int innerCounter;
+        Field[][] gameField2 = gameField;
 
         if (!logic.possibleMoves(oponent)) {
             return countFields(gameField, color);
@@ -179,8 +190,8 @@ public abstract class AbstractAIImpl {
                 logic.possibleMoves(color);
                 validMoves = getMoves(gameField);
                 for (Move move : validMoves) {
-                    logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
-                    innerResults.add(calcOponentMove(gameField, color, oponent, iterations - 1));
+                    gameField2 = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
+                    innerResults.add(calcOponentMove(gameField2, color, oponent, iterations - 1));
                 }
 
                 for (Integer res : innerResults) {
@@ -198,6 +209,20 @@ public abstract class AbstractAIImpl {
         }
 
         return counter;
+    }
+
+    public Field[][] possibleMoves(Field[][] gameField, Field color) {
+        // Search for valid Moves
+        for (short xCoord = 0; xCoord < 8; xCoord++) {
+            for (short yCoord = 0; yCoord < 8; yCoord++) {
+                if (logic.validMove(xCoord, yCoord, color)) {
+                    gameField[xCoord][yCoord] = Field.MAYBE;
+                } else if (gameField[xCoord][yCoord].equals(Field.MAYBE) || gameField[xCoord][yCoord].equals(Field.TIPP)) {
+                    gameField[xCoord][yCoord] = Field.EMPTY;
+                }
+            }
+        }
+        return gameField;
     }
 
 }
