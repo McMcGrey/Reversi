@@ -37,6 +37,10 @@ public enum AIType {
      */
     AI_GROUP,
     /**
+     * Evaporation AI
+     */
+    AI_EVAPORATION,
+    /**
      * Adativ AI
      */
     AI_ADAPTIV;

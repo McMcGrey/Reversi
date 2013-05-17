@@ -52,9 +52,6 @@ public abstract class AbstractAIImpl {
 
     protected ArrayList<Move> getMoves(Field[][] gameField) {
 
-
-        logic.setGameField(copyArray(gameField));
-
         ArrayList<Move> validMoves = new ArrayList<Move>();
         // Search for valid Moves
         for (short xCoord = 0; xCoord < 8; xCoord++) {
@@ -64,7 +61,6 @@ public abstract class AbstractAIImpl {
                 }
             }
         }
-
         return validMoves;
     }
 
@@ -109,8 +105,8 @@ public abstract class AbstractAIImpl {
     }
 
     protected int getOponetPossibilities (Field[][] gameField, Move move, Field color, Field oponent) {
+        gameField = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
         logic.setGameField(copyArray(gameField));
-        logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
         logic.possibleMoves(oponent);
         return getMoves(gameField).size();
     }

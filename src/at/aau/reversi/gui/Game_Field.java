@@ -417,8 +417,21 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         rb7.setOpaque(false);
         options.add(rb7);
 
-        JRadioButton rb8 = new JRadioButton("Adaptiv");
+        JRadioButton rb8 = new JRadioButton("Evaporation");
         rb8.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                aiBlack = AIType.AI_EVAPORATION;
+                eventStack.push(new ErrorBean(
+                        "Schwierigkeit auf Evaporation gesetzt",
+                        ErrorDisplayType.INLINE));
+            }
+        });
+        rb8.setBounds(80, 360, 200, 23);
+        rb8.setOpaque(false);
+        options.add(rb8);
+
+        JRadioButton rb9 = new JRadioButton("Adaptiv");
+        rb9.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 aiBlack = AIType.AI_ADAPTIV;
                 eventStack.push(new ErrorBean(
@@ -426,9 +439,9 @@ public class Game_Field extends JFrame implements Observer, Runnable {
                         ErrorDisplayType.INLINE));
             }
         });
-        rb8.setBounds(80, 400, 200, 23);
-        rb8.setOpaque(false);
-        options.add(rb8);
+        rb9.setBounds(80, 400, 200, 23);
+        rb9.setOpaque(false);
+        options.add(rb9);
 
         ButtonGroup g1 = new ButtonGroup();
         g1.add(rb1);
@@ -439,6 +452,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         g1.add(rb6);
         g1.add(rb7);
         g1.add(rb8);
+        g1.add(rb9);
 
         JButton btnBack2 = new JButton("Back");
         btnBack2.addActionListener(new ActionListener() {

@@ -274,6 +274,8 @@ public class ReversiController extends Observable {
             ai = new StableAIImpl();
         } else if (aiType == AIType.AI_GROUP) {
             ai = new GroupAIImpl();
+        } else if (aiType == AIType.AI_EVAPORATION) {
+        ai = new EvaporationAIImpl();
         } else {
             ai = new AdaptivAIImpl();
         }
