@@ -51,7 +51,8 @@ public class StableAIImpl extends AbstractAIImpl implements AI {
                 result = placeholder;
                 bestMove = move;
             } else if (placeholder == result) {
-                if (getOponetPossibilities(gameField, bestMove, color, oponent) > getOponetPossibilities(gameField, move, oponent, color)) {
+                logic.setGameField(copyArray(gameField));
+                if ( getOponetPossibilities(gameField, bestMove, color, oponent) > getOponetPossibilities(gameField, move, color, oponent)) {
                     bestMove = move;
                 }
             }

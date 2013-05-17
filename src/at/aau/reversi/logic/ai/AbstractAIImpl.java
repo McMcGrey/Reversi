@@ -107,7 +107,7 @@ public abstract class AbstractAIImpl {
 
     protected int getOponetPossibilities (Field[][] gameField, Move move, Field color, Field oponent) {
         gameField = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
-        gameField =possibleMoves(gameField, oponent);
+        gameField = possibleMoves(gameField, oponent);
         int count = 0;
         for (short i = 0; i < 8; i++) {
             for (short z = 0; z < 8; z++) {
@@ -177,20 +177,22 @@ public abstract class AbstractAIImpl {
         int innerCounter;
         Field[][] gameField2 = gameField;
 
-        if (!logic.possibleMoves(oponent)) {
+        logic.setGameField(copyArray(gameField2));
+        gameField = possibleMoves(gameField2, oponent);
+        validMovesOponent = getMoves(gameField);
+        if (validMovesOponent.isEmpty()) {
             return countFields(gameField, color);
         }
-        validMovesOponent = getMoves(gameField);
         for (Move moveOponent : validMovesOponent) {
             if (iterations == 0) {
                 results.add(countFields(logic.calcNewGameField(moveOponent.getxCoord(), moveOponent.getyCoord(), oponent), color));
             } else {
                 innerCounter = 100;
                 innerResults = new ArrayList<Integer>();
-                logic.possibleMoves(color);
+                gameField = possibleMoves(gameField, color);
                 validMoves = getMoves(gameField);
                 for (Move move : validMoves) {
-                    gameField2 = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
+                    gameField = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
                     innerResults.add(calcOponentMove(gameField2, color, oponent, iterations - 1));
                 }
 

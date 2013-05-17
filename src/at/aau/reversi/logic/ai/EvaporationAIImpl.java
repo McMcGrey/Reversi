@@ -43,16 +43,13 @@ public class EvaporationAIImpl extends AbstractAIImpl implements AI {
         for (Move move : validMoves) {
             logic.setGameField(copyArray(gameField));
             placeholder = getOponetPossibilities(gameField, move, color, oponent);
-            System.out.println(move.getxCoord() + " " + move.getyCoord() + ";" + placeholder);
             if (placeholder < result) {
                 result = placeholder;
                 bestMove = move;
-            System.out.println("Taken" + result);
             } /*else if (placeholder == result) {
 
             }*/
         }
-        System.out.println("------------");
         return  bestMove;
     }
 }

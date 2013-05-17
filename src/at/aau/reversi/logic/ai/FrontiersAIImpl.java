@@ -43,25 +43,22 @@ public class FrontiersAIImpl extends AbstractAIImpl implements AI {
 
         for (Move move : validMoves) {
             logic.setGameField(copyArray(gameField2));
-            gameField = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
-            if (!logic.possibleMoves(oponent)) {
+            if (getOponetPossibilities(gameField2, move, color, oponent) == 0) {
                 return move;
+            } else {
+                gameField = logic.calcNewGameField(move.getxCoord(), move.getyCoord(), color);
             }
             placeholder = weightMove(gameField, move, calcOponentMove(gameField, color, oponent, iterations - 1), color);
             if (placeholder > result) {
                 result = placeholder;
                 bestMove = move;
             } else if (placeholder == result) {
-                int optBest = getOponetPossibilities(gameField, bestMove, color, oponent);
-                int optnew = getOponetPossibilities(gameField, move, color, oponent);
-                System.out.println(optBest + ">" + optnew);
-                if ( optBest > optnew) {
+                logic.setGameField(copyArray(gameField));
+                if ( getOponetPossibilities(gameField, bestMove, color, oponent) > getOponetPossibilities(gameField, move, color, oponent)) {
                     bestMove = move;
-                    System.out.println("Test2");
                 }
             }
         }
-        System.out.println("---");
         return  bestMove;
     }
 
