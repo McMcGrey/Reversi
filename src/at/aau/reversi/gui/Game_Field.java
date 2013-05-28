@@ -1166,11 +1166,11 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     }
 
     private void startSinglePlayer() {
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_GREEDY, aiBlack, false);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_RANDOM, aiBlack, false, true);
     }
 
     private void startMultiPlayer() {
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, AIType.AI_GREEDY, AIType.AI_GREEDY, false);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, AIType.AI_RANDOM, AIType.AI_RANDOM, false, true);
     }
 
     private void handleClick(Move m) {
@@ -1178,7 +1178,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     }
 
     private void startGameAsServer(){
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.NETWORK, AIType.AI_GREEDY, AIType.AI_GREEDY, true);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.NETWORK, AIType.AI_RANDOM, AIType.AI_RANDOM, true, false);
     }
 
     private void startGameAsClient(){
@@ -1194,7 +1194,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
             }
 
             controller.setServerAddress(address);
-            controller.startGame(PlayerType.NETWORK, PlayerType.HUMAN_PLAYER, AIType.AI_GREEDY, AIType.AI_GREEDY, false);
+            controller.startGame(PlayerType.NETWORK, PlayerType.HUMAN_PLAYER, AIType.AI_RANDOM, AIType.AI_RANDOM, false, false);
         } catch (UnknownHostException e) {
             eventStack.push(new ErrorBean("Ungültige Server-Adresse", ErrorDisplayType.POPUP));
         }
