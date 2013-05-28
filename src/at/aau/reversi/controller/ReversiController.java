@@ -28,7 +28,7 @@ public class ReversiController extends Observable implements Runnable {
     private Gameserver server;
     private InetAddress serverAddress;
     private boolean isSpeedGame;
-    private boolean notKilled;
+    private boolean notKilled = false;
     private Thread timeIsRunning;
 
     public ReversiController() {
@@ -105,9 +105,9 @@ public class ReversiController extends Observable implements Runnable {
 
         this.isSpeedGame = isSpeedGame;
         if (this.isSpeedGame) {
-            notKilled = true;
             timeIsRunning = new Thread(this);
             timeIsRunning.start();
+            notKilled = true;
         }
 
         setChanged();
@@ -151,7 +151,10 @@ public class ReversiController extends Observable implements Runnable {
                 applyMove(xCoord, yCoord, color);
 
                 // Wenn AI notwendig ist, AI ausfuehren
-                applyAI();
+                if ((gameBean.getCurrentPlayer().equals(Player.WHITE) && playerTypeWhite.equals(PlayerType.AI)) || (gameBean.getCurrentPlayer().equals(Player.BLACK) && playerTypeBlack.equals(PlayerType.AI))) {
+                    applyAI();
+                }
+
 
             } else {
                 setChanged();
@@ -178,7 +181,6 @@ public class ReversiController extends Observable implements Runnable {
                         + ((gameBean.getCurrentPlayer().equals(Player.WHITE)) ? "weiss ist am Zug" : "schwarz ist am Zug");
                 setChanged();
                 notifyObservers(new ErrorBean(message, ErrorDisplayType.INLINE));
-                // Check if AI has to set the next move
                 applyAI();
             }
         } else {
@@ -196,6 +198,7 @@ public class ReversiController extends Observable implements Runnable {
             }
         } else {
             gameBean.setGameFieldActive(false);
+
         }
 
         List<Integer> score = logic.getIntermediateResult();
@@ -362,9 +365,16 @@ public class ReversiController extends Observable implements Runnable {
             }
         }
         if (notKilled) {
+            Move move;
             setChanged();
             notifyObservers(new ErrorBean("Zeit ueberschritten KI zieht fuer Spieler", ErrorDisplayType.POPUP));
-            applyAI();
+            Player player = gameBean.getCurrentPlayer();
+            if (player.equals(Player.WHITE)) {
+                move = whiteAI.calcNextStep(gameBean.getGameField(), Field.WHITE, 3);
+            } else {
+                move = blackAI.calcNextStep(gameBean.getGameField(), Field.BLACK, 3);
+            }
+            fieldClicked(player, move.getxCoord(),move.getyCoord());
         }
     }
 }
