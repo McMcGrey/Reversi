@@ -19,6 +19,12 @@ import java.util.List;
  */
 public class GameLogicTutor implements GameLogic {
 
+    private RemoteReversiStub tutorlibrary;
+
+    public void setTutorlibrary(RemoteReversiStub tutorlibrary) {
+        this.tutorlibrary = tutorlibrary;
+    }
+
     @Override
     public Field[][] calcNewGameField(short xCoord, short yCoord, Field color) {
         return new Field[0][];  //To change body of implemented methods use File | Settings | File Templates.

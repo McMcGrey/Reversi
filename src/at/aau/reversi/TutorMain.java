@@ -1,5 +1,10 @@
 package at.aau.reversi;
 
+import at.aau.reversi.controller.ReversiController;
+import at.aau.reversi.enums.AIType;
+import at.aau.reversi.enums.Player;
+import at.aau.reversi.enums.PlayerType;
+import at.aau.reversi.gui.Game_Field;
 import at.aau.reversi.tutor.RemoteReversiStub;
 
 import java.util.Map;
@@ -25,10 +30,13 @@ public class TutorMain {
         System.out.println("------------------");
         char command = m.getStartCommand();
 
+        Player player = null;
+
         if (command == 'n') {
 
             // Create a new game and join it
             m.startNewGame();
+            player = Player.WHITE;
 
 
         } else if (command == 'j') {
@@ -36,7 +44,21 @@ public class TutorMain {
             // List all games and ask which to join
             m.listAllGames();
             m.joinGame();
+            player = Player.BLACK;
 
+        }
+
+        ReversiController controller = new ReversiController();
+
+        // Start Gui
+        Game_Field gui = new Game_Field(controller);
+        gui.getFrame().setVisible(true);
+        controller.addObserver(gui);
+
+        if(player.equals(Player.BLACK)){
+            controller.startGame(PlayerType.TUTOR, PlayerType.AI, null, AIType.AI_GROUP, false);
+        }else{
+            controller.startGame(PlayerType.AI, PlayerType.TUTOR, AIType.AI_GROUP, null, false);
         }
 
     }
