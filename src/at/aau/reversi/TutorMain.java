@@ -10,6 +10,7 @@ import at.aau.reversi.gui.Game_Field;
 import at.aau.reversi.logic.GameLogic;
 import at.aau.reversi.logic.GameLogicLocalImpl;
 import at.aau.reversi.logic.ai.AI;
+import at.aau.reversi.logic.ai.AdaptivAIImpl;
 import at.aau.reversi.logic.ai.EvaporationAIImpl;
 import at.aau.reversi.tutor.RemoteReversiStub;
 
@@ -61,6 +62,12 @@ public class TutorMain {
 
         m.playGame();
 
+        if(m.currentState == RemoteReversiStub.GameStatus.WIN){
+            System.out.println("Won the game");
+        }else if(m.currentState == RemoteReversiStub.GameStatus.LOSE){
+            System.out.println("Lost game");
+        }
+
     }
 
     public void playGame(){
@@ -74,14 +81,19 @@ public class TutorMain {
 
                 tutorlib.printField();
 
-                Move m = ai.calcNextStep(convertFields(), getColor() ,0);
-                System.out.println("Set brick to "+m.getxCoord()+", "+m.getyCoord());
+                try{
+                    Move m = ai.calcNextStep(convertFields(), getColor() ,0);
+                    System.out.println("Set brick to "+m.getxCoord()+", "+m.getyCoord());
 
-                tutorlib.setBrick(m.getxCoord(), m.getyCoord());
+                    tutorlib.setBrick(m.getxCoord(), m.getyCoord());
+                }catch(Exception ex){
+                    // Pass
+                }
                 getStatus();
             }else{
 
-                System.out.println(currentState);
+                System.out.println("Oponents turn");
+                tutorlib.printField();
             }
 
         }
