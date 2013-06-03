@@ -1,10 +1,16 @@
 package at.aau.reversi;
 
+import at.aau.reversi.bean.Move;
 import at.aau.reversi.controller.ReversiController;
 import at.aau.reversi.enums.AIType;
+import at.aau.reversi.enums.Field;
 import at.aau.reversi.enums.Player;
 import at.aau.reversi.enums.PlayerType;
 import at.aau.reversi.gui.Game_Field;
+import at.aau.reversi.logic.GameLogic;
+import at.aau.reversi.logic.GameLogicLocalImpl;
+import at.aau.reversi.logic.ai.AI;
+import at.aau.reversi.logic.ai.EvaporationAIImpl;
 import at.aau.reversi.tutor.RemoteReversiStub;
 
 import java.util.Map;
@@ -19,8 +25,11 @@ import java.util.Scanner;
  */
 public class TutorMain {
 
-    RemoteReversiStub tutorlib = new RemoteReversiStub(RemoteReversiStub.SERVER_PUBLIC);
+    RemoteReversiStub tutorlib = new RemoteReversiStub(RemoteReversiStub.SERVER_PUBLIC_V2);
     Scanner scanner = new Scanner(System.in);
+    RemoteReversiStub.GameStatus currentState;
+    AI ai = new EvaporationAIImpl();
+    GameLogicLocalImpl logic = new GameLogicLocalImpl();
 
     public static void main(String[] args) {
 
@@ -48,19 +57,55 @@ public class TutorMain {
 
         }
 
-        ReversiController controller = new ReversiController();
+        m.waitingForConnection();
 
-        // Start Gui
-        Game_Field gui = new Game_Field(controller);
-        gui.getFrame().setVisible(true);
-        controller.addObserver(gui);
+        m.playGame();
 
-        if(player.equals(Player.BLACK)){
-            controller.startGame(PlayerType.TUTOR, PlayerType.AI, null, AIType.AI_GROUP, false);
-        }else{
-            controller.startGame(PlayerType.AI, PlayerType.TUTOR, AIType.AI_GROUP, null, false);
+    }
+
+    public void playGame(){
+
+        while(!(currentState == RemoteReversiStub.GameStatus.WIN
+                || currentState == RemoteReversiStub.GameStatus.LOSE)){
+
+            if(currentState == RemoteReversiStub.GameStatus.MYTURN){
+
+                System.out.println("Its my Turn!");
+
+                tutorlib.printField();
+
+                Move m = ai.calcNextStep(convertFields(), getColor() ,0);
+                System.out.println("Set brick to "+m.getxCoord()+", "+m.getyCoord());
+
+                tutorlib.setBrick(m.getxCoord(), m.getyCoord());
+                getStatus();
+            }else{
+
+                System.out.println(currentState);
+            }
+
         }
 
+    }
+
+    public void waitingForConnection(){
+        System.out.println("Waiting for oponent to connect");
+        while(getStatus().equals(RemoteReversiStub.GameStatus.WAITING_FOR_OPPONENT)){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                System.out.println("Error at waitingForConnection()");
+                System.exit(0);
+            }
+        }
+        System.out.println("Oponent connected");
+    }
+
+    public RemoteReversiStub.GameStatus getStatus(){
+
+        RemoteReversiStub.GameStatus status = tutorlib.getStatus();
+        currentState = status;
+        return status;
     }
 
     public char getStartCommand() {
@@ -124,5 +169,49 @@ public class TutorMain {
 
         }
 
+    }
+
+    public Field[][] convertFields(){
+        String[][] tutorfield = tutorlib.getField();
+        Field[][] gameField = new Field[8][8];
+
+        for(int i=0;i<tutorfield.length;i++){
+            for(int z=0;z<tutorfield[0].length;z++){
+                if(tutorfield[i][z].equals(" ")){
+                    gameField[i][z] = Field.EMPTY;
+                }else if(tutorfield[i][z].equals("w")){
+                    gameField[i][z] = Field.WHITE;
+                }else if(tutorfield[i][z].equals("b")){
+                    gameField[i][z] = Field.BLACK;
+                }
+            }
+        }
+
+        logic.setGameField(gameField);
+
+        for(int i=0;i<8;i++){
+            for(int z=0;z<8;z++){
+                if(gameField[i][z]==null){
+                    gameField[i][z]= Field.EMPTY;
+                }
+            }
+        }
+
+        for(int i=0;i<8;i++){
+            for(int z=0;z<8;z++){
+                if(logic.validMove((short)i,(short)z, getColor())){
+                    gameField[i][z] = Field.MAYBE;
+                }
+            }
+        }
+
+        return gameField;
+    }
+
+    public Field getColor(){
+        if(tutorlib.getCurrentColor().equals("white")){
+            return Field.WHITE;
+        }
+        return Field.BLACK;
     }
 }

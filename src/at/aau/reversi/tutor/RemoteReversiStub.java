@@ -1,4 +1,4 @@
-package org.aau.reversi.net;
+package at.aau.reversi.tutor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
