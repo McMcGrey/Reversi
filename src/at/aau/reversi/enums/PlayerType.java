@@ -15,6 +15,10 @@ public enum PlayerType {
     /**
      * Network player
      */
-    NETWORK
+    NETWORK,
+    /**
+     * Uses the tutor library
+     */
+    TUTOR
 }
 
