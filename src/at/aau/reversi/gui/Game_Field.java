@@ -698,7 +698,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         txtMeineIpAdresse.setForeground(Color.BLACK);
         txtMeineIpAdresse.setHorizontalAlignment(JTextField.CENTER);
 
-        txtWarteAufVerbindung = new JTextField();
+        /*txtWarteAufVerbindung = new JTextField();
         txtWarteAufVerbindung.setText("warte auf verbindung !");
         txtWarteAufVerbindung.setBounds(196, 392, 271, 27);
         Server_Site.add(txtWarteAufVerbindung);
@@ -711,12 +711,13 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         txtWarteAufVerbindung.setFont(Serverout);
         txtWarteAufVerbindung.setForeground(Color.BLACK);
         txtWarteAufVerbindung.setHorizontalAlignment(JTextField.CENTER);
-
-		/*
-		 * JLabel loadb = new JLabel("Ladebalken"); loadb = new JLabel(new
-		 * ImageIcon("src/at/aau/reversi/gui/images/Ladebalken2.gif"));
-		 * loadb.setBounds(126, 392, 400, 35); Server_Site.add(loadb);
-		 */
+         */
+		
+		 JLabel loadb = new JLabel("Ladebalken"); loadb = new JLabel(new
+		 ImageIcon("src/at/aau/reversi/gui/images/Ladebalken2.gif"));
+		 loadb.setBounds(126, 392, 400, 35); 
+		 Server_Site.add(loadb);
+		 
 
         JButton btnBackS = new JButton("Back");
         btnBackS.addActionListener(new ActionListener() {
