@@ -465,6 +465,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 			}
 		});
 		options.add(chckbxSpeedgaming);
+		
         
 
         JButton btnBack2 = new JButton("Back");
