@@ -65,7 +65,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     private JTextField txtMeineIpAdresse;
     private JTextField Ip_output;
     private JIpTextField ipTextFieldin;
-    private JTextField txtWarteAufVerbindung;
+    //private JTextField txtWarteAufVerbindung;
     //private AIType AIwhite = AIType.AI_GREEDY;
     private AIType aiBlack = AIType.AI_ADAPTIV;
 
@@ -453,6 +453,19 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         g1.add(rb7);
         g1.add(rb8);
         g1.add(rb9);
+        
+        JCheckBox chckbxSpeedgaming = new JCheckBox("Speedgaming");
+        chckbxSpeedgaming.setOpaque(false);
+		chckbxSpeedgaming.setBounds(319, 217, 97, 23);
+		chckbxSpeedgaming.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				//boolean Variable einfügen 
+				
+			}
+		});
+		options.add(chckbxSpeedgaming);
+        
 
         JButton btnBack2 = new JButton("Back");
         btnBack2.addActionListener(new ActionListener() {
