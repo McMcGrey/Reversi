@@ -377,4 +377,8 @@ public class ReversiController extends Observable implements Runnable {
             fieldClicked(player, move.getxCoord(),move.getyCoord());
         }
     }
+
+    public void setNotKilled(boolean notKilled) {
+        this.notKilled = notKilled;
+    }
 }
