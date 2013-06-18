@@ -1186,7 +1186,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     }
 
     private void startMultiPlayer() {
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, AIType.AI_RANDOM, AIType.AI_RANDOM, false, isSpeedGame);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.HUMAN_PLAYER, AIType.AI_RANDOM, AIType.AI_RANDOM, false, false);
     }
 
     private void handleClick(Move m) {
