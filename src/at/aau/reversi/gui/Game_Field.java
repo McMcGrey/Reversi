@@ -189,9 +189,6 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         mnKi.add(mntmStufe2);
 
 
-        JMenu mnHilfe = new JMenu("Hilfe");
-        menuBar.add(mnHilfe);
-
         // MENUEBAR ENDE
 
 
@@ -456,11 +453,11 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         
         JCheckBox chckbxSpeedgaming = new JCheckBox("Speedgaming");
         chckbxSpeedgaming.setOpaque(false);
-		chckbxSpeedgaming.setBounds(319, 217, 97, 23);
+		chckbxSpeedgaming.setBounds(319, 217, 160, 23);
 		chckbxSpeedgaming.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				//boolean Variable einfügen 
+				//boolean Variable einfï¿½gen 
 				
 			}
 		});
@@ -507,7 +504,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
             }
         });
 
-        btnnext.setBounds(528, 465, 120, 23);
+        btnnext.setBounds(508, 465, 150, 23);
         options.add(btnnext);
 
         Background3 = new JLabel(new ImageIcon(
