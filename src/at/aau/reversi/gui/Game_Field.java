@@ -68,6 +68,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     //private JTextField txtWarteAufVerbindung;
     //private AIType AIwhite = AIType.AI_GREEDY;
     private AIType aiBlack = AIType.AI_ADAPTIV;
+    private boolean isSpeedGame = false;
 
     /**
      * Launch the application.
@@ -146,6 +147,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         mntmNewGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.setBounds(0, 0, 690, 560);
+                controller.setNotKilled(false);
                 repaint();
                 ((CardLayout) frame.getContentPane().getLayout()).show(
                         frame.getContentPane(), "Spielauswahl");
@@ -245,7 +247,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
             public void actionPerformed(ActionEvent e) {
 
                 startSinglePlayer();
-
+                controller.setNotKilled(false);
                 while (gameBean == null) {
 
                     try {
@@ -322,6 +324,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
         KI_Auswahl.setFont(ki_auswahl);
         KI_Auswahl.setForeground(Color.BLACK);
         KI_Auswahl.setHorizontalAlignment(JTextField.LEFT);
+
 
         JRadioButton rb1 = new JRadioButton("Grad 1: Random");
         rb1.addActionListener(new ActionListener() {
@@ -456,9 +459,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
 		chckbxSpeedgaming.setBounds(319, 217, 160, 23);
 		chckbxSpeedgaming.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				//boolean Variable einf�gen 
-				
+                isSpeedGame = (isSpeedGame == false) ? true : false;
 			}
 		});
 		options.add(chckbxSpeedgaming);
@@ -1178,7 +1179,7 @@ public class Game_Field extends JFrame implements Observer, Runnable {
     }
 
     private void startSinglePlayer() {
-        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_RANDOM, aiBlack, false, false);
+        controller.startGame(PlayerType.HUMAN_PLAYER, PlayerType.AI, AIType.AI_RANDOM, aiBlack, false, isSpeedGame);
     }
 
     private void startMultiPlayer() {
